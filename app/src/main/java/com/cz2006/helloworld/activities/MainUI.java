@@ -2,17 +2,17 @@ package com.cz2006.helloworld.activities;
 
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.fragments.HomeFragment;
@@ -20,6 +20,7 @@ import com.cz2006.helloworld.fragments.MapFragment;
 import com.cz2006.helloworld.fragments.MoreFragment;
 import com.cz2006.helloworld.fragments.ScanFragment;
 import com.cz2006.helloworld.fragments.TrackFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainUI extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener,
         ScanFragment.OnFragmentInteractionListener, TrackFragment.OnFragmentInteractionListener, MoreFragment.OnFragmentInteractionListener{
@@ -66,32 +67,32 @@ public class MainUI extends AppCompatActivity implements HomeFragment.OnFragment
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment;
+            MapFragment fragment;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     setTitle("Home");
-                    fragment = new HomeFragment();
-                    loadFragment(fragment);
+                    Fragment homeFragment = new HomeFragment();
+                    loadFragment(homeFragment);
                     return true;
                 case R.id.navigation_map:
                     setTitle("Map");
-                    fragment = new MapFragment();
-                    loadFragment(fragment);
+                    Fragment mapFragment = new MapFragment();
+                    loadFragment(mapFragment);
                     return true;
                 case R.id.navigation_scan:
                     setTitle("Scan");
-                    fragment = new ScanFragment();
-                    loadFragment(fragment);
+                    Fragment scanFragment = new ScanFragment();
+                    loadFragment(scanFragment);
                     return true;
                 case R.id.navigation_track:
                     setTitle("Track");
-                    fragment = new TrackFragment();
-                    loadFragment(fragment);
+                    Fragment trackFragment = new TrackFragment();
+                    loadFragment(trackFragment);
                     return true;
                 case R.id.navigation_more:
                     setTitle("More");
-                    fragment = new MoreFragment();
-                    loadFragment(fragment);
+                    Fragment moreFragment = new MoreFragment();
+                    loadFragment(moreFragment);
                     return true;
             }
             return false;

@@ -1,8 +1,4 @@
 <resources>
     <string name="app_name">Hello World</string>
-    <string name="title_home">Home</string>
-    <string name="title_map">Map</string>
-    <string name="title_scan">Scan</string>
-    <string name="title_track">Track</string>
-    <string name="title_more">More</string>
+    <string name="title_activity_maps_ui">Map</string>
 </resources>

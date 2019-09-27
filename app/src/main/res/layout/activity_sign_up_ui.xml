@@ -12,8 +12,8 @@
     android:orientation="vertical"
     tools:context=".activities.SignUpUI">
 
-        <!-- INPUT LOGO HERE -->
-    <android.support.v7.widget.AppCompatTextView
+    <!-- INPUT LOGO HERE -->
+    <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -22,10 +22,10 @@
         android:textSize="50dp"
         android:textStyle="bold"
         android:textColor="@color/colorSecondary"
-        android:text="HELLO WORLD"></android.support.v7.widget.AppCompatTextView>
+        android:text="HELLO WORLD"></androidx.appcompat.widget.AppCompatTextView>
 
     <!-- Name Label -->
-        <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -33,7 +33,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_button">
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,10 +42,10 @@
                 android:layout_margin="10dp"
                 android:padding="5dp"
                 android:background="@null"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Email Label -->
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -53,7 +53,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_button">
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,10 +62,10 @@
                 android:layout_margin="10dp"
                 android:padding="5dp"
                 android:background="@null"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password Label -->
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -73,7 +73,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_button">
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,9 +82,9 @@
                 android:layout_margin="10dp"
                 android:padding="5dp"
                 android:background="@null"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSignUp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
             android:background="@drawable/rounded_button"
             android:text="Sign Up"/>
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnLogIn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

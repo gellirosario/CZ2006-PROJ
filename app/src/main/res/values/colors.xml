@@ -2,11 +2,8 @@
 <resources>
     <!-- Color -->
     <color name="colorPrimary">#51b055</color>
-    <color name="colorPrimaryLight">#84e383</color>
     <color name="colorPrimaryDark">#158029</color>
     <color name="colorSecondary">#6A5959</color>
-    <color name="colorSecondaryLight">#988686</color>
-    <color name="colorSecondaryDark">#3f3030</color>
     <color name="colorWhite">#ffffff</color>
 
 

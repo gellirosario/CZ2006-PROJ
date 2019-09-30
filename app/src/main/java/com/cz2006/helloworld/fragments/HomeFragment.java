@@ -12,12 +12,10 @@ import androidx.fragment.app.Fragment;
 import com.cz2006.helloworld.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HomeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Represents Home Fragment linking from Main Activity
+ *
+ * @author Rosario Gelli Ann
+ *
  */
 public class HomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match

@@ -20,12 +20,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MapFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MapFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Represents Map Fragment linking from Main Activity
+ *
+ * @author Rosario Gelli Ann
+ *
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
@@ -119,6 +117,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
+        //TODO: INPUT MAP LOGIC HERE
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
         map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));

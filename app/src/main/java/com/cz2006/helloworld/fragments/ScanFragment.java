@@ -12,12 +12,10 @@ import androidx.fragment.app.Fragment;
 import com.cz2006.helloworld.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ScanFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ScanFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Represents Scan Fragment linking from Main Activity
+ *
+ * @author Rosario Gelli Ann
+ *
  */
 public class ScanFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match

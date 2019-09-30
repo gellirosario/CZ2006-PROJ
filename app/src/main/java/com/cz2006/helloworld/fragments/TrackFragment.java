@@ -12,12 +12,10 @@ import androidx.fragment.app.Fragment;
 import com.cz2006.helloworld.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TrackFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TrackFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Represents Track Fragment linking from Main Activity
+ *
+ * @author Rosario Gelli Ann
+ *
  */
 public class TrackFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match

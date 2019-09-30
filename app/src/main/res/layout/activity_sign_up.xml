@@ -10,7 +10,7 @@
     android:fitsSystemWindows="true"
     android:background="@drawable/background"
     android:orientation="vertical"
-    tools:context=".activities.SignUpUI">
+    tools:context=".activities.SignUpActivity">
 
     <!-- INPUT LOGO HERE -->
     <androidx.appcompat.widget.AppCompatTextView

@@ -10,7 +10,7 @@
     android:fitsSystemWindows="true"
     android:background="@drawable/background"
     android:orientation="vertical"
-    tools:context=".activities.LogInUI">
+    tools:context=".activities.LogInActivity">
 
     <!-- INPUT LOGO HERE -->
     <androidx.appcompat.widget.AppCompatTextView
@@ -55,7 +55,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_button">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputName"
+            android:id="@+id/inputPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"

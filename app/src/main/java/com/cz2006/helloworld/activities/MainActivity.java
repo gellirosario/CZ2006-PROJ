@@ -22,7 +22,14 @@ import com.cz2006.helloworld.fragments.ScanFragment;
 import com.cz2006.helloworld.fragments.TrackFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainUI extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener,
+/**
+ * Represents Bottom Navigation for the application
+ * which links to other fragments (Home, Map, Scan, Track, More)
+ *
+ * @author Rosario Gelli Ann
+ *
+ */
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener,
         ScanFragment.OnFragmentInteractionListener, TrackFragment.OnFragmentInteractionListener, MoreFragment.OnFragmentInteractionListener{
 
     private ActionBar toolbar;
@@ -30,7 +37,7 @@ public class MainUI extends AppCompatActivity implements HomeFragment.OnFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_ui);
+        setContentView(R.layout.activity_main);
 
         toolbar = getSupportActionBar();
 

@@ -70,11 +70,11 @@ public class LogInActivity extends AppCompatActivity {
                         // Check if we're running on Android 5.0 or higher
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             // Apply activity transition
-                            startActivity(new Intent(LogInActivity.this, MainActivity.class),
+                            startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class),
                                     ActivityOptions.makeSceneTransitionAnimation(LogInActivity.this).toBundle());
                         } else {
                             // Swap without transition
-                            startActivity(new Intent(LogInActivity.this, MainActivity.class));
+                            startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class));
                         }
                     }
                     else

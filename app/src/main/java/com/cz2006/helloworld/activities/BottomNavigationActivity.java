@@ -29,7 +29,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  * @author Rosario Gelli Ann
  *
  */
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener,
+public class BottomNavigationActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener,
         ScanFragment.OnFragmentInteractionListener, TrackFragment.OnFragmentInteractionListener, MoreFragment.OnFragmentInteractionListener{
 
     private ActionBar toolbar;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_bottom_navigation);
 
         toolbar = getSupportActionBar();
 

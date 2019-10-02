@@ -12,13 +12,13 @@ public class User {
     private String userName;
     private String userEmail;
     private String userPassword;
-    private Points points;
+    private int points;
 
     public User(){
 
     }
 
-    public User(int userID, String userName, String userEmail, String userPassword, Points points) {
+    public User(int userID, String userName, String userEmail, String userPassword, int points) {
         this.userID = userID;
         this.userName = userName;
         this.userEmail = userEmail;
@@ -58,11 +58,11 @@ public class User {
         this.userPassword = userPassword;
     }
 
-    public Points getPoints() {
+    public int getPoints() {
         return points;
     }
 
-    public void setPoints(Points points) {
+    public void setPoints(int points) {
         this.points = points;
     }
 }

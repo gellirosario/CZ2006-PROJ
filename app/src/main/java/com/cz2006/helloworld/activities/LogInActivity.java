@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -30,6 +31,8 @@ public class LogInActivity extends AppCompatActivity {
 
     AccountManager accountManager;
 
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +51,13 @@ public class LogInActivity extends AppCompatActivity {
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                inputEmail = findViewById(R.id.inputEmail);
-                inputPassword = findViewById(R.id.inputPassword);
-
-                if(inputEmail.getText().toString().isEmpty() || inputPassword.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Please enter log in details.", Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(inputEmail.getText().toString()) || TextUtils.isEmpty(inputPassword.getText().toString()) )
+                {
+                    Toast.makeText(getApplicationContext(), "Please fill in all details.", Toast.LENGTH_SHORT).show();
+                }
+                else if(!inputEmail.getText().toString().matches(emailPattern))
+                {
+                    Toast.makeText(getApplicationContext(), "Please enter a correct email address.", Toast.LENGTH_SHORT).show();
                 }
                 else if(!accountManager.checkExistingEmail(inputEmail.getText().toString())) {
                     Toast.makeText(getApplicationContext(), "Email does not exist.", Toast.LENGTH_SHORT).show();
@@ -62,6 +66,7 @@ public class LogInActivity extends AppCompatActivity {
                 {
                     if(accountManager.authenticate(inputEmail.getText().toString(),inputPassword.getText().toString())) {
                         Toast.makeText(getApplicationContext(), "Logged in successfully!", Toast.LENGTH_SHORT).show();
+
                         // Check if we're running on Android 5.0 or higher
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             // Apply activity transition
@@ -74,7 +79,7 @@ public class LogInActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        Toast.makeText(getApplicationContext(), "Please try again.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Incorrect email/password.", Toast.LENGTH_SHORT).show();
                     }
                 }
 

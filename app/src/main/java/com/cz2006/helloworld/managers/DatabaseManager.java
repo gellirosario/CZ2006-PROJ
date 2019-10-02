@@ -1,10 +1,13 @@
-package com.cz2006.helloworld.util;
+package com.cz2006.helloworld.managers;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+
+import com.cz2006.helloworld.util.SQLiteDatabaseHelper;
+import com.cz2006.helloworld.util.TableColumn;
 
 import java.util.ArrayList;
 import java.util.HashMap;

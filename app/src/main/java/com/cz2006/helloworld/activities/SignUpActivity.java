@@ -4,6 +4,8 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -31,6 +33,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     AccountManager accountManager;
 
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +55,14 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(inputName.getText().toString().isEmpty() || inputEmail.getText().toString().isEmpty() || inputPassword.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Please fill in the form.", Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(inputEmail.getText().toString()) || TextUtils.isEmpty(inputPassword.getText().toString()) || TextUtils.isEmpty(inputName.getText().toString()) )
+                {
+                    Log.d("222",inputEmail.getText().toString());
+                    Toast.makeText(getApplicationContext(), "Please fill in all details.", Toast.LENGTH_SHORT).show();
+                }
+                else if(!inputEmail.getText().toString().matches(emailPattern))
+                {
+                    Toast.makeText(getApplicationContext(), "Please enter a correct email address.", Toast.LENGTH_SHORT).show();
                 }
                 else if(accountManager.checkExistingEmail(inputEmail.getText().toString()))
                 {

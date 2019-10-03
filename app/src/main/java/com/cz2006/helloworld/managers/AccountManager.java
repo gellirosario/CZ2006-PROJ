@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.text.TextUtils;
 
 import com.cz2006.helloworld.models.User;
-import com.cz2006.helloworld.util.DatabaseManager;
 import com.cz2006.helloworld.util.TableColumn;
 
 import java.util.ArrayList;
@@ -20,12 +19,11 @@ import java.util.List;
  */
 public class AccountManager {
 
-
     private Context ctx;
 
     private DatabaseManager dbManager;
 
-    private static final String DB_NAME = "HelloWorldDb.db";
+    private static final String DB_NAME = "HelloWorldDB.db";
 
     // Database Fields
     private static final String TABLE_NAME_ACCOUNT = "Account";
@@ -33,7 +31,7 @@ public class AccountManager {
     public static final String TABLE_ACCOUNT_COLUMN_USERNAME = "userName";
     public static final String TABLE_ACCOUNT_COLUMN_PASSWORD = "userPassword";
     public static final String TABLE_ACCOUNT_COLUMN_EMAIL = "userEmail";
-    //public static final String TABLE_ACCOUNT_COLUMN_POINTS = "points";
+    public static final String TABLE_ACCOUNT_COLUMN_POINTS= "userPoints";
 
     private int DB_VERSION = 1;
 
@@ -61,25 +59,26 @@ public class AccountManager {
 
         this.tableNameList.add(TABLE_NAME_ACCOUNT);
 
-        // Build create account table sql
+        // Build points table sql
         StringBuffer sqlBuf = new StringBuffer();
 
-        // Create table sql
+        // Create account table sql
         sqlBuf.append("CREATE TABLE ");
         sqlBuf.append(TABLE_NAME_ACCOUNT);
         sqlBuf.append("( ");
         sqlBuf.append(TABLE_ACCOUNT_COLUMN_ID);
         sqlBuf.append(" INTEGER PRIMARY KEY AUTOINCREMENT,");
         sqlBuf.append(TABLE_ACCOUNT_COLUMN_USERNAME);
-        sqlBuf.append(" TEXT,");
+        sqlBuf.append(" TEXT NOT NULL,");
         sqlBuf.append(TABLE_ACCOUNT_COLUMN_EMAIL);
-        sqlBuf.append(" TEXT ,");
+        sqlBuf.append(" TEXT NOT NULL,");
         sqlBuf.append(TABLE_ACCOUNT_COLUMN_PASSWORD);
-        sqlBuf.append(" TEXT)");
-
-
+        sqlBuf.append(" TEXT NOT NULL,");
+        sqlBuf.append(TABLE_ACCOUNT_COLUMN_POINTS);
+        sqlBuf.append(" INTEGER NOT NULL)");
 
         this.createTableSqlList.add(sqlBuf.toString());
+
     }
 
     public void open()
@@ -89,7 +88,7 @@ public class AccountManager {
 
     public void close()
     {
-        this.dbManager.closeDB();;
+        this.dbManager.closeDB();
     }
 
     // Create User's Account
@@ -115,6 +114,12 @@ public class AccountManager {
         passwordColumn.setColumnName(this.TABLE_ACCOUNT_COLUMN_PASSWORD);
         passwordColumn.setColumnValue(userPassword);
         tableColumnList.add(passwordColumn);
+
+        // Add points column
+        TableColumn pointsColumn = new TableColumn();
+        pointsColumn.setColumnName(this.TABLE_ACCOUNT_COLUMN_POINTS);
+        pointsColumn.setColumnValue("0"); //default value
+        tableColumnList.add(pointsColumn);
 
         // Insert added column in to account table.
         this.dbManager.insert(this.TABLE_NAME_ACCOUNT, tableColumnList);
@@ -151,17 +156,18 @@ public class AccountManager {
     // Get specific User account
     public User getAccount(String userEmail, String userPassword){
         User currentUser = new User();
-        Cursor cursor = this.dbManager.queryAllReturnCursor(this.TABLE_NAME_ACCOUNT);
+        Cursor cursor = this.dbManager.queryTwoSearchString(this.TABLE_NAME_ACCOUNT,this.TABLE_ACCOUNT_COLUMN_EMAIL, userEmail, this.TABLE_ACCOUNT_COLUMN_PASSWORD, userPassword);
         if(cursor!=null){
             int id = cursor.getInt(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_ID));
             String userName = cursor.getString(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_USERNAME));
             String password = cursor.getString(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_PASSWORD));
             String email = cursor.getString(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_EMAIL));
+            int points = cursor.getInt(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_EMAIL));
             currentUser.setUserID(id);
             currentUser.setUserName(userName);
             currentUser.setUserPassword(password);
             currentUser.setUserEmail(email);
-
+            currentUser.setPoints(points);
             // Close cursor after query.
             if(!cursor.isClosed()) {
                 cursor.close();
@@ -221,22 +227,7 @@ public class AccountManager {
         return false;
     }
 
-    // Verify Sign Up Form
-    public String verifySignUpForm(String name, String email, String password){
-        if(name.isEmpty() || password.isEmpty() || email.isEmpty()){
-            return "Please fill in the form.";
-        }
-        else
-        {
-            if(checkExistingEmail(email)){
-                return "Email already exist.";
-            }
-        }
-
-
-        return null;
-    }
-
+    // Authenticate User's Log In Detail
     public boolean authenticate(String userEmail, String userPassword){
         Cursor cursor = this.dbManager.queryTwoSearchString(this.TABLE_NAME_ACCOUNT,this.TABLE_ACCOUNT_COLUMN_EMAIL, userEmail, this.TABLE_ACCOUNT_COLUMN_PASSWORD, userPassword);
 

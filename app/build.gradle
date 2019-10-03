@@ -39,20 +39,14 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
 
-    // RecyclerView
-
-    // CardView
-
-    // volley http library
-
-    // glide image library
+    // Glide Image Library
     implementation 'com.github.bumptech.glide:glide:4.3.1'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
 
-    //Floating Search View
+    // Floating Search View
     implementation 'com.github.arimorty:floatingsearchview:2.1.1'
 
-    //KML Layer
+    // KML Layer
     implementation 'com.google.maps.android:android-maps-utils:0.5'
 
 }

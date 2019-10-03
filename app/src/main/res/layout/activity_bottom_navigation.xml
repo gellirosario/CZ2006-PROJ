@@ -20,8 +20,9 @@
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
         android:foreground="?attr/selectableItemBackground"
-        app:itemBackground="@color/colorSecondary"
-        app:itemTextColor="@color/colorPrimary"
+        app:itemBackground="@color/colorPrimary"
+        app:itemTextColor="@color/colorWhite"
+        app:itemIconTint="@color/colorWhite"
         app:menu="@menu/navigation"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

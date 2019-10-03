@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
 import com.cz2006.helloworld.Manifest;
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.models.MapDetail;
@@ -52,6 +53,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private ArrayList<MapDetail> details = new ArrayList<>();
     private float lat = 0, lng = 0;
+
+    FloatingSearchView mSearchView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -90,13 +93,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Get Map Data
-        new getData().execute();
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        // Fill in Map with KML File data
+        new getData().execute();
+
+        /*mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, final String newQuery) {
+
+                //get suggestions based on newQuery
+
+                //pass them on to the search view
+                //mSearchView.swapSuggestions(newSuggestions);
+            }
+        });
+        */
+
     }
 
     @Override
@@ -243,7 +259,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 String longitude = tokens.nextToken(); // longitude coordinate
                 String latitude = tokens.nextToken(); // latitude coordinate
 
-                detail.setMarker(mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude))).title(detail.getName())));
+                Marker detailMarker = mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude)))
+                        .title(detail.getName()));
+                detail.setMarker(detailMarker);
+                detail.getMarker().showInfoWindow();
             }
         }
     }

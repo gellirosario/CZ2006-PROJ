@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
-<<<<<<< HEAD
+
 import android.util.Log;
-=======
+
 import android.text.TextUtils;
->>>>>>> master
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -70,19 +70,19 @@ public class LogInActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    if(accountManager.authenticate(inputEmail.getText().toString(),inputPassword.getText().toString())) {
+                    if(accountManager.authenticate(inputEmail.getText().toString(),inputPassword.getText().toString()) ) {
 
                         Toast.makeText(getApplicationContext(), "Logged in successfully!", Toast.LENGTH_SHORT).show();
 
                         // Check if we're running on Android 5.0 or higher
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-<<<<<<< HEAD
+
                             startActivity(new Intent(LogInActivity.this, MainActivity.class),
-=======
+
                             // Apply activity transition
                             startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class),
->>>>>>> master
-                                    ActivityOptions.makeSceneTransitionAnimation(LogInActivity.this).toBundle());
+
+                                    ActivityOptions.makeSceneTransitionAnimation(LogInActivity.this).toBundle()) );
                         } else {
                             // Swap without transition
                             startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class));

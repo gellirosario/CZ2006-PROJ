@@ -35,6 +35,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 <<<<<<< HEAD:app/src/main/java/com/cz2006/helloworld/activities/MainActivity.java
 public class MainActivity extends AppCompatActivity implements NewsFragment.OnFragmentInteractionListener,HomeFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener,
 =======
+
 public class BottomNavigationActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener,
 >>>>>>> master:app/src/main/java/com/cz2006/helloworld/activities/BottomNavigationActivity.java
         ScanFragment.OnFragmentInteractionListener, TrackFragment.OnFragmentInteractionListener, MoreFragment.OnFragmentInteractionListener{

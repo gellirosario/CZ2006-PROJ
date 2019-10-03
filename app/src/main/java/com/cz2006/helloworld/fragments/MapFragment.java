@@ -100,8 +100,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         // Fill in Map with KML File data
         new getData().execute();
+            /*
+        SearchView = (FloatingSearchView) mSearchView.findViewById(R.id.floating_search_view);
 
-        /*mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, final String newQuery) {
 

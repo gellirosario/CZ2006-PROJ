@@ -33,19 +33,21 @@
             app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"
             app:floatingSearch_searchHint="Search..."
             app:floatingSearch_suggestionsListAnimDuration="250"
-            app:floatingSearch_showSearchKey="false"
+            app:floatingSearch_showSearchKey="true"
+            app:floatingSearch_dimBackground="true"
+            app:floatingSearch_showMoveSuggestionUp="true"
             app:floatingSearch_leftActionMode="showSearch"
             app:floatingSearch_close_search_on_keyboard_dismiss="true"
-            app:floatingSearch_backgroundColor="@color/colorPrimary"
-            app:floatingSearch_viewSuggestionItemTextColor="@color/colorWhite"
-            app:floatingSearch_hintTextColor="@color/colorWhite"
-            app:floatingSearch_menuItemIconColor="@color/colorWhite"
-            app:floatingSearch_viewSearchInputTextColor="@color/colorWhite"
-            app:floatingSearch_dividerColor="@color/colorWhite"
-            app:floatingSearch_clearBtnColor="@color/colorWhite"
-            app:floatingSearch_leftActionColor="@color/colorWhite"
-            app:floatingSearch_suggestionRightIconColor="@color/colorWhite"
-            app:floatingSearch_actionMenuOverflowColor="@color/colorWhite"/>
+            app:floatingSearch_backgroundColor="@color/colorWhite"
+            app:floatingSearch_viewSuggestionItemTextColor="@color/colorSecondary"
+            app:floatingSearch_hintTextColor="@color/colorSecondary"
+            app:floatingSearch_menuItemIconColor="@color/colorSecondary"
+            app:floatingSearch_viewSearchInputTextColor="@color/colorSecondary"
+            app:floatingSearch_dividerColor="@color/colorSecondary"
+            app:floatingSearch_clearBtnColor="@color/colorSecondary"
+            app:floatingSearch_leftActionColor="@color/colorSecondary"
+            app:floatingSearch_suggestionRightIconColor="@color/colorSecondary"
+            app:floatingSearch_actionMenuOverflowColor="@color/colorSecondary"/>
     </FrameLayout>
 
 

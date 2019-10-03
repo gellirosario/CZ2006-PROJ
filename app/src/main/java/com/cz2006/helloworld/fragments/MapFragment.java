@@ -1,7 +1,12 @@
 package com.cz2006.helloworld.fragments;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +14,31 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.cz2006.helloworld.Manifest;
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.models.MapDetail;
+import com.cz2006.helloworld.util.XMLSaxHandler;
+import com.cz2006.helloworld.util.XMLSaxParser;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.data.kml.KmlLayer;
+
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
 
 /**
  * Represents Map Fragment linking from Main Activity
@@ -27,7 +48,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
-    private GoogleMap map;
+    private static final int LOCATION_PERMISSION_ID = 1001;
+    private GoogleMap mMap;
+    private ArrayList<MapDetail> details = new ArrayList<>();
+    private float lat = 0, lng = 0;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,6 +89,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Get Map Data
+        new getData().execute();
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -115,13 +143,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
+        mMap = googleMap;
+        //mMap.setOnMarkerClickListener(this);
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.setTrafficEnabled(false);
+        mMap.setIndoorEnabled(false);
+        mMap.setBuildingsEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(false);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
 
-        //TODO: INPUT MAP LOGIC HERE
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+        }
+
     }
 
     /**
@@ -138,5 +173,80 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    private class getData extends AsyncTask<String, Void, String> {
+        String result;
+
+        @Override
+        public void onPreExecute() {
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                details.addAll(XMLSaxParser.parse(getActivity().getAssets().open("e-waste-recycling-kml.kml")));
+                result = "in";
+            } catch (IOException e) {
+                e.printStackTrace();
+                result = "out";
+            }
+
+            return result;
+        }
+
+        @Override
+        public void onPostExecute(String result) {
+            if (mMap != null)
+                refreshMap();
+        }
+    }
+
+    private void refreshMap() {
+        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+        }
+
+        CameraPosition cameraPosition;
+
+        if (lat == 0 && lng == 0)
+        {
+            cameraPosition = new CameraPosition.Builder()
+                    .target(new LatLng(1.3521-0.06, 103.8198))
+                    .zoom(10)
+                    .bearing(0)
+                    .tilt(0)
+                    .build();
+        }
+        else
+        {
+            cameraPosition = new CameraPosition.Builder()
+                    .target(new LatLng(lat-0.02, lng))
+                    .zoom(10)
+                    .bearing(0)
+                    .tilt(0)
+                    .build();
+        }
+
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        if (details != null) {
+            for (int i = 0; i < details.size(); i++) {
+                MapDetail detail = details.get(i);
+
+                Marker m = detail.getMarker();
+
+                if (m != null)
+                    m.remove();
+
+                StringTokenizer tokens = new StringTokenizer(detail.getCoordinates(), ",");
+                String longitude = tokens.nextToken(); // longitude coordinate
+                String latitude = tokens.nextToken(); // latitude coordinate
+
+                detail.setMarker(mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude))).title(detail.getName())));
+            }
+        }
+    }
+
 
 }

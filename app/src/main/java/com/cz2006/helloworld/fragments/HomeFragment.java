@@ -1,15 +1,31 @@
 package com.cz2006.helloworld.fragments;
 
+import android.accounts.Account;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.activities.LogInActivity;
+import com.cz2006.helloworld.managers.AccountManager;
+
+import java.util.Map;
 
 /**
  * Represents Home Fragment linking from Main Activity
@@ -17,17 +33,32 @@ import com.cz2006.helloworld.R;
  * @author Rosario Gelli Ann
  *
  */
+
+
 public class HomeFragment extends Fragment {
+
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    //AccountManager accountManager = new AccountManager(getActivity());
+   // LogInActivity logInActivity = new LogInActivity();
+
+
+
+
+
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+
     private OnFragmentInteractionListener mListener;
+
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -51,6 +82,8 @@ public class HomeFragment extends Fragment {
         return fragment;
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,14 +91,59 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+       TextView tv = (TextView) view.findViewById(R.id.welcomebackTV);
+
+
+
+       tv.setText("Welcome Back,");
+
+
+       TextView clickTextView = (TextView) view.findViewById(R.id.viewmoreClickableTV);
+        clickTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+
+
+                Toast.makeText(getContext(), "TOTOTOTOTO", Toast.LENGTH_SHORT).show();
+
+                FragmentManager childFrag = getChildFragmentManager();
+                FragmentTransaction childFragTrans =  childFrag.beginTransaction();
+
+                NewsFragment newsFragment = new NewsFragment();
+
+                childFragTrans.replace(R.id.child_fragment_container, newsFragment);
+
+                childFragTrans.addToBackStack("my_frag");
+                childFragTrans.commit();
+
+
+
+
+            }
+        });
+
+
+
+            return view;
+
+       // return inflater.inflate(R.layout.fragment_home, container, false);
+
+
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

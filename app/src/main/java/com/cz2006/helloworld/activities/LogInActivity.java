@@ -2,9 +2,14 @@ package com.cz2006.helloworld.activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
+
+import android.util.Log;
+
 import android.text.TextUtils;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -12,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.fragments.HomeFragment;
 import com.cz2006.helloworld.managers.AccountManager;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -64,14 +70,19 @@ public class LogInActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    if(accountManager.authenticate(inputEmail.getText().toString(),inputPassword.getText().toString())) {
+                    if(accountManager.authenticate(inputEmail.getText().toString(),inputPassword.getText().toString()) ) {
+
                         Toast.makeText(getApplicationContext(), "Logged in successfully!", Toast.LENGTH_SHORT).show();
 
                         // Check if we're running on Android 5.0 or higher
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+
+
                             // Apply activity transition
-                            startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class),
-                                    ActivityOptions.makeSceneTransitionAnimation(LogInActivity.this).toBundle());
+                            startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class));
+
+                                    ActivityOptions.makeSceneTransitionAnimation(LogInActivity.this).toBundle();
                         } else {
                             // Swap without transition
                             startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class));

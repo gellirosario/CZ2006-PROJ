@@ -103,8 +103,6 @@ public class HomeFragment extends Fragment {
 
        TextView tv = (TextView) view.findViewById(R.id.welcomebackTV);
 
-
-
        tv.setText("Welcome Back,");
 
 
@@ -113,34 +111,22 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-
-
-
                 Toast.makeText(getContext(), "TOTOTOTOTO", Toast.LENGTH_SHORT).show();
 
                 FragmentManager childFrag = getChildFragmentManager();
                 FragmentTransaction childFragTrans =  childFrag.beginTransaction();
 
-                NewsFragment newsFragment = new NewsFragment();
-
-                childFragTrans.replace(R.id.child_fragment_container, newsFragment);
-
-                childFragTrans.addToBackStack("my_frag");
-                childFragTrans.commit();
-
-
-
+                //NewsFragment newsFragment = new NewsFragment();
+                //childFragTrans.replace(R.id.child_fragment_container, newsFragment);
+                //childFragTrans.addToBackStack("my_frag");
+                //childFragTrans.commit();
 
             }
         });
 
-
-
             return view;
 
        // return inflater.inflate(R.layout.fragment_home, container, false);
-
 
     }
 

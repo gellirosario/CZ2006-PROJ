@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -88,6 +89,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private FloatingActionButton floatingActionButton;
     private RecyclerView mRecyclerView;
     private DisplayManager displayManager;
+    private TextView mCardView_Title;
 
     //Store Longitude and Latitude
     private double lat = 0, lng = 0;
@@ -141,6 +143,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         this.floatingActionButton = v.findViewById(R.id.currentLocationBtn);
         this.mRecyclerView = v.findViewById(R.id.recycler_view);
         this.mSearchView = v.findViewById(R.id.floating_search_view);
+        this.mCardView_Title = v.findViewById(R.id.cardView_Title);
         this.displayManager = new DisplayManager(details, getActivity());
     }
 
@@ -201,7 +204,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         });
 
         // Add Recyler View Data
-
         mRecyclerView.setAdapter(displayManager);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -215,10 +217,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                 displayManager.getFilter().filter(newQuery);
 
                 if (displayManager.getItemCount() == 0) {
-                    mBottomSheetBehavior.setPeekHeight(convertDpToPx(100));
+                    mBottomSheetBehavior.setPeekHeight(convertDpToPx(200));
+                    mCardView_Title.setText("No Results Found");
                 }
                 else {
                     mBottomSheetBehavior.setPeekHeight(convertDpToPx(300));
+                    mCardView_Title.setText("Recycling Points");
                 }
             }
         });
@@ -227,6 +231,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     public static int convertDpToPx(int dp) {
         return Math.round(dp * (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    private void sortDetails() {
+        if (details != null) {
+            Location currLocation = new Location("");
+            currLocation.setLatitude(lat);
+            currLocation.setLongitude(lng);
+
+            for (MapDetail detail : details) {
+                Location location = new Location("");
+                if(detail.getMarker() != null)
+                {
+                    location.setLatitude(detail.getMarker().getPosition().latitude);
+                    location.setLongitude(detail.getMarker().getPosition().longitude);
+                    detail.setDistance(currLocation.distanceTo(location));
+                }
+            }
+
+            Collections.sort(details);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -376,6 +400,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         lat = (float) location.getLatitude();
         lng = (float) location.getLongitude();
 
+        sortDetails();
+
     }
 
     @Override
@@ -514,8 +540,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         @Override
         public void onPostExecute(String result) {
-            if (mMap != null)
-                refreshMap();
+            if (result.equalsIgnoreCase("in")) {
+                sortDetails();
+
+                if (mMap != null)
+                    refreshMap();
+            }
         }
     }
 
@@ -569,6 +599,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                 detail.getMarker().showInfoWindow();
             }
         }
+        displayManager.notifyDataSetChanged();
+
     }
 
 

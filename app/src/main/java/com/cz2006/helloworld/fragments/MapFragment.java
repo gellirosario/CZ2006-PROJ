@@ -3,6 +3,7 @@ package com.cz2006.helloworld.fragments;
 import android.content.Context;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
@@ -10,6 +11,7 @@ import android.location.LocationListener;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +25,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.cz2006.helloworld.Manifest;
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.managers.DisplayManager;
 import com.cz2006.helloworld.models.MapDetail;
 import com.cz2006.helloworld.util.XMLSaxHandler;
 import com.cz2006.helloworld.util.XMLSaxParser;
@@ -42,6 +47,7 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -71,7 +77,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
         GoogleMap.OnMarkerDragListener,
-        GoogleMap.OnMapLongClickListener {
+        GoogleMap.OnMapLongClickListener,
+        GoogleMap.OnMarkerClickListener{
 
     public static final int RequestPermissionCode = 1;
     public static final int REQUEST_CHECK_SETTINGS = 123;
@@ -79,9 +86,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private ArrayList<MapDetail> details = new ArrayList<>();
     private String TAG = "GPS";
     private FloatingActionButton floatingActionButton;
+    private RecyclerView mRecyclerView;
+    private DisplayManager displayManager;
 
     //Store Longitude and Latitude
-    private float lat = 0, lng = 0;
+    private double lat = 0, lng = 0;
 
     private NestedScrollView nestedScrollViewBSheet;
     private BottomSheetBehavior mBottomSheetBehavior;
@@ -129,7 +138,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         // Initialize variables
         this.nestedScrollViewBSheet = v.findViewById(R.id.bottom_sheet);
         this.mBottomSheetBehavior = BottomSheetBehavior.from(nestedScrollViewBSheet);
-        this.floatingActionButton = (FloatingActionButton) v.findViewById(R.id.currentLocationBtn);
+        this.floatingActionButton = v.findViewById(R.id.currentLocationBtn);
+        this.mRecyclerView = v.findViewById(R.id.recycler_view);
+        this.mSearchView = v.findViewById(R.id.floating_search_view);
+        this.displayManager = new DisplayManager(details, getActivity());
     }
 
     @Override
@@ -154,21 +166,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         // Fill in Map with KML File data
         new getData().execute();
 
-         /*
-        SearchView = (FloatingSearchView) mSearchView.findViewById(R.id.floating_search_view);
-
-        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-            @Override
-            public void onSearchTextChanged(String oldQuery, final String newQuery) {
-
-                //get suggestions based on newQuery
-
-                //pass them on to the search view
-                //mSearchView.swapSuggestions(newSuggestions);
-            }
-        });
-        */
-
         return v;
     }
 
@@ -179,12 +176,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        // Bottom Sheet Behaviour Methods
         mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN)
-                    //mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    mBottomSheetBehavior.setState(mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN ? BottomSheetBehavior.STATE_COLLAPSED : BottomSheetBehavior.STATE_HIDDEN);
+                if (newState == BottomSheetBehavior.STATE_HIDDEN){
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
             }
 
             @Override
@@ -193,12 +191,42 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             }
         });
 
+
+        // Floating Action Button Click Method
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getCurrentLocation();
             }
         });
+
+        // Add Recyler View Data
+
+        mRecyclerView.setAdapter(displayManager);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+
+        // Search View Methods
+        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, final String newQuery) {
+
+                displayManager.getFilter().filter(newQuery);
+
+                if (displayManager.getItemCount() == 0) {
+                    mBottomSheetBehavior.setPeekHeight(convertDpToPx(100));
+                }
+                else {
+                    mBottomSheetBehavior.setPeekHeight(convertDpToPx(300));
+                }
+            }
+        });
+
+    }
+
+    public static int convertDpToPx(int dp) {
+        return Math.round(dp * (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -343,9 +371,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         }
     }
 
+
+    private void setLocation(Location location){
+        lat = (float) location.getLatitude();
+        lng = (float) location.getLongitude();
+
+    }
+
     @Override
     public void onLocationChanged(Location location) {
+        setLocation(location);
 
+        if (displayManager != null)
+            displayManager.notifyDataSetChanged();
     }
 
     @Override
@@ -398,6 +436,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        moveMap((float)marker.getPosition().latitude,(float)marker.getPosition().longitude);
+        return true;
+    }
+
     //Getting current location
     private void getCurrentLocation() {
         Location location = null;
@@ -407,29 +451,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         if (location != null) {
             //Getting longitude and latitude
-            lng = (float)location.getLongitude();
-            lat = (float)location.getLatitude();
+            lng = location.getLongitude();
+            lat = location.getLatitude();
 
             //moving the map to location
-            moveMap();
+            moveMap(lat,lng);
         }
     }
 
     //Function to move the map
-    private void moveMap() {
-        //String to display current latitude and longitude
-        String msg = lat + ", " + lng;
+    private void moveMap(double lat, double lng) {
 
         //Creating a LatLng Object to store Coordinates
         LatLng latLng = new LatLng(lat, lng);
-
-        /*
-        //Adding marker to map
-        mMap.addMarker(new MarkerOptions()
-                .position(latLng) //setting position
-                .draggable(true) //Making the marker draggable
-                .title("Current Location")); //Adding a title
-        */
 
         //Moving the camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));

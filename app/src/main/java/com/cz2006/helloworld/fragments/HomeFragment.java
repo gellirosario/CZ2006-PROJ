@@ -1,31 +1,20 @@
 package com.cz2006.helloworld.fragments;
 
-import android.accounts.Account;
 import android.content.Context;
-import android.graphics.Typeface;
+import android.content.Intent;
+
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 
 import com.cz2006.helloworld.R;
-import com.cz2006.helloworld.activities.LogInActivity;
-import com.cz2006.helloworld.managers.AccountManager;
-
-import java.util.Map;
+import com.cz2006.helloworld.activities.NewsActivity;
 
 /**
  * Represents Home Fragment linking from Main Activity
@@ -113,33 +102,24 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-
-
-
-                Toast.makeText(getContext(), "TOTOTOTOTO", Toast.LENGTH_SHORT).show();
-
-                FragmentManager childFrag = getChildFragmentManager();
-                FragmentTransaction childFragTrans =  childFrag.beginTransaction();
-
-                NewsFragment newsFragment = new NewsFragment();
-
-                childFragTrans.replace(R.id.child_fragment_container, newsFragment);
-
-                childFragTrans.addToBackStack("my_frag");
-                childFragTrans.commit();
-
-
-
+  // Toast.makeText(getContext(), "TOTOTOTOTO", Toast.LENGTH_SHORT).show();
+                openNewsActivity();
 
             }
         });
-
-
-
             return view;
 
        // return inflater.inflate(R.layout.fragment_home, container, false);
+
+
+    }
+
+    public void openNewsActivity(){
+
+
+        Intent intent = new Intent(this.getActivity(), NewsActivity.class);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
 
 
     }

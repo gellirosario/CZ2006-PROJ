@@ -3,7 +3,6 @@ package com.cz2006.helloworld.activities;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -19,7 +18,6 @@ import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.fragments.HomeFragment;
 import com.cz2006.helloworld.fragments.MapFragment;
 import com.cz2006.helloworld.fragments.MoreFragment;
-import com.cz2006.helloworld.fragments.NewsFragment;
 import com.cz2006.helloworld.fragments.ScanFragment;
 import com.cz2006.helloworld.fragments.TrackFragment;
 import com.cz2006.helloworld.managers.AccountManager;
@@ -34,7 +32,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  */
 
 
-public class BottomNavigationActivity extends AppCompatActivity implements NewsFragment.OnFragmentInteractionListener,HomeFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener,
+public class BottomNavigationActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener,
 
         ScanFragment.OnFragmentInteractionListener, TrackFragment.OnFragmentInteractionListener, MoreFragment.OnFragmentInteractionListener{
 

@@ -1,20 +1,27 @@
 package com.cz2006.helloworld.fragments;
 
 import android.content.Context;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
+import android.location.LocationListener;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
@@ -23,6 +30,16 @@ import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.models.MapDetail;
 import com.cz2006.helloworld.util.XMLSaxHandler;
 import com.cz2006.helloworld.util.XMLSaxParser;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,6 +49,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.maps.android.data.kml.KmlLayer;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -47,14 +66,31 @@ import java.util.StringTokenizer;
  * @author Rosario Gelli Ann
  *
  */
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener,
+        GoogleMap.OnMarkerDragListener,
+        GoogleMap.OnMapLongClickListener {
 
-    private static final int LOCATION_PERMISSION_ID = 1001;
+    public static final int RequestPermissionCode = 1;
+    public static final int REQUEST_CHECK_SETTINGS = 123;
     private GoogleMap mMap;
     private ArrayList<MapDetail> details = new ArrayList<>();
+    private String TAG = "GPS";
+    private FloatingActionButton floatingActionButton;
+
+    //Store Longitude and Latitude
     private float lat = 0, lng = 0;
 
-    FloatingSearchView mSearchView;
+    private NestedScrollView nestedScrollViewBSheet;
+    private BottomSheetBehavior mBottomSheetBehavior;
+    private FloatingSearchView mSearchView;
+
+    //Google ApiClient
+    private GoogleApiClient mGoogleApiClient;
+
+    private LocationRequest mLocationRequest;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -89,6 +125,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return fragment;
     }
 
+    private void init(View v) {
+        // Initialize variables
+        this.nestedScrollViewBSheet = v.findViewById(R.id.bottom_sheet);
+        this.mBottomSheetBehavior = BottomSheetBehavior.from(nestedScrollViewBSheet);
+        this.floatingActionButton = (FloatingActionButton) v.findViewById(R.id.currentLocationBtn);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,9 +141,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_map, container, false);
+
+        init(v);
+
         // Fill in Map with KML File data
         new getData().execute();
-            /*
+
+         /*
         SearchView = (FloatingSearchView) mSearchView.findViewById(R.id.floating_search_view);
 
         mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
@@ -115,15 +169,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
         */
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_map, container, false);
-
-
         return v;
     }
 
@@ -133,6 +178,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN)
+                    //mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    mBottomSheetBehavior.setState(mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN ? BottomSheetBehavior.STATE_COLLAPSED : BottomSheetBehavior.STATE_HIDDEN);
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCurrentLocation();
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -175,7 +241,206 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mMap.setMyLocationEnabled(true);
         }
 
+        if (checkPermission()) {
+            //Initializing Google API client
+            buildGoogleApiClient();
+            // Check the location settings of the user and create the callback to react to the different possibilities
+            LocationSettingsRequest.Builder locationSettingsRequestBuilder = new LocationSettingsRequest.Builder()
+                    .addLocationRequest(mLocationRequest);
+            PendingResult<LocationSettingsResult> result =
+                    LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, locationSettingsRequestBuilder.build());
+            result.setResultCallback(mResultCallbackFromSettings);
+        } else {
+            requestPermission();
+        }
+
     }
+
+    // Initialize Google API Client
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+
+    public boolean checkPermission() {
+
+        int FirstPermissionResult = ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION);
+        int SecondPermissionResult = ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        return FirstPermissionResult == PackageManager.PERMISSION_GRANTED &&
+                SecondPermissionResult == PackageManager.PERMISSION_GRANTED;
+
+    }
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(getActivity(), new String[]
+                {
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION
+                }, RequestPermissionCode);
+
+    }
+
+    // The callback for the management of the user settings regarding location
+    private ResultCallback<LocationSettingsResult> mResultCallbackFromSettings = new ResultCallback<LocationSettingsResult>() {
+        @Override
+        public void onResult(LocationSettingsResult result) {
+            final Status status = result.getStatus();
+            //final LocationSettingsStates locationSettingsStates = result.getLocationSettingsStates();
+            switch (status.getStatusCode()) {
+                case LocationSettingsStatusCodes.SUCCESS:
+                    // All location settings are satisfied. The client can initialize location
+                    // requests here.
+                    break;
+                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                    // Location settings are not satisfied. But could be fixed by showing the user
+                    // a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        status.startResolutionForResult(
+                                getActivity(),
+                                REQUEST_CHECK_SETTINGS);
+                    } catch (IntentSender.SendIntentException e) {
+                        // Ignore the error.
+                    }
+                    break;
+                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                    Log.e(TAG, "Settings change unavailable. We have no way to fix the settings so we won't show the dialog.");
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+
+            case RequestPermissionCode:
+
+                if (grantResults.length > 0) {
+
+                    boolean finelocation = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean coarselocation = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if (finelocation && coarselocation) {
+
+                        if (checkPermission())
+                            buildGoogleApiClient();
+                        Toast.makeText(getActivity(), "Permission Granted", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Permission Denied", Toast.LENGTH_LONG).show();
+
+                    }
+                }
+
+                break;
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        getCurrentLocation();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+
+    }
+
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDrag(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDragEnd(Marker marker) {
+
+    }
+
+    //Getting current location
+    private void getCurrentLocation() {
+        Location location = null;
+        if (checkPermission()) {
+            location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        }
+
+        if (location != null) {
+            //Getting longitude and latitude
+            lng = (float)location.getLongitude();
+            lat = (float)location.getLatitude();
+
+            //moving the map to location
+            moveMap();
+        }
+    }
+
+    //Function to move the map
+    private void moveMap() {
+        //String to display current latitude and longitude
+        String msg = lat + ", " + lng;
+
+        //Creating a LatLng Object to store Coordinates
+        LatLng latLng = new LatLng(lat, lng);
+
+        /*
+        //Adding marker to map
+        mMap.addMarker(new MarkerOptions()
+                .position(latLng) //setting position
+                .draggable(true) //Making the marker draggable
+                .title("Current Location")); //Adding a title
+        */
+
+        //Moving the camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        //Animating the camera
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+        //Displaying current coordinates in toast
+        //  Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -192,6 +457,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         void onFragmentInteraction(Uri uri);
     }
 
+    // Retrieve data from KML File
     private class getData extends AsyncTask<String, Void, String> {
         String result;
 
@@ -219,6 +485,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    // Add marker data from details
     private void refreshMap() {
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -231,7 +498,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         {
             cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(1.3521-0.06, 103.8198))
-                    .zoom(10)
+                    .zoom(11)
                     .bearing(0)
                     .tilt(0)
                     .build();
@@ -240,7 +507,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         {
             cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(lat-0.02, lng))
-                    .zoom(10)
+                    .zoom(11)
                     .bearing(0)
                     .tilt(0)
                     .build();
@@ -258,8 +525,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     m.remove();
 
                 StringTokenizer tokens = new StringTokenizer(detail.getCoordinates(), ",");
-                String longitude = tokens.nextToken(); // longitude coordinate
-                String latitude = tokens.nextToken(); // latitude coordinate
+                String longitude = tokens.nextToken(); // Longitude coordinate
+                String latitude = tokens.nextToken(); // Latitude coordinate
 
                 Marker detailMarker = mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude)))

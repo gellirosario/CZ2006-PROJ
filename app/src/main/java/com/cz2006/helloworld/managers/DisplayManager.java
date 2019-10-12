@@ -88,14 +88,15 @@ public class DisplayManager extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             //Create Activity to go to
 
-            //DetailActivity.detail = filteredArrayList.get(getAdapterPosition());
-            //activity.startActivity(new Intent(activity, DetailActivity.class));
+            //DetailActivity.detail = detailListFiltered.get(getAdapterPosition());
+            //activity.startActivity(new Intent(getActivity(), DetailActivity.class));
         }
 
     }
 
 
     private class ItemFilter extends Filter {
+
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             String filterString = constraint.toString().toLowerCase();

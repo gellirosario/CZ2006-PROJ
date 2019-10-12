@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Rosario Gelli Ann
  *
  */
-public class MapDetail {
+public class MapDetail implements Comparable<MapDetail> {
     private String name;
     private String addressPostalCode;
     private String addressUnitNumber;
@@ -21,6 +21,7 @@ public class MapDetail {
     private String coordinates;
     private String hyperlink;
     private Marker marker;
+    private double distance;
 
     public String getName() {
         return name;
@@ -100,5 +101,23 @@ public class MapDetail {
 
     public void setMarker(Marker marker) {
         this.marker = marker;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    @Override
+    public int compareTo(MapDetail o) {
+        if (distance < o.getDistance())
+            return -1;
+        else if (distance > o.getDistance())
+            return 1;
+
+        return 0;
     }
 }

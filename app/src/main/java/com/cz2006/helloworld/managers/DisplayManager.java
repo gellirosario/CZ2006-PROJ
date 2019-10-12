@@ -61,7 +61,7 @@ public class DisplayManager extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemCount() {
 
-        if(detailListFiltered == null)
+        if(detailListFiltered == null || detailListFiltered.size() == 0)
             return 0;
 
         return detailListFiltered.size();

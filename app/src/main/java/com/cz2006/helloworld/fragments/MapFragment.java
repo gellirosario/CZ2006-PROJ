@@ -217,11 +217,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                 displayManager.getFilter().filter(newQuery);
 
                 if (displayManager.getItemCount() == 0) {
-                    mBottomSheetBehavior.setPeekHeight(convertDpToPx(200));
+                    mBottomSheetBehavior.setPeekHeight(convertDpToPx(150));
                     mCardView_Title.setText("No Results Found");
                 }
                 else {
-                    mBottomSheetBehavior.setPeekHeight(convertDpToPx(300));
+                    mBottomSheetBehavior.setPeekHeight(convertDpToPx(250));
                     mCardView_Title.setText("Recycling Points");
                 }
             }
@@ -287,11 +287,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         mMap.setBuildingsEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
-
-        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
-        }
 
         if (checkPermission()) {
             //Initializing Google API client
@@ -464,9 +459,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        moveMap((float)marker.getPosition().latitude,(float)marker.getPosition().longitude);
+        //moveMap((float)marker.getPosition().latitude,(float)marker.getPosition().longitude);
         return true;
     }
+
+
 
     //Getting current location
     private void getCurrentLocation() {
@@ -551,10 +548,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     // Add marker data from details
     private void refreshMap() {
-        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
-        }
 
         CameraPosition cameraPosition;
 
@@ -594,11 +587,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
                 Marker detailMarker = mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude)))
-                        .title(detail.getName()));
+                        .title(detail.getName()).snippet(detail.getAddressBlockHouseNumber()+ " " +
+                                detail.getAddressStreetName() + " " +
+                                detail.getAddressPostalCode()));
                 detail.setMarker(detailMarker);
-                detail.getMarker().showInfoWindow();
+
             }
+
         }
+
         displayManager.notifyDataSetChanged();
 
     }

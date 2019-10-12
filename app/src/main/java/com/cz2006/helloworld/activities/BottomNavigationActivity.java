@@ -49,10 +49,6 @@ public class BottomNavigationActivity extends AppCompatActivity implements HomeF
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         AccountManager accountManager= new AccountManager(getApplicationContext());
 
-
-
-
-
         // load the home fragment by default
         setTitle("Home");
         loadFragment(new HomeFragment());
@@ -65,10 +61,6 @@ public class BottomNavigationActivity extends AppCompatActivity implements HomeF
             return;
 
     }
-
-
-
-
 
     public void setTitle(String title) {
         getSupportActionBar().setHomeButtonEnabled(true);

@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Primary -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorSecondary</item>
 
@@ -23,6 +23,7 @@
         </item>
     </style>
 
+<<<<<<< HEAD
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -32,4 +33,20 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+=======
+    <!-- Search View Style -->
+    <style name="SearchView">
+        <item name="floatingSearch_backgroundColor"></item>
+        <item name="floatingSearch_viewSearchInputTextColor"></item>
+        <item name="floatingSearch_viewSuggestionItemTextColor"></item>
+        <item name="floatingSearch_hintTextColor"></item>
+        <item name="floatingSearch_dividerColor"></item>
+        <item name="floatingSearch_clearBtnColor"></item>
+        <item name="floatingSearch_leftActionColor"></item>
+        <item name="floatingSearch_menuItemIconColor"></item>
+        <item name="floatingSearch_suggestionRightIconColor"></item>
+        <item name="floatingSearch_actionMenuOverflowColor"></item>
+    </style>
+
+>>>>>>> 80ea3ac4f8c837c272391cc6dc1c0ef60d38129d
 </resources>

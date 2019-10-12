@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    // Floating Search View
+    <dimen name="search_view_inset">10dp</dimen>
+    <dimen name="sliding_search_view_header_height">250dp</dimen>
+</resources>

@@ -32,6 +32,7 @@ public class NewsActivity extends AppCompatActivity {
         textView.setTextColor(getResources().getColor(R.color.colorWhite));
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(textView);
+        //setContentView(R.layout.activity_news);
     }
 
 

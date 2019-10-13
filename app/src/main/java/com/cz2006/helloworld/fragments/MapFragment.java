@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.net.Uri;
@@ -16,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,11 +27,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
-import com.cz2006.helloworld.Manifest;
 import com.cz2006.helloworld.R;
-import com.cz2006.helloworld.managers.DisplayManager;
+import com.cz2006.helloworld.adapters.DisplayAdapter;
 import com.cz2006.helloworld.models.MapDetail;
-import com.cz2006.helloworld.util.XMLSaxHandler;
 import com.cz2006.helloworld.util.XMLSaxParser;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -48,19 +43,14 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.maps.android.data.kml.KmlLayer;
-
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -83,20 +73,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     public static final int RequestPermissionCode = 1;
     public static final int REQUEST_CHECK_SETTINGS = 123;
-    private GoogleMap mMap;
-    private ArrayList<MapDetail> details = new ArrayList<>();
     private String TAG = "GPS";
+
+    private ArrayList<MapDetail> details = new ArrayList<>();
+    private GoogleMap mMap;
     private FloatingActionButton floatingActionButton;
     private RecyclerView mRecyclerView;
-    private DisplayManager displayManager;
+    private NestedScrollView nestedScrollViewBSheet;
+    private BottomSheetBehavior mBottomSheetBehavior;
+    private FloatingSearchView mSearchView;
+    private DisplayAdapter displayAdapter;
     private TextView mCardView_Title;
 
     //Store Longitude and Latitude
     private double lat = 0, lng = 0;
-
-    private NestedScrollView nestedScrollViewBSheet;
-    private BottomSheetBehavior mBottomSheetBehavior;
-    private FloatingSearchView mSearchView;
 
     //Google ApiClient
     private GoogleApiClient mGoogleApiClient;
@@ -136,17 +126,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         return fragment;
     }
 
-    private void init(View v) {
-        // Initialize variables
-        this.nestedScrollViewBSheet = v.findViewById(R.id.bottom_sheet);
-        this.mBottomSheetBehavior = BottomSheetBehavior.from(nestedScrollViewBSheet);
-        this.floatingActionButton = v.findViewById(R.id.currentLocationBtn);
-        this.mRecyclerView = v.findViewById(R.id.recycler_view);
-        this.mSearchView = v.findViewById(R.id.floating_search_view);
-        this.mCardView_Title = v.findViewById(R.id.cardView_Title);
-        this.displayManager = new DisplayManager(details, getActivity());
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +134,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        buildGoogleApiClient();
 
     }
 
@@ -204,7 +185,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         });
 
         // Add Recyler View Data
-        mRecyclerView.setAdapter(displayManager);
+        mRecyclerView.setAdapter(displayAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
@@ -214,9 +195,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             @Override
             public void onSearchTextChanged(String oldQuery, final String newQuery) {
 
-                displayManager.getFilter().filter(newQuery);
+                displayAdapter.getFilter().filter(newQuery);
 
-                if (displayManager.getItemCount() == 0) {
+                if (displayAdapter.getItemCount() == 0) {
                     mBottomSheetBehavior.setPeekHeight(convertDpToPx(150));
                     mCardView_Title.setText("No Results Found");
                 }
@@ -227,30 +208,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             }
         });
 
-    }
-
-    public static int convertDpToPx(int dp) {
-        return Math.round(dp * (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
-    }
-
-    private void sortDetails() {
-        if (details != null) {
-            Location currLocation = new Location("");
-            currLocation.setLatitude(lat);
-            currLocation.setLongitude(lng);
-
-            for (MapDetail detail : details) {
-                Location location = new Location("");
-                if(detail.getMarker() != null)
-                {
-                    location.setLatitude(detail.getMarker().getPosition().latitude);
-                    location.setLongitude(detail.getMarker().getPosition().longitude);
-                    detail.setDistance(currLocation.distanceTo(location));
-                }
-            }
-
-            Collections.sort(details);
-        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -281,6 +238,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         //mMap.setOnMarkerClickListener(this);
+        mMap.setMyLocationEnabled(true);
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setTrafficEnabled(false);
         mMap.setIndoorEnabled(false);
@@ -302,67 +260,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         }
 
     }
-
-    // Initialize Google API Client
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
-    }
-
-    public boolean checkPermission() {
-
-        int FirstPermissionResult = ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION);
-        int SecondPermissionResult = ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION);
-
-        return FirstPermissionResult == PackageManager.PERMISSION_GRANTED &&
-                SecondPermissionResult == PackageManager.PERMISSION_GRANTED;
-
-    }
-
-    private void requestPermission() {
-
-        ActivityCompat.requestPermissions(getActivity(), new String[]
-                {
-                        android.Manifest.permission.ACCESS_FINE_LOCATION,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION
-                }, RequestPermissionCode);
-
-    }
-
-    // The callback for the management of the user settings regarding location
-    private ResultCallback<LocationSettingsResult> mResultCallbackFromSettings = new ResultCallback<LocationSettingsResult>() {
-        @Override
-        public void onResult(LocationSettingsResult result) {
-            final Status status = result.getStatus();
-            //final LocationSettingsStates locationSettingsStates = result.getLocationSettingsStates();
-            switch (status.getStatusCode()) {
-                case LocationSettingsStatusCodes.SUCCESS:
-                    // All location settings are satisfied. The client can initialize location
-                    // requests here.
-                    break;
-                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                    // Location settings are not satisfied. But could be fixed by showing the user
-                    // a dialog.
-                    try {
-                        // Show the dialog by calling startResolutionForResult(),
-                        // and check the result in onActivityResult().
-                        status.startResolutionForResult(
-                                getActivity(),
-                                REQUEST_CHECK_SETTINGS);
-                    } catch (IntentSender.SendIntentException e) {
-                        // Ignore the error.
-                    }
-                    break;
-                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                    Log.e(TAG, "Settings change unavailable. We have no way to fix the settings so we won't show the dialog.");
-                    break;
-            }
-        }
-    };
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -390,21 +287,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         }
     }
 
-
-    private void setLocation(Location location){
-        lat = (float) location.getLatitude();
-        lng = (float) location.getLongitude();
-
-        sortDetails();
-
-    }
-
     @Override
     public void onLocationChanged(Location location) {
         setLocation(location);
 
-        if (displayManager != null)
-            displayManager.notifyDataSetChanged();
+        if (displayAdapter != null)
+            displayAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -463,42 +351,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         return true;
     }
 
-
-
-    //Getting current location
-    private void getCurrentLocation() {
-        Location location = null;
-        if (checkPermission()) {
-            location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        }
-
-        if (location != null) {
-            //Getting longitude and latitude
-            lng = location.getLongitude();
-            lat = location.getLatitude();
-
-            //moving the map to location
-            moveMap(lat,lng);
-        }
-    }
-
-    //Function to move the map
-    private void moveMap(double lat, double lng) {
-
-        //Creating a LatLng Object to store Coordinates
-        LatLng latLng = new LatLng(lat, lng);
-
-        //Moving the camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
-        //Animating the camera
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-
-        //Displaying current coordinates in toast
-        //  Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-    }
-
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -514,6 +366,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         void onFragmentInteraction(Uri uri);
     }
 
+    /**
+     *
+     * Methods
+     *
+     */
+    private void init(View v) {
+        // Initialize variables
+        this.nestedScrollViewBSheet = v.findViewById(R.id.bottom_sheet);
+        this.mBottomSheetBehavior = BottomSheetBehavior.from(nestedScrollViewBSheet);
+        this.floatingActionButton = v.findViewById(R.id.currentLocationBtn);
+        this.mRecyclerView = v.findViewById(R.id.recycler_view);
+        this.mSearchView = v.findViewById(R.id.floating_search_view);
+        this.mCardView_Title = v.findViewById(R.id.cardView_Title);
+        this.displayAdapter = new DisplayAdapter(details, getActivity());
+    }
     // Retrieve data from KML File
     private class getData extends AsyncTask<String, Void, String> {
         String result;
@@ -596,9 +463,135 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         }
 
-        displayManager.notifyDataSetChanged();
+        displayAdapter.notifyDataSetChanged();
 
     }
 
+    public static int convertDpToPx(int dp) {
+        return Math.round(dp * (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    // Sort map details
+    private void sortDetails() {
+        if (details != null) {
+            Location currLocation = new Location("");
+            currLocation.setLatitude(lat);
+            currLocation.setLongitude(lng);
+
+            for (MapDetail detail : details) {
+                Location location = new Location("");
+                if(detail.getMarker() != null)
+                {
+                    location.setLatitude(detail.getMarker().getPosition().latitude);
+                    location.setLongitude(detail.getMarker().getPosition().longitude);
+                    detail.setDistance(currLocation.distanceTo(location));
+                }
+            }
+
+            Collections.sort(details);
+        }
+    }
+
+    // Initialize Google API Client
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+
+    public boolean checkPermission() {
+
+        int FirstPermissionResult = ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION);
+        int SecondPermissionResult = ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        return FirstPermissionResult == PackageManager.PERMISSION_GRANTED &&
+                SecondPermissionResult == PackageManager.PERMISSION_GRANTED;
+
+    }
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(getActivity(), new String[]
+                {
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION
+                }, RequestPermissionCode);
+
+    }
+
+    // The callback for the management of the user settings regarding location
+    private ResultCallback<LocationSettingsResult> mResultCallbackFromSettings = new ResultCallback<LocationSettingsResult>() {
+        @Override
+        public void onResult(LocationSettingsResult result) {
+            final Status status = result.getStatus();
+            //final LocationSettingsStates locationSettingsStates = result.getLocationSettingsStates();
+            switch (status.getStatusCode()) {
+                case LocationSettingsStatusCodes.SUCCESS:
+                    // All location settings are satisfied. The client can initialize location
+                    // requests here.
+                    break;
+                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                    // Location settings are not satisfied. But could be fixed by showing the user
+                    // a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        status.startResolutionForResult(
+                                getActivity(),
+                                REQUEST_CHECK_SETTINGS);
+                    } catch (IntentSender.SendIntentException e) {
+                        // Ignore the error.
+                    }
+                    break;
+                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                    Log.e(TAG, "Settings change unavailable. We have no way to fix the settings so we won't show the dialog.");
+                    break;
+            }
+        }
+    };
+
+    //Getting current location
+    private void getCurrentLocation() {
+        Location location = null;
+        if (checkPermission()) {
+            location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        }
+
+        if (location != null) {
+            //Getting longitude and latitude
+            lng = location.getLongitude();
+            lat = location.getLatitude();
+
+            //moving the map to location
+            moveMap(lat,lng);
+        }
+    }
+
+    // Function to move the map
+    private void moveMap(double lat, double lng) {
+
+        //Creating a LatLng Object to store Coordinates
+        LatLng latLng = new LatLng(lat, lng);
+
+        //Moving the camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        //Animating the camera
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+        //Displaying current coordinates in toast
+        //  Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
+
+    private void setLocation(Location location){
+        lat = (float) location.getLatitude();
+        lng = (float) location.getLongitude();
+
+        sortDetails();
+
+    }
 
 }

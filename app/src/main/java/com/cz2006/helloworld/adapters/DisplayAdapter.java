@@ -1,4 +1,4 @@
-package com.cz2006.helloworld.managers;
+package com.cz2006.helloworld.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,14 +19,14 @@ import com.cz2006.helloworld.models.MapDetail;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DisplayManager extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
+public class DisplayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
     private Activity activity;
     private List<MapDetail> detailListOriginal;
     private List<MapDetail> detailListFiltered;
     private ItemFilter mFilter = new ItemFilter();
 
-    public DisplayManager(ArrayList<MapDetail> arrayList, Activity activity) {
+    public DisplayAdapter(ArrayList<MapDetail> arrayList, Activity activity) {
         this.activity = activity;
         this.detailListOriginal = arrayList;
         this.detailListFiltered = arrayList;

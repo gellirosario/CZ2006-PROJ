@@ -23,7 +23,8 @@
         </item>
     </style>
 
-<<<<<<< HEAD
+
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -33,8 +34,9 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-=======
+
     <!-- Search View Style -->
+
     <style name="SearchView">
         <item name="floatingSearch_backgroundColor"></item>
         <item name="floatingSearch_viewSearchInputTextColor"></item>
@@ -48,5 +50,6 @@
         <item name="floatingSearch_actionMenuOverflowColor"></item>
     </style>
 
->>>>>>> 80ea3ac4f8c837c272391cc6dc1c0ef60d38129d
+
+
 </resources>

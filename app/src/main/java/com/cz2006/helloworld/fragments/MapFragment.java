@@ -238,7 +238,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         //mMap.setOnMarkerClickListener(this);
-        mMap.setMyLocationEnabled(true);
+
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setTrafficEnabled(false);
         mMap.setIndoorEnabled(false);
@@ -255,6 +255,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             PendingResult<LocationSettingsResult> result =
                     LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, locationSettingsRequestBuilder.build());
             result.setResultCallback(mResultCallbackFromSettings);
+
+            mMap.setMyLocationEnabled(true);
         } else {
             requestPermission();
         }

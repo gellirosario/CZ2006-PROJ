@@ -54,6 +54,9 @@ dependencies {
     // KML Layer
     implementation 'com.google.maps.android:android-maps-utils:0.5'
 
-    //MPAndroidChart Chart Library
+    // MPAndroidChart Chart Library
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // Bottom Navigation Style
+    implementation 'com.aurelhubert:ahbottomnavigation:0.1.3'
 }

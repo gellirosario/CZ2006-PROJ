@@ -17,8 +17,8 @@
         android:layout_marginBottom="10dp"
         android:padding="15dp"
         android:textStyle="bold"
-        android:textColor="@color/colorSecondaryDark"
-        android:background="@drawable/rounded_button"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_button_green"
         android:text="Profile"/>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -31,8 +31,8 @@
         android:layout_marginBottom="10dp"
         android:padding="15dp"
         android:textStyle="bold"
-        android:textColor="@color/colorSecondaryDark"
-        android:background="@drawable/rounded_button"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_button_green"
         android:text="Leaderboard"/>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -45,8 +45,8 @@
         android:layout_marginBottom="10dp"
         android:padding="15dp"
         android:textStyle="bold"
-        android:textColor="@color/colorSecondaryDark"
-        android:background="@drawable/rounded_button"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_button_green"
         android:text="Feedback"/>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -59,8 +59,8 @@
         android:layout_marginBottom="10dp"
         android:padding="15dp"
         android:textStyle="bold"
-        android:textColor="@color/colorSecondaryDark"
-        android:background="@drawable/rounded_button"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_button_green"
         android:text="How It Works"/>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -73,8 +73,8 @@
         android:layout_marginBottom="10dp"
         android:padding="15dp"
         android:textStyle="bold"
-        android:textColor="@color/colorSecondaryDark"
-        android:background="@drawable/rounded_button"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/rounded_button_red"
         android:text="Sign Out"/>
 
 

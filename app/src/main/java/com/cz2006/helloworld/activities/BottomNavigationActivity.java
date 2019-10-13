@@ -1,16 +1,21 @@
 package com.cz2006.helloworld.activities;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -45,7 +50,6 @@ public class BottomNavigationActivity extends AppCompatActivity implements HomeF
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        AccountManager accountManager= new AccountManager(getApplicationContext());
 
         // Set top bar title
         setTitle("Home");
@@ -129,4 +133,8 @@ public class BottomNavigationActivity extends AppCompatActivity implements HomeF
             return false;
         }
     };
+
+    private int fetchColor(@ColorRes int color) {
+        return ContextCompat.getColor(this, color);
+    }
 }

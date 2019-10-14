@@ -1,6 +1,7 @@
 package com.cz2006.helloworld.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,8 +11,10 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.activities.AddUsageActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.LineData;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * Represents Track Fragment linking from Main Activity
@@ -69,6 +72,16 @@ public class TrackFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_track, container, false);
 
+        //Floating Action Button - add usage
+        FloatingActionButton fab = view.findViewById(R.id.addFab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent (getActivity(), AddUsageActivity.class);
+                startActivity(intent);
+            }
+        });
+
         //chart - WIP
         //LineChart chart = (LineChart) view.findViewById(R.id.line_chart);
         //LineData lineData = new LineData(dataSet);
@@ -77,6 +90,8 @@ public class TrackFragment extends Fragment {
         return view;
 
     }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

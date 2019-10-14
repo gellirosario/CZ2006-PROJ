@@ -14,7 +14,10 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.activities.FaqActivity;
 import com.cz2006.helloworld.activities.FeedbackActivity;
+import com.cz2006.helloworld.activities.LeaderboardActivity;
+import com.cz2006.helloworld.activities.ProfileActivity;
 
 /**
  * Represents More Fragment linking from BottomNavigation Activity
@@ -82,6 +85,12 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         //Initialize Variables
         init(v);
 
+        profileBtn.setOnClickListener(this);
+        leaderboardBtn.setOnClickListener(this);
+        feedbackBtn.setOnClickListener(this);
+        faqBtn.setOnClickListener(this);
+        signoutBtn.setOnClickListener(this);
+
         return v;
     }
 
@@ -89,7 +98,6 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        feedbackBtn.setOnClickListener(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -119,8 +127,28 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     // OnClickListener implementation
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(getActivity(), FeedbackActivity.class);
-        startActivity(intent);
+
+        Intent intent = null;
+        switch (v.getId()) {
+            case R.id.btnProfile:
+                intent = new Intent(getActivity(), ProfileActivity.class);
+                break;
+            case R.id.btnLeaderboard:
+                intent = new Intent(getActivity(), LeaderboardActivity.class);
+                break;
+            case R.id.btnFeedback:
+                intent = new Intent(getActivity(), FeedbackActivity.class);
+                break;
+            case R.id.btnFAQ:
+                intent = new Intent(getActivity(), FaqActivity.class);
+                break;
+            case R.id.btnSignOut:
+                break;
+
+        }
+
+        if(intent != null)
+            startActivity(intent);
     }
 
     /**
@@ -147,9 +175,9 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         // Initialize variables
         profileBtn = v.findViewById(R.id.btnProfile);
         leaderboardBtn = v.findViewById(R.id.btnLeaderboard);
-        feedbackBtn = v.findViewById(R.id.btnGiveFeedback);
-        faqBtn = v.findViewById(R.id.btnGiveFeedback);
-        signoutBtn = v.findViewById(R.id.btnGiveFeedback);
+        feedbackBtn = v.findViewById(R.id.btnFeedback);
+        faqBtn = v.findViewById(R.id.btnFAQ);
+        signoutBtn = v.findViewById(R.id.btnSignOut);
     }
 
 

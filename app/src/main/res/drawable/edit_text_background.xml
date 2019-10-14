@@ -19,10 +19,5 @@
                     android:color="@color/colorDarkGrey"/>
             </shape>
         </item>
-        <item >
-            <bitmap android:gravity="bottom|right"
-                android:src="@drawable/drop_down_arrow"
-                />
-        </item>
     </layer-list></item>
 </selector>

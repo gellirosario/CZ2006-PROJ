@@ -13,4 +13,5 @@ public class AddUsageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_usage);
     }
+    int i = 0;
 }

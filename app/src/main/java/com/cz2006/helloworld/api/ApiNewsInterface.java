@@ -12,6 +12,8 @@ public interface ApiNewsInterface {
     Call<News> getNews(
 
             @Query("q") String search,
+            @Query("domains") String domain,
+            @Query("sortBy") String sortBy,
             @Query("apiKey") String apiKey
 
     );

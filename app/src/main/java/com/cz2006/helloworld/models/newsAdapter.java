@@ -5,11 +5,10 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +23,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.util.Newsutils;
 
 import java.util.List;
 
@@ -44,9 +44,9 @@ public class newsAdapter extends RecyclerView.Adapter<newsAdapter.MyViewHolder> 
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.newsitem, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.newsitem, parent, false);
 
-        return new MyViewHolder(view, (AdapterView.OnItemClickListener) onItemClickListener);
+        return new MyViewHolder(view, onItemClickListener);
     }
 
     @Override
@@ -93,6 +93,8 @@ public class newsAdapter extends RecyclerView.Adapter<newsAdapter.MyViewHolder> 
 
     }
 
+
+
     @Override
     public int getItemCount() {
         return articles.size();
@@ -102,7 +104,7 @@ public class newsAdapter extends RecyclerView.Adapter<newsAdapter.MyViewHolder> 
         this.onItemClickListener = onItemClickListener;
     }
 
-    public interface  OnItemClickListener {
+    public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
@@ -113,14 +115,15 @@ public class newsAdapter extends RecyclerView.Adapter<newsAdapter.MyViewHolder> 
         TextView title, desc,author , published_ad, source,time ;
         ImageView imageView;
         ProgressBar progressBar;
-        OnItemClickListener onItemClickListener;
+        OnItemClickListener onItemClickListener ;
 
 
 
-        public MyViewHolder(View itemView, AdapterView.OnItemClickListener onItemClickListener){
+        public MyViewHolder(View itemView, OnItemClickListener onItemClickListener){
             super(itemView);
 
             itemView.setOnClickListener(this);
+            itemView.setClickable(true);
             title= itemView.findViewById(R.id.title);
             desc = itemView.findViewById(R.id.desc);
             author = itemView.findViewById(R.id.author);
@@ -130,19 +133,17 @@ public class newsAdapter extends RecyclerView.Adapter<newsAdapter.MyViewHolder> 
             imageView = itemView.findViewById(R.id.img);
             progressBar= itemView.findViewById(R.id.prograss_load_photo);
 
-            this.onItemClickListener = (OnItemClickListener) onItemClickListener;
-
-
-
-
+            this.onItemClickListener = onItemClickListener;
         }
 
         @Override
-        public void onClick(View v){
+        public void onClick(View v) {
 
-            onItemClickListener.onItemClick(v,getAdapterPosition());
+            if(onItemClickListener !=null) {
+                onItemClickListener.onItemClick(v, getAdapterPosition());
+            }
+
         }
-
     }
 
 

@@ -1,4 +1,4 @@
-package com.cz2006.helloworld.models;
+package com.cz2006.helloworld.util;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;

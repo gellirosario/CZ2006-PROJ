@@ -5,14 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SortedList;
 
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Adapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,9 +21,7 @@ import com.cz2006.helloworld.api.ApiNewsClient;
 import com.cz2006.helloworld.api.ApiNewsInterface;
 import com.cz2006.helloworld.models.Article;
 import com.cz2006.helloworld.models.News;
-import com.cz2006.helloworld.models.Newsutils;
 import com.cz2006.helloworld.models.newsAdapter;
-import com.cz2006.helloworld.models.newsAdapter.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +31,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity{
 
     public static final String API_KEY= "81ebf347fbed47dab591f6ee934b1221";
+    public static final String domain = "straitstimes.com,channelnewsasia.com";
+    public static final String search = "singapore-environment";
+    public static final String sortBy = "relevancy";
+
+
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private List<Article> articles = new ArrayList<>();
@@ -56,27 +58,45 @@ public class NewsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycleView);
         layoutManager = new LinearLayoutManager(NewsActivity.this);
         recyclerView.setLayoutManager(layoutManager);
+
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setHasFixedSize(true);
 
         LoadJson();
 
 
-    }
-//TESTING//
-    private void initListener(){
 
-        adapter.setOnItemClickListener(new OnItemClickListener() {
+
+
+    }
+
+
+
+
+private void initListener(){
+
+        adapter.setOnItemClickListener(new newsAdapter.OnItemClickListener(){
+
             @Override
             public void onItemClick(View view, int position) {
 
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+
+                 Article article = articles.get(position);
+
+
+                intent.setData(Uri.parse(article.getUrl()));
+
+                startActivity(intent);
 
 
             }
         });
 
-    }
-//TESTING//
+
+}
 
 
 
@@ -84,11 +104,13 @@ public class NewsActivity extends AppCompatActivity {
 
         ApiNewsInterface apiNewsInterface = ApiNewsClient.getApiNewsClient().create(ApiNewsInterface.class);
 
-        String country = Newsutils.getCountry();
+       // String country = Newsutils.getCountry();
+
 
 
         Call<News> call;
-        call = apiNewsInterface.getNews("q=singapore-environment",API_KEY);
+        call = apiNewsInterface.getNews(search,domain,sortBy,API_KEY);
+
 
 
         call.enqueue(new Callback<News>() {
@@ -102,8 +124,13 @@ public class NewsActivity extends AppCompatActivity {
 
                     articles = response.body().getArticle();
                     adapter = new newsAdapter(articles, NewsActivity.this);
+
+
+
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
+
+                    initListener();
 
 
 

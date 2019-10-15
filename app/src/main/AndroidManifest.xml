@@ -35,7 +35,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.News_Web"></activity>
         <activity android:name=".activities.NewsActivity" />
         <activity android:name=".activities.FaqActivity" />
         <activity android:name=".activities.LeaderboardActivity" />

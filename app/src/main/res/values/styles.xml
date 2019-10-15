@@ -19,15 +19,12 @@
             @transition/change_image_transform
         </item>
         <item name="android:windowSharedElementExitTransition">
-            @transition/change_image_transform
+           @transition/change_image_transform
         </item>
-            @transition/change_image_transform</item>
 
         <!-- Back -->
         <item name="android:homeAsUpIndicator">@drawable/ic_back_24dp</item>
     </style>
-
-
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -40,7 +37,6 @@
 
 
     <!-- Search View Style -->
-
     <style name="SearchView">
         <item name="floatingSearch_backgroundColor"></item>
         <item name="floatingSearch_viewSearchInputTextColor"></item>

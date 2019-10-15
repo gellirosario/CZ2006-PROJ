@@ -2,6 +2,10 @@ package com.cz2006.helloworld.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigator;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +24,7 @@ import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.api.ApiNewsClient;
 import com.cz2006.helloworld.api.ApiNewsInterface;
 import com.cz2006.helloworld.managers.SessionManager;
+import com.cz2006.helloworld.fragments.NewsFragment;
 import com.cz2006.helloworld.models.Article;
 import com.cz2006.helloworld.models.News;
 import com.cz2006.helloworld.models.newsAdapter;
@@ -62,7 +67,19 @@ public class NewsActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         loadJson();
+public class NewsActivity extends AppCompatActivity implements NewsFragment.OnFragmentInteractionListener{
 
+
+
+
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+
+      Intent myIntent = new Intent(NewsActivity.this, BottomNavigationActivity.class);
+
+      startActivity(myIntent);
     }
 
     private void initListener() {
@@ -122,11 +139,36 @@ public class NewsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<News> call, Throwable t) {
+    @Override
+    public void onFragmentInteraction(Uri uri){
 
-            }
-        });
+    }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_news);
+
+        setTitle("News");
+
+
+        loadFragment(new NewsFragment());
+
+
+
+
+    }
+    public void loadFragment(Fragment fragment) {
+        String backStateName = fragment.getClass().getName();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        boolean fragmentPopped = fragmentManager.popBackStackImmediate(backStateName, 0);
+        if (!fragmentPopped) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frame_container, fragment);
+            fragmentTransaction.addToBackStack(backStateName);
+            fragmentTransaction.commit();
+        }
     }
 
     public void setTitle(String title) {
@@ -141,8 +183,9 @@ public class NewsActivity extends AppCompatActivity {
         textView.setTextColor(getResources().getColor(R.color.colorWhite));
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(textView);
-        //setContentView(R.layout.activity_news);
     }
+
+
 
 
 }

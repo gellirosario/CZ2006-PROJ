@@ -36,41 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-public class NewsActivity extends AppCompatActivity {
-
-    public static final String API_KEY = "81ebf347fbed47dab591f6ee934b1221";
-    public static final String domain = "straitstimes.com,channelnewsasia.com";
-    public static final String search = "singapore-environment";
-    public static final String sortBy = "relevancy";
-
-
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private List<Article> articles = new ArrayList<>();
-    private newsAdapter adapter;
-    private String TAG = NewsActivity.class.getSimpleName();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news);
-
-        setTitle("News");
-
-        recyclerView = findViewById(R.id.recycleView);
-
-        layoutManager = new LinearLayoutManager(NewsActivity.this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setHasFixedSize(true);
-
-        loadJson();
 public class NewsActivity extends AppCompatActivity implements NewsFragment.OnFragmentInteractionListener{
-
-
-
 
 
     @Override
@@ -82,63 +48,7 @@ public class NewsActivity extends AppCompatActivity implements NewsFragment.OnFr
       startActivity(myIntent);
     }
 
-    private void initListener() {
 
-        adapter.setOnItemClickListener(new newsAdapter.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(View view, int position) {
-
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-
-                Article article = articles.get(position);
-
-
-                intent.setData(Uri.parse(article.getUrl()));
-
-                startActivity(intent);
-
-            }
-        });
-
-    }
-
-
-    public void loadJson() {
-
-        ApiNewsInterface apiNewsInterface = ApiNewsClient.getApiNewsClient().create(ApiNewsInterface.class);
-
-        // String country = Newsutils.getCountry();
-
-        Call<News> call;
-        call = apiNewsInterface.getNews(search, domain, sortBy, API_KEY);
-
-        call.enqueue(new Callback<News>() {
-            @Override
-            public void onResponse(Call<News> call, Response<News> response) {
-                if (response.isSuccessful() && response.body().getArticle() != null) {
-
-                    if (!articles.isEmpty()) {
-                        articles.clear();
-                    }
-
-                    articles = response.body().getArticle();
-                    adapter = new newsAdapter(articles, NewsActivity.this);
-
-
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-
-                    initListener();
-
-
-                } else {
-                    Toast.makeText(NewsActivity.this, "No Result!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<News> call, Throwable t) {
     @Override
     public void onFragmentInteraction(Uri uri){
 

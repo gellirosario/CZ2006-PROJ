@@ -15,12 +15,13 @@ import androidx.fragment.app.Fragment;
 
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.activities.NewsActivity;
+import com.cz2006.helloworld.managers.AccountManager;
+import com.cz2006.helloworld.managers.SessionManager;
 
 /**
  * Represents Home Fragment linking from Main Activity
  *
  * @author Rosario Gelli Ann
- *
  */
 
 
@@ -32,13 +33,12 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    //AccountManager accountManager = new AccountManager(getActivity());
-   // LogInActivity logInActivity = new LogInActivity();
+    private AccountManager accountManager;
+    private SessionManager sessionManager;
 
+    TextView userNameTV;
 
-
-
-
+    // LogInActivity logInActivity = new LogInActivity();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -46,7 +46,6 @@ public class HomeFragment extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
-
 
 
     public HomeFragment() {
@@ -72,7 +71,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,40 +85,41 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-       TextView tv = (TextView) view.findViewById(R.id.welcomebackTV);
+        accountManager = new AccountManager(getActivity());
+        sessionManager = new SessionManager(getActivity());
 
+        userNameTV = view.findViewById(R.id.userName);
 
+        int userID = sessionManager.getUserDetails().get("userID");
 
-       tv.setText("Welcome Back,");
-
-
-       TextView clickTextView = (TextView) view.findViewById(R.id.viewmoreClickableTV);
+        accountManager.open();
+        String name = accountManager.getAccountWithID(String.valueOf(userID)).getUserName();
+        userNameTV.setText(name); // Set Text View
+        
+        TextView clickTextView = (TextView) view.findViewById(R.id.viewmoreClickableTV);
         clickTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-  // Toast.makeText(getContext(), "TOTOTOTOTO", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getContext(), "TOTOTOTOTO", Toast.LENGTH_SHORT).show();
                 openNewsActivity();
 
             }
         });
-            return view;
+        return view;
 
-       // return inflater.inflate(R.layout.fragment_home, container, false);
+        // return inflater.inflate(R.layout.fragment_home, container, false);
 
 
     }
 
-    public void openNewsActivity(){
-
+    public void openNewsActivity() {
 
         Intent intent = new Intent(this.getActivity(), NewsActivity.class);
         startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
-
+        getActivity().overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
 
     }
 
@@ -147,6 +146,13 @@ public class HomeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
+        //Close database connection
+        if(accountManager!=null)
+        {
+            accountManager.close();
+            accountManager = null;
+        }
     }
 
     /**

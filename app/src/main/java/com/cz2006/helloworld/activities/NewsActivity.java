@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.api.ApiNewsClient;
 import com.cz2006.helloworld.api.ApiNewsInterface;
+import com.cz2006.helloworld.managers.SessionManager;
 import com.cz2006.helloworld.models.Article;
 import com.cz2006.helloworld.models.News;
 import com.cz2006.helloworld.models.newsAdapter;
@@ -31,9 +32,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class NewsActivity extends AppCompatActivity{
+public class NewsActivity extends AppCompatActivity {
 
-    public static final String API_KEY= "81ebf347fbed47dab591f6ee934b1221";
+    public static final String API_KEY = "81ebf347fbed47dab591f6ee934b1221";
     public static final String domain = "straitstimes.com,channelnewsasia.com";
     public static final String search = "singapore-environment";
     public static final String sortBy = "relevancy";
@@ -45,8 +46,6 @@ public class NewsActivity extends AppCompatActivity{
     private newsAdapter adapter;
     private String TAG = NewsActivity.class.getSimpleName();
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,64 +53,48 @@ public class NewsActivity extends AppCompatActivity{
 
         setTitle("News");
 
-
         recyclerView = findViewById(R.id.recycleView);
+
         layoutManager = new LinearLayoutManager(NewsActivity.this);
         recyclerView.setLayoutManager(layoutManager);
-
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
 
-        LoadJson();
-
-
-
-
+        loadJson();
 
     }
 
+    private void initListener() {
 
-
-
-private void initListener(){
-
-        adapter.setOnItemClickListener(new newsAdapter.OnItemClickListener(){
+        adapter.setOnItemClickListener(new newsAdapter.OnItemClickListener() {
 
             @Override
             public void onItemClick(View view, int position) {
 
-
                 Intent intent = new Intent(Intent.ACTION_VIEW);
 
-                 Article article = articles.get(position);
+                Article article = articles.get(position);
 
 
                 intent.setData(Uri.parse(article.getUrl()));
 
                 startActivity(intent);
 
-
             }
         });
 
-
-}
-
+    }
 
 
-    public void LoadJson(){
+    public void loadJson() {
 
         ApiNewsInterface apiNewsInterface = ApiNewsClient.getApiNewsClient().create(ApiNewsInterface.class);
 
-       // String country = Newsutils.getCountry();
-
-
+        // String country = Newsutils.getCountry();
 
         Call<News> call;
-        call = apiNewsInterface.getNews(search,domain,sortBy,API_KEY);
-
-
+        call = apiNewsInterface.getNews(search, domain, sortBy, API_KEY);
 
         call.enqueue(new Callback<News>() {
             @Override
@@ -126,27 +109,22 @@ private void initListener(){
                     adapter = new newsAdapter(articles, NewsActivity.this);
 
 
-
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
                     initListener();
 
 
-
                 } else {
                     Toast.makeText(NewsActivity.this, "No Result!", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<News> call, Throwable t) {
 
             }
         });
-
-
-
-
 
 
     }

@@ -26,6 +26,7 @@ import com.cz2006.helloworld.fragments.MoreFragment;
 import com.cz2006.helloworld.fragments.ScanFragment;
 import com.cz2006.helloworld.fragments.TrackFragment;
 import com.cz2006.helloworld.managers.AccountManager;
+import com.cz2006.helloworld.managers.SessionManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
@@ -33,13 +34,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  * which links to other fragments (Home, Map, Scan, Track, More)
  *
  * @author Rosario Gelli Ann
- *
  */
 public class BottomNavigationActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener,
 
-        ScanFragment.OnFragmentInteractionListener, TrackFragment.OnFragmentInteractionListener, MoreFragment.OnFragmentInteractionListener{
+        ScanFragment.OnFragmentInteractionListener, TrackFragment.OnFragmentInteractionListener, MoreFragment.OnFragmentInteractionListener {
 
     private ActionBar toolbar;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +64,14 @@ public class BottomNavigationActivity extends AppCompatActivity implements HomeF
         // Prevent User to go back to Log In Activity
         return;
     }
+
     @Override
-    public void onFragmentInteraction(Uri uri){
+    public void onFragmentInteraction(Uri uri) {
 
     }
 
     /**
-     *
      * Methods
-     *
      */
     public void setTitle(String title) {
         getSupportActionBar().setHomeButtonEnabled(true);

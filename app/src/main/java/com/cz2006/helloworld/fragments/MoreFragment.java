@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +19,7 @@ import com.cz2006.helloworld.activities.FaqActivity;
 import com.cz2006.helloworld.activities.FeedbackActivity;
 import com.cz2006.helloworld.activities.LeaderboardActivity;
 import com.cz2006.helloworld.activities.ProfileActivity;
+import com.cz2006.helloworld.managers.SessionManager;
 
 /**
  * Represents More Fragment linking from BottomNavigation Activity
@@ -32,6 +34,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     private AppCompatButton feedbackBtn;
     private AppCompatButton faqBtn;
     private AppCompatButton signoutBtn;
+
+    private SessionManager sessionManager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -143,6 +147,9 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 intent = new Intent(getActivity(), FaqActivity.class);
                 break;
             case R.id.btnSignOut:
+                sessionManager.checkLogin(); // Check if user is logged in
+                sessionManager.logoutUser(); // Log out user
+                Toast.makeText(getContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
                 break;
 
         }
@@ -173,11 +180,15 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
      */
     public void init(View v){
         // Initialize variables
+        sessionManager = new SessionManager(getContext());
+
         profileBtn = v.findViewById(R.id.btnProfile);
         leaderboardBtn = v.findViewById(R.id.btnLeaderboard);
         feedbackBtn = v.findViewById(R.id.btnFeedback);
         faqBtn = v.findViewById(R.id.btnFAQ);
         signoutBtn = v.findViewById(R.id.btnSignOut);
+
+
     }
 
 

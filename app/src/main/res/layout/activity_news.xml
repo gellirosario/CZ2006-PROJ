@@ -23,6 +23,7 @@
                 android:textStyle="bold"
                 android:text="Environment"
                 android:fontFamily="sans-serif-light"
+                android:textColor="@color/colorSecondary"
                 android:textSize="17sp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"

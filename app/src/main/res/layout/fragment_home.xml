@@ -8,106 +8,105 @@
     <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
-        android:id="@+id/pageHeader"
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="10dp">
-        <TextView
-            android:id="@+id/welcomebackTV"
-            android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+        <LinearLayout
+            android:id="@+id/pageHeader"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:text="Welcome Back, "
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimary"
-            android:textSize="25dp"
-            android:textStyle="bold"/>
+            android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/welcomebackTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:text="Welcome Back, "
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="User Name"
+                android:textAllCaps="false"
+                android:textColor="@color/colorSecondary"
+                android:textSize="25dp"
+                android:textStyle="bold"/>
+
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/userName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="User Name"
-            android:textAllCaps="false"
-            android:textColor="@color/colorSecondary"
-            android:textSize="25dp"
-            android:textStyle="bold"/>
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="Have a GREEN Day!"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/greendayTV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pageHeader"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="Have a GREEN Day!"
-        android:textColor="@color/colorPrimaryDark"
-
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
         android:id="@+id/tvBLANK"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_below="@+id/greendayTV"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginEnd="40dp"
+        android:layout_margin="20dp"
+        android:layout_below="@+id/header"
+        android:gravity="center"
         android:text="BLANK (FOR GRAPH)?"
+        android:background="@color/colorDarkGrey"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/newsTV"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvBLANK"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="277dp"
-        android:text="News"
-        android:textColor="@color/colorSecondary"
-        android:textSize="25dp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/newsTV"
-        android:layout_margin="45dp"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_below="@id/tvBLANK"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
         <TextView
-            android:id="@+id/Tv5"
+            android:id="@+id/newsTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="News"
+            android:textColor="@color/colorSecondary"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/newsTV"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:textSize="14sp"
-            android:text="See what's happening around you"
-            android:textColor="@color/black"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textSize="12dp"
+                android:text="See what's happening around you"
+                android:textColor="@color/black"/>
 
-        <TextView
-            android:id="@+id/viewmoreClickableTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/newsTV"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="30dp"
-            android:clickable="true"
-            android:linksClickable="false"
-            android:text="View More >"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/viewmoreClickableTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="right"
+                android:clickable="true"
+                android:linksClickable="false"
+                android:text="View More >"
+                android:textSize="14sp" />
+        </RelativeLayout>
     </LinearLayout>
 
     <FrameLayout
@@ -118,6 +117,6 @@
         //For nested fragment
 
     </FrameLayout>
-
+    -->
 
 </RelativeLayout>

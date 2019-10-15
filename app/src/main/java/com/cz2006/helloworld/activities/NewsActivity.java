@@ -2,6 +2,10 @@ package com.cz2006.helloworld.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigator;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +23,7 @@ import android.widget.Toast;
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.api.ApiNewsClient;
 import com.cz2006.helloworld.api.ApiNewsInterface;
+import com.cz2006.helloworld.fragments.NewsFragment;
 import com.cz2006.helloworld.models.Article;
 import com.cz2006.helloworld.models.News;
 import com.cz2006.helloworld.models.newsAdapter;
@@ -31,20 +36,25 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class NewsActivity extends AppCompatActivity{
-
-    public static final String API_KEY= "81ebf347fbed47dab591f6ee934b1221";
-    public static final String domain = "straitstimes.com,channelnewsasia.com";
-    public static final String search = "singapore-environment";
-    public static final String sortBy = "relevancy";
+public class NewsActivity extends AppCompatActivity implements NewsFragment.OnFragmentInteractionListener{
 
 
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private List<Article> articles = new ArrayList<>();
-    private newsAdapter adapter;
-    private String TAG = NewsActivity.class.getSimpleName();
 
+
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+
+      Intent myIntent = new Intent(NewsActivity.this, BottomNavigationActivity.class);
+
+      startActivity(myIntent);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri){
+
+    }
 
 
     @Override
@@ -55,100 +65,22 @@ public class NewsActivity extends AppCompatActivity{
         setTitle("News");
 
 
-        recyclerView = findViewById(R.id.recycleView);
-        layoutManager = new LinearLayoutManager(NewsActivity.this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setHasFixedSize(true);
-
-        LoadJson();
-
+        loadFragment(new NewsFragment());
 
 
 
 
     }
-
-
-
-
-private void initListener(){
-
-        adapter.setOnItemClickListener(new newsAdapter.OnItemClickListener(){
-
-            @Override
-            public void onItemClick(View view, int position) {
-
-
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-
-                 Article article = articles.get(position);
-
-
-                intent.setData(Uri.parse(article.getUrl()));
-
-                startActivity(intent);
-
-
-            }
-        });
-
-
-}
-
-
-
-    public void LoadJson(){
-
-        ApiNewsInterface apiNewsInterface = ApiNewsClient.getApiNewsClient().create(ApiNewsInterface.class);
-
-       // String country = Newsutils.getCountry();
-
-
-
-        Call<News> call;
-        call = apiNewsInterface.getNews(search,domain,sortBy,API_KEY);
-
-
-
-        call.enqueue(new Callback<News>() {
-            @Override
-            public void onResponse(Call<News> call, Response<News> response) {
-                if (response.isSuccessful() && response.body().getArticle() != null) {
-
-                    if (!articles.isEmpty()) {
-                        articles.clear();
-                    }
-
-                    articles = response.body().getArticle();
-                    adapter = new newsAdapter(articles, NewsActivity.this);
-
-
-
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-
-                    initListener();
-
-
-
-                } else {
-                    Toast.makeText(NewsActivity.this, "No Result!", Toast.LENGTH_SHORT).show();
-                }
-            }
-            @Override
-            public void onFailure(Call<News> call, Throwable t) {
-
-            }
-        });
-
-
-
-
-
-
+    public void loadFragment(Fragment fragment) {
+        String backStateName = fragment.getClass().getName();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        boolean fragmentPopped = fragmentManager.popBackStackImmediate(backStateName, 0);
+        if (!fragmentPopped) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frame_container, fragment);
+            fragmentTransaction.addToBackStack(backStateName);
+            fragmentTransaction.commit();
+        }
     }
 
     public void setTitle(String title) {
@@ -163,8 +95,9 @@ private void initListener(){
         textView.setTextColor(getResources().getColor(R.color.colorWhite));
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(textView);
-        //setContentView(R.layout.activity_news);
     }
+
+
 
 
 }

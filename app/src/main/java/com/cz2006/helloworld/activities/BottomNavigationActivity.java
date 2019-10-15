@@ -1,16 +1,21 @@
 package com.cz2006.helloworld.activities;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -30,8 +35,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  * @author Rosario Gelli Ann
  *
  */
-
-
 public class BottomNavigationActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, MapFragment.OnFragmentInteractionListener,
 
         ScanFragment.OnFragmentInteractionListener, TrackFragment.OnFragmentInteractionListener, MoreFragment.OnFragmentInteractionListener{
@@ -47,21 +50,29 @@ public class BottomNavigationActivity extends AppCompatActivity implements HomeF
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        AccountManager accountManager= new AccountManager(getApplicationContext());
 
-        // load the home fragment by default
+        // Set top bar title
         setTitle("Home");
+
+        // Load the home fragment by default
         loadFragment(new HomeFragment());
     }
 
     @Override
     public void onBackPressed() {
-        //Prevent User to go back to Log In Activity
-
-            return;
+        // Prevent User to go back to Log In Activity
+        return;
+    }
+    @Override
+    public void onFragmentInteraction(Uri uri){
 
     }
 
+    /**
+     *
+     * Methods
+     *
+     */
     public void setTitle(String title) {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -76,6 +87,15 @@ public class BottomNavigationActivity extends AppCompatActivity implements HomeF
         getSupportActionBar().setCustomView(textView);
     }
 
+    private void loadFragment(Fragment fragment) {
+        // Load fragments
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    // Bottom Navigation Navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -114,16 +134,7 @@ public class BottomNavigationActivity extends AppCompatActivity implements HomeF
         }
     };
 
-    private void loadFragment(Fragment fragment) {
-        // load fragment
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri){
-
+    private int fetchColor(@ColorRes int color) {
+        return ContextCompat.getColor(this, color);
     }
 }

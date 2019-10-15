@@ -57,7 +57,7 @@
             android:id="@+id/currentLocationBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_my_location_black_24dp"
+            android:src="@drawable/ic_current_location"
             android:layout_marginTop="90dp"
             app:elevation="6dp"
             app:pressedTranslationZ="10dp"
@@ -71,6 +71,14 @@
 
     </FrameLayout>
 
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@drawable/bottom_sheet_shadow"
+        app:layout_anchor="@id/bottom_sheet" />
+
+    <!-- Bottom Sheet -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
@@ -79,7 +87,7 @@
         android:background="@color/colorWhite"
         app:layout_behavior="@string/bottom_sheet_behavior"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="300dp">
+        app:behavior_peekHeight="225dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,13 +106,14 @@
 
             <TextView
                 android:id="@+id/cardView_Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_centerInParent="true"
                 android:gravity="center"
+                android:textAlignment="center"
                 android:text="Recycling Points"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorSecondaryDark"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
@@ -114,7 +123,7 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp">
             </androidx.recyclerview.widget.RecyclerView>

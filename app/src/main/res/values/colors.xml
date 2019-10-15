@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Color -->
-    <color name="colorPrimary">#158029</color>
-    <color name="colorPrimaryLight">#51b055</color>
-    <color name="colorPrimaryDark">#005200</color>
+    <color name="colorPrimary">#51B055</color>
+    <color name="colorPrimaryLight">#84e383</color>
+    <color name="colorPrimaryDark">#158029</color>
     <color name="colorSecondary">#6A5959</color>
-    <color name="colorSecondaryLight">#6A5959</color>
+    <color name="colorSecondaryLight">#988686</color>
     <color name="colorSecondaryDark">#3f3030</color>
     <color name="colorWhite">#ffffff</color>
+<<<<<<< HEAD
 
   //For news//
     <color name="colorAccent">#1e344b</color>
@@ -18,4 +19,8 @@
 
 
 
+=======
+    <color name="colorBlack">#000000</color>
+    <color name="colorDarkGrey">#A9A9A9</color>
+>>>>>>> origin/master
 </resources>

@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Primary -->
-        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorSecondary</item>
 
@@ -21,6 +21,10 @@
         <item name="android:windowSharedElementExitTransition">
             @transition/change_image_transform
         </item>
+            @transition/change_image_transform</item>
+
+        <!-- Back -->
+        <item name="android:homeAsUpIndicator">@drawable/ic_back_24dp</item>
     </style>
 
 

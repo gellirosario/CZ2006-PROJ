@@ -1,23 +1,38 @@
 package com.cz2006.helloworld.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.activities.FaqActivity;
+import com.cz2006.helloworld.activities.FeedbackActivity;
+import com.cz2006.helloworld.activities.LeaderboardActivity;
+import com.cz2006.helloworld.activities.ProfileActivity;
 
 /**
- * Represents More Fragment linking from Main Activity
+ * Represents More Fragment linking from BottomNavigation Activity
  *
  * @author Rosario Gelli Ann
  *
  */
-public class MoreFragment extends Fragment {
+public class MoreFragment extends Fragment implements View.OnClickListener {
+
+    private AppCompatButton profileBtn;
+    private AppCompatButton leaderboardBtn;
+    private AppCompatButton feedbackBtn;
+    private AppCompatButton faqBtn;
+    private AppCompatButton signoutBtn;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,8 +78,26 @@ public class MoreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_more, container, false);
+        View v = inflater.inflate(R.layout.fragment_more, container, false);
+
+        //Initialize Variables
+        init(v);
+
+        profileBtn.setOnClickListener(this);
+        leaderboardBtn.setOnClickListener(this);
+        feedbackBtn.setOnClickListener(this);
+        faqBtn.setOnClickListener(this);
+        signoutBtn.setOnClickListener(this);
+
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +124,33 @@ public class MoreFragment extends Fragment {
         mListener = null;
     }
 
+    // OnClickListener implementation
+    @Override
+    public void onClick(View v) {
+
+        Intent intent = null;
+        switch (v.getId()) {
+            case R.id.btnProfile:
+                intent = new Intent(getActivity(), ProfileActivity.class);
+                break;
+            case R.id.btnLeaderboard:
+                intent = new Intent(getActivity(), LeaderboardActivity.class);
+                break;
+            case R.id.btnFeedback:
+                intent = new Intent(getActivity(), FeedbackActivity.class);
+                break;
+            case R.id.btnFAQ:
+                intent = new Intent(getActivity(), FaqActivity.class);
+                break;
+            case R.id.btnSignOut:
+                break;
+
+        }
+
+        if(intent != null)
+            startActivity(intent);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -105,4 +165,21 @@ public class MoreFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    /**
+     *
+     * Methods
+     *
+     */
+    public void init(View v){
+        // Initialize variables
+        profileBtn = v.findViewById(R.id.btnProfile);
+        leaderboardBtn = v.findViewById(R.id.btnLeaderboard);
+        feedbackBtn = v.findViewById(R.id.btnFeedback);
+        faqBtn = v.findViewById(R.id.btnFAQ);
+        signoutBtn = v.findViewById(R.id.btnSignOut);
+    }
+
+
+
 }

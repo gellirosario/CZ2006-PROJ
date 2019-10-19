@@ -41,6 +41,8 @@ public class LogInActivity extends AppCompatActivity {
     SessionManager sessionManager;
 
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    String email;
+    String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +55,18 @@ public class LogInActivity extends AppCompatActivity {
 
         accountManager.open(); // Open Database Connection
 
+
         // Log In Button Click Event
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< HEAD
-                 if(TextUtils.isEmpty(inputEmail.getText().toString()) || TextUtils.isEmpty(inputPassword.getText().toString()) )
-=======
 
-                String email = inputEmail.getText().toString();
-                String password = inputPassword.getText().toString();
+                email =  inputEmail.getText().toString();
+                password = inputPassword.getText().toString();
 
                 if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) )
->>>>>>> 9871f57a20fe60635b534f0b8bf35691516fd039
                 {
+
                     Toast.makeText(getApplicationContext(), "Please fill in all details", Toast.LENGTH_SHORT).show();
                 }
                 else if(!email.matches(emailPattern))
@@ -152,5 +152,6 @@ public class LogInActivity extends AppCompatActivity {
         inputPassword = findViewById(R.id.inputPassword);
         btnSignUp = findViewById(R.id.btnSignUp);
         btnLogIn = findViewById(R.id.btnLogIn);
+
     }
 }

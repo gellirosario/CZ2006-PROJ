@@ -10,4 +10,10 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorBlack">#000000</color>
     <color name="colorDarkGrey">#A9A9A9</color>
+
+    <!-- News -->
+    <color name="colorAccent">#1e344b</color>
+    <color name="colorBackground">#f9f9fa</color>
+    <color name="colorTextSubtitle">#4e4e4e</color>
+    <color name="colorTextTitle">#262626</color>
 </resources>

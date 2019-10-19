@@ -16,13 +16,25 @@
 
         <!-- specify shared element transitions -->
         <item name="android:windowSharedElementEnterTransition">
-            @transition/change_image_transform</item>
+            @transition/change_image_transform
+        </item>
         <item name="android:windowSharedElementExitTransition">
-            @transition/change_image_transform</item>
+           @transition/change_image_transform
+        </item>
 
         <!-- Back -->
         <item name="android:homeAsUpIndicator">@drawable/ic_back_24dp</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
     <!-- Search View Style -->
     <style name="SearchView">
@@ -37,6 +49,7 @@
         <item name="floatingSearch_suggestionRightIconColor"></item>
         <item name="floatingSearch_actionMenuOverflowColor"></item>
     </style>
+
 
 
 </resources>

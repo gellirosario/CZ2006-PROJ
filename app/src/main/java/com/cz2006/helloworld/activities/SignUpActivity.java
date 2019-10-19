@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.managers.AccountManager;
+import com.cz2006.helloworld.managers.SessionManager;
 import com.google.android.material.textfield.TextInputEditText;
 
 /**
@@ -32,6 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
     TextInputEditText inputPassword;
 
     AccountManager accountManager;
+    SessionManager sessionManager;
 
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -42,40 +44,48 @@ public class SignUpActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        accountManager = new AccountManager(getApplicationContext());
-        accountManager.open();
+        init();
 
-        btnSignUp = findViewById(R.id.btnSignUp);
-        btnLogIn = findViewById(R.id.btnLogIn);
-        inputName = findViewById(R.id.inputName);
-        inputEmail = findViewById(R.id.inputEmail);
-        inputPassword = findViewById(R.id.inputPassword);
+        accountManager.open(); // Open Database connection
 
+        // Sign Up Button On Click Event
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if(TextUtils.isEmpty(inputEmail.getText().toString()) || TextUtils.isEmpty(inputPassword.getText().toString()) || TextUtils.isEmpty(inputName.getText().toString()) )
                 {
-                    Log.d("222",inputEmail.getText().toString());
-                    Toast.makeText(getApplicationContext(), "Please fill in all details.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please fill in all details", Toast.LENGTH_SHORT).show();
                 }
                 else if(!inputEmail.getText().toString().matches(emailPattern))
                 {
-                    Toast.makeText(getApplicationContext(), "Please enter a correct email address.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please enter a correct email address", Toast.LENGTH_SHORT).show();
                 }
                 else if(accountManager.checkExistingEmail(inputEmail.getText().toString()))
                 {
-                    Toast.makeText(getApplicationContext(), "Email already exist.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Email already exist", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     accountManager.createAccount(inputName.getText().toString(),inputEmail.getText().toString(),inputPassword.getText().toString());
                     Toast.makeText(getApplicationContext(), "Account created successfully!", Toast.LENGTH_SHORT).show();
+
+                    // Check if we're running on Android 5.0 or higher
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                        // Apply activity transition
+                        startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
+
+                        ActivityOptions.makeSceneTransitionAnimation(SignUpActivity.this).toBundle();
+                    } else {
+                        // Swap without transition
+                        startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
+                    }
                 }
             }
         });
 
+        // Log In Button On Click Event
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,5 +112,17 @@ public class SignUpActivity extends AppCompatActivity {
             accountManager.close();
             accountManager = null;
         }
+    }
+
+    public void init(){
+        // Initialize variables
+        accountManager = new AccountManager(getApplicationContext());
+        sessionManager = new SessionManager(getApplicationContext());
+
+        btnSignUp = findViewById(R.id.btnSignUp);
+        btnLogIn = findViewById(R.id.btnLogIn);
+        inputName = findViewById(R.id.inputName);
+        inputEmail = findViewById(R.id.inputEmail);
+        inputPassword = findViewById(R.id.inputPassword);
     }
 }

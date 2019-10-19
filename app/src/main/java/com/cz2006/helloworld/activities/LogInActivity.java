@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.fragments.HomeFragment;
 import com.cz2006.helloworld.managers.AccountManager;
+import com.cz2006.helloworld.managers.SessionManager;
+import com.cz2006.helloworld.models.User;
 import com.google.android.material.textfield.TextInputEditText;
 
 /**
@@ -36,6 +38,7 @@ public class LogInActivity extends AppCompatActivity {
     Button btnSignUp;
 
     AccountManager accountManager;
+    SessionManager sessionManager;
 
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -46,38 +49,47 @@ public class LogInActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        accountManager = new AccountManager(getApplicationContext());
-        accountManager.open();
+        init();
 
-        inputEmail = findViewById(R.id.inputEmail);
-        inputPassword = findViewById(R.id.inputPassword);
-        btnSignUp = findViewById(R.id.btnSignUp);
-        btnLogIn = findViewById(R.id.btnLogIn);
+        accountManager.open(); // Open Database Connection
 
+        // Log In Button Click Event
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+<<<<<<< HEAD
                  if(TextUtils.isEmpty(inputEmail.getText().toString()) || TextUtils.isEmpty(inputPassword.getText().toString()) )
+=======
+
+                String email = inputEmail.getText().toString();
+                String password = inputPassword.getText().toString();
+
+                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) )
+>>>>>>> 9871f57a20fe60635b534f0b8bf35691516fd039
                 {
-                    Toast.makeText(getApplicationContext(), "Please fill in all details.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please fill in all details", Toast.LENGTH_SHORT).show();
                 }
-                else if(!inputEmail.getText().toString().matches(emailPattern))
+                else if(!email.matches(emailPattern))
                 {
-                    Toast.makeText(getApplicationContext(), "Please enter a correct email address.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please enter a correct email address", Toast.LENGTH_SHORT).show();
                 }
-                else if(!accountManager.checkExistingEmail(inputEmail.getText().toString())) {
-                    Toast.makeText(getApplicationContext(), "Email does not exist.", Toast.LENGTH_SHORT).show();
+                else if(!accountManager.checkExistingEmail(email)) {
+                    Toast.makeText(getApplicationContext(), "Email does not exist", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    if(accountManager.authenticate(inputEmail.getText().toString(),inputPassword.getText().toString()) ) {
-
+                    if(accountManager.authenticate(email,password) ) {
+                        // Success
                         Toast.makeText(getApplicationContext(), "Logged in successfully!", Toast.LENGTH_SHORT).show();
+
+                        // Get user info from Database
+                        User currentUser = accountManager.getAccount(email, password);
+
+                        // Set log in session
+                        sessionManager.createLoginSession(currentUser.getUserID());
 
                         // Check if we're running on Android 5.0 or higher
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-
 
                             // Apply activity transition
                             startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class));
@@ -90,7 +102,8 @@ public class LogInActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        Toast.makeText(getApplicationContext(), "Incorrect email/password.", Toast.LENGTH_SHORT).show();
+                        // Failed
+                        Toast.makeText(getApplicationContext(), "Incorrect email/password", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -99,6 +112,7 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
+        // Sign Up Button On Click Event
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,5 +141,16 @@ public class LogInActivity extends AppCompatActivity {
             accountManager.close();
             accountManager = null;
         }
+    }
+
+    public void init(){
+        // Initialize variables
+        sessionManager = new SessionManager(getApplicationContext());
+        accountManager = new AccountManager(getApplicationContext());
+
+        inputEmail = findViewById(R.id.inputEmail);
+        inputPassword = findViewById(R.id.inputPassword);
+        btnSignUp = findViewById(R.id.btnSignUp);
+        btnLogIn = findViewById(R.id.btnLogIn);
     }
 }

@@ -81,11 +81,13 @@ public class AccountManager {
 
     }
 
+    // Open Database connection
     public void open()
     {
         this.dbManager.openDB();
     }
 
+    // Close Database connection
     public void close()
     {
         this.dbManager.closeDB();
@@ -153,10 +155,34 @@ public class AccountManager {
         this.dbManager.update(this.TABLE_NAME_ACCOUNT, updateColumnList, whereClause);
     }
 
-    // Get specific User account
+    // Get specific User account with Email and Password
     public User getAccount(String userEmail, String userPassword){
         User currentUser = new User();
         Cursor cursor = this.dbManager.queryTwoSearchString(this.TABLE_NAME_ACCOUNT,this.TABLE_ACCOUNT_COLUMN_EMAIL, userEmail, this.TABLE_ACCOUNT_COLUMN_PASSWORD, userPassword);
+        if(cursor!=null){
+            int id = cursor.getInt(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_ID));
+            String userName = cursor.getString(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_USERNAME));
+            String password = cursor.getString(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_PASSWORD));
+            String email = cursor.getString(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_EMAIL));
+            int points = cursor.getInt(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_EMAIL));
+            currentUser.setUserID(id);
+            currentUser.setUserName(userName);
+            currentUser.setUserPassword(password);
+            currentUser.setUserEmail(email);
+            currentUser.setPoints(points);
+            // Close cursor after query.
+            if(!cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+
+        return currentUser;
+    }
+
+    // Get specific User account with ID
+    public User getAccountWithID(String userID){
+        User currentUser = new User();
+        Cursor cursor = this.dbManager.queryOneSearchString(this.TABLE_NAME_ACCOUNT,this.TABLE_ACCOUNT_COLUMN_ID, userID);
         if(cursor!=null){
             int id = cursor.getInt(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_ID));
             String userName = cursor.getString(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_USERNAME));

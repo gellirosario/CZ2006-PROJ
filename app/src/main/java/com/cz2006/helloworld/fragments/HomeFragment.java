@@ -1,37 +1,27 @@
 package com.cz2006.helloworld.fragments;
 
-import android.accounts.Account;
 import android.content.Context;
-import android.graphics.Typeface;
+import android.content.Intent;
+
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 
 import com.cz2006.helloworld.R;
-import com.cz2006.helloworld.activities.LogInActivity;
+import com.cz2006.helloworld.activities.NewsActivity;
 import com.cz2006.helloworld.managers.AccountManager;
-
-import java.util.Map;
+import com.cz2006.helloworld.managers.SessionManager;
 
 /**
  * Represents Home Fragment linking from Main Activity
  *
  * @author Rosario Gelli Ann
- *
  */
 
 
@@ -43,13 +33,12 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    //AccountManager accountManager = new AccountManager(getActivity());
-   // LogInActivity logInActivity = new LogInActivity();
+    private AccountManager accountManager;
+    private SessionManager sessionManager;
 
+    TextView userNameTV;
 
-
-
-
+    // LogInActivity logInActivity = new LogInActivity();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -57,7 +46,6 @@ public class HomeFragment extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
-
 
 
     public HomeFragment() {
@@ -83,7 +71,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,35 +85,41 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-       TextView tv = (TextView) view.findViewById(R.id.welcomebackTV);
+        accountManager = new AccountManager(getActivity());
+        sessionManager = new SessionManager(getActivity());
 
-       tv.setText("Welcome Back,");
+        userNameTV = view.findViewById(R.id.userName);
 
+        int userID = sessionManager.getUserDetails().get("userID");
 
-       TextView clickTextView = (TextView) view.findViewById(R.id.viewmoreClickableTV);
+        accountManager.open();
+        String name = accountManager.getAccountWithID(String.valueOf(userID)).getUserName();
+        userNameTV.setText(name); // Set Text View
+        
+        TextView clickTextView = (TextView) view.findViewById(R.id.viewmoreClickableTV);
         clickTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getContext(), "TOTOTOTOTO", Toast.LENGTH_SHORT).show();
-
-                FragmentManager childFrag = getChildFragmentManager();
-                FragmentTransaction childFragTrans =  childFrag.beginTransaction();
-
-                //NewsFragment newsFragment = new NewsFragment();
-                //childFragTrans.replace(R.id.child_fragment_container, newsFragment);
-                //childFragTrans.addToBackStack("my_frag");
-                //childFragTrans.commit();
+                // Toast.makeText(getContext(), "TOTOTOTOTO", Toast.LENGTH_SHORT).show();
+                openNewsActivity();
 
             }
         });
+        return view;
 
-            return view;
+        // return inflater.inflate(R.layout.fragment_home, container, false);
 
-       // return inflater.inflate(R.layout.fragment_home, container, false);
+
+    }
+
+    public void openNewsActivity() {
+
+        Intent intent = new Intent(this.getActivity(), NewsActivity.class);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
 
     }
 
@@ -153,6 +146,13 @@ public class HomeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
+        //Close database connection
+        if(accountManager!=null)
+        {
+            accountManager.close();
+            accountManager = null;
+        }
     }
 
     /**

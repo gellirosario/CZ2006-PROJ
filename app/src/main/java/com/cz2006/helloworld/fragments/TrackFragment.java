@@ -1,6 +1,7 @@
 package com.cz2006.helloworld.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.activities.AddUsageActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 //import com.github.mikephil.charting.charts.LineChart;
 //import com.github.mikephil.charting.data.LineData;
 
@@ -73,6 +76,14 @@ public class TrackFragment extends Fragment {
         //LineChart chart = (LineChart) view.findViewById(R.id.line_chart);
         //LineData lineData = new LineData(dataSet);
 
+        FloatingActionButton AddUsageBtn = (FloatingActionButton) view.findViewById(R.id.AddUsageButton);
+        AddUsageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent go = new Intent(getActivity(), AddUsageActivity.class);
+                startActivity(go);
+            }
+        });
         // Inflate the layout for this fragment
         return view;
 
@@ -116,4 +127,5 @@ public class TrackFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

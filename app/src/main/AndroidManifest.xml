@@ -36,6 +36,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".activities.AddUsageActivity" />
         <activity android:name=".activities.NewsActivity" />
         <activity android:name=".activities.FaqActivity" />
         <activity android:name=".activities.LeaderboardActivity" />

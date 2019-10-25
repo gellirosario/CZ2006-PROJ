@@ -37,8 +37,8 @@ public class LogInActivity extends AppCompatActivity {
     Button btnLogIn;
     Button btnSignUp;
 
-    AccountManager accountManager;
-    SessionManager sessionManager;
+    AccountManager LogInAccountManager;
+    SessionManager LogInSessionManager;
 
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     String email;
@@ -51,9 +51,15 @@ public class LogInActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        init();
+        LogInSessionManager = new SessionManager(getApplicationContext());
+        LogInAccountManager = new AccountManager(getApplicationContext());
 
-        accountManager.open(); // Open Database Connection
+        inputEmail = findViewById(R.id.inputEmail);
+        inputPassword = findViewById(R.id.inputPassword);
+        btnSignUp = findViewById(R.id.btnSignUp);
+        btnLogIn = findViewById(R.id.btnLogIn);
+
+        LogInAccountManager.open(); // Open Database Connection
 
 
         // Log In Button Click Event
@@ -61,32 +67,26 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                email =  inputEmail.getText().toString();
+                email = inputEmail.getText().toString();
                 password = inputPassword.getText().toString();
 
-                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) )
-                {
+                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
 
                     Toast.makeText(getApplicationContext(), "Please fill in all details", Toast.LENGTH_SHORT).show();
-                }
-                else if(!email.matches(emailPattern))
-                {
+                } else if (!email.matches(emailPattern)) {
                     Toast.makeText(getApplicationContext(), "Please enter a correct email address", Toast.LENGTH_SHORT).show();
-                }
-                else if(!accountManager.checkExistingEmail(email)) {
+                } else if (!LogInAccountManager.checkExistingEmail(email)) {
                     Toast.makeText(getApplicationContext(), "Email does not exist", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    if(accountManager.authenticate(email,password) ) {
+                } else {
+                    if (LogInAccountManager.authenticate(email, password)) {
                         // Success
                         Toast.makeText(getApplicationContext(), "Logged in successfully!", Toast.LENGTH_SHORT).show();
 
                         // Get user info from Database
-                        User currentUser = accountManager.getAccount(email, password);
+                        User currentUser = LogInAccountManager.getAccount(email, password);
 
                         // Set log in session
-                        sessionManager.createLoginSession(currentUser.getUserID());
+                        LogInSessionManager.createLoginSession(currentUser.getUserID());
 
                         // Check if we're running on Android 5.0 or higher
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -94,19 +94,16 @@ public class LogInActivity extends AppCompatActivity {
                             // Apply activity transition
                             startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class));
 
-                                    ActivityOptions.makeSceneTransitionAnimation(LogInActivity.this).toBundle();
+                            ActivityOptions.makeSceneTransitionAnimation(LogInActivity.this).toBundle();
                         } else {
                             // Swap without transition
                             startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class));
                         }
-                    }
-                    else
-                    {
+                    } else {
                         // Failed
                         Toast.makeText(getApplicationContext(), "Incorrect email/password", Toast.LENGTH_SHORT).show();
                     }
                 }
-
 
 
             }
@@ -136,22 +133,9 @@ public class LogInActivity extends AppCompatActivity {
         super.onDestroy();
 
         //Close database connection
-        if(accountManager!=null)
-        {
-            accountManager.close();
-            accountManager = null;
+        if (LogInAccountManager != null) {
+            LogInAccountManager.close();
+            LogInAccountManager = null;
         }
-    }
-
-    public void init(){
-        // Initialize variables
-        sessionManager = new SessionManager(getApplicationContext());
-        accountManager = new AccountManager(getApplicationContext());
-
-        inputEmail = findViewById(R.id.inputEmail);
-        inputPassword = findViewById(R.id.inputPassword);
-        btnSignUp = findViewById(R.id.btnSignUp);
-        btnLogIn = findViewById(R.id.btnLogIn);
-
     }
 }

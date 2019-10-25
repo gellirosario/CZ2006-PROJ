@@ -80,30 +80,31 @@ public class DatabaseManager {
      *  tableName : The table name.
      *  columnList : A list of table column name value pair.
      * */
-    public void insert(String tableName, List<TableColumn> columnList)
+    public void insert(String InsertTableName, List<TableColumn> insertcolumnList)
     {
-        if(!TextUtils.isEmpty(tableName) && columnList!=null)
+        if(!TextUtils.isEmpty(InsertTableName) && insertcolumnList!=null)
         {
-            int size = columnList.size();
+            int size = insertcolumnList.size();
 
             if(size > 0)
             {
                 // Create a content values object.
-                ContentValues contentValues = new ContentValues();
+                ContentValues InsertContentValues = new ContentValues();
 
                 // Loop in the table column list
                 for(int i=0;i<size;i++)
                 {
-                    TableColumn tableColumn = columnList.get(i);
+                    //SEPERATE THE LIST INTO EACH COLUMN
+                    TableColumn InsertTableColumn = insertcolumnList.get(i);
 
                     // Put column name and value in content values.
-                    if(!TextUtils.isEmpty(tableColumn.getColumnName())) {
-                        contentValues.put(tableColumn.getColumnName(), tableColumn.getColumnValue());
+                    if(!TextUtils.isEmpty(InsertTableColumn.getColumnName())) {
+                        InsertContentValues.put(InsertTableColumn.getColumnName(), InsertTableColumn.getColumnValue());
                     }
                 }
 
                 // Insert data.
-                this.database.insert(tableName, null, contentValues);
+                this.database.insert(InsertTableName, null, InsertContentValues);
             }
         }
     }
@@ -124,7 +125,7 @@ public class DatabaseManager {
             if(size > 0)
             {
                 // Create a content values object.
-                ContentValues contentValues = new ContentValues();
+                ContentValues UpdateContentValues = new ContentValues();
 
                 // Loop in the table column list
                 for(int i=0;i<size;i++)
@@ -133,12 +134,12 @@ public class DatabaseManager {
 
                     // Put column name and value in content values.
                     if(!TextUtils.isEmpty(tableColumn.getColumnName())) {
-                        contentValues.put(tableColumn.getColumnName(), tableColumn.getColumnValue());
+                        UpdateContentValues.put(tableColumn.getColumnName(), tableColumn.getColumnValue());
                     }
                 }
 
                 // Update data.Return update row count.
-                ret = this.database.update(tableName, contentValues, whereClause, null);
+                ret = this.database.update(tableName, UpdateContentValues, whereClause, null);
             }
         }
         return ret;

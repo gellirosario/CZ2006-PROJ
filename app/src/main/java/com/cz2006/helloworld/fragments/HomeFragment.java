@@ -33,8 +33,8 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private AccountManager accountManager;
-    private SessionManager sessionManager;
+    private AccountManager HomeaccountManager;
+    private SessionManager HomesessionManager;
 
     TextView userNameTV;
 
@@ -87,15 +87,15 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        accountManager = new AccountManager(getActivity());
-        sessionManager = new SessionManager(getActivity());
+        HomeaccountManager = new AccountManager(getActivity());
+        HomesessionManager = new SessionManager(getActivity());
 
         userNameTV = view.findViewById(R.id.userName);
 
-        int userID = sessionManager.getUserDetails().get("userID");
+        int userID = HomesessionManager.getUserDetails().get("userID");
 
-        accountManager.open();
-        String name = accountManager.getAccountWithID(String.valueOf(userID)).getUserName();
+        HomeaccountManager.open();
+        String name = HomeaccountManager.getAccountWithID(String.valueOf(userID)).getUserName();
         userNameTV.setText(name); // Set Text View
         
         TextView clickTextView = (TextView) view.findViewById(R.id.viewmoreClickableTV);
@@ -104,7 +104,9 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
 
                 // Toast.makeText(getContext(), "TOTOTOTOTO", Toast.LENGTH_SHORT).show();
-                openNewsActivity();
+                Intent intent = new Intent(getActivity(), NewsActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
 
             }
         });
@@ -112,16 +114,8 @@ public class HomeFragment extends Fragment {
 
         // return inflater.inflate(R.layout.fragment_home, container, false);
 
-
     }
 
-    public void openNewsActivity() {
-
-        Intent intent = new Intent(this.getActivity(), NewsActivity.class);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-
-    }
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -148,10 +142,10 @@ public class HomeFragment extends Fragment {
         mListener = null;
 
         //Close database connection
-        if(accountManager!=null)
+        if(HomeaccountManager!=null)
         {
-            accountManager.close();
-            accountManager = null;
+            HomeaccountManager.close();
+            HomeaccountManager = null;
         }
     }
 

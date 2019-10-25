@@ -21,7 +21,7 @@ public class AccountManager {
 
     private Context ctx;
 
-    private DatabaseManager dbManager;
+    private DatabaseManager AMdbManager;
 
     private static final String DB_NAME = "HelloWorldDB.db";
 
@@ -42,7 +42,7 @@ public class AccountManager {
     public AccountManager(Context ctx) {
         this.ctx = ctx;
         this.init();
-        this.dbManager = new DatabaseManager(ctx, this.DB_NAME, this.DB_VERSION, this.tableNameList, this.createTableSqlList);
+        this.AMdbManager = new DatabaseManager(ctx, this.DB_NAME, this.DB_VERSION, this.tableNameList, this.createTableSqlList);
     }
 
     private void init()
@@ -84,13 +84,13 @@ public class AccountManager {
     // Open Database connection
     public void open()
     {
-        this.dbManager.openDB();
+        this.AMdbManager.openDB();
     }
 
     // Close Database connection
     public void close()
     {
-        this.dbManager.closeDB();
+        this.AMdbManager.closeDB();
     }
 
     // Create User's Account
@@ -124,7 +124,7 @@ public class AccountManager {
         tableColumnList.add(pointsColumn);
 
         // Insert added column in to account table.
-        this.dbManager.insert(this.TABLE_NAME_ACCOUNT, tableColumnList);
+        this.AMdbManager.insert(this.TABLE_NAME_ACCOUNT, tableColumnList);
     }
 
     // Update User's Account
@@ -152,13 +152,13 @@ public class AccountManager {
         String whereClause = this.TABLE_ACCOUNT_COLUMN_ID + " = " + id;
 
         // Insert added column in to account table.
-        this.dbManager.update(this.TABLE_NAME_ACCOUNT, updateColumnList, whereClause);
+        this.AMdbManager.update(this.TABLE_NAME_ACCOUNT, updateColumnList, whereClause);
     }
 
     // Get specific User account with Email and Password
     public User getAccount(String userEmail, String userPassword){
         User currentUser = new User();
-        Cursor cursor = this.dbManager.queryTwoSearchString(this.TABLE_NAME_ACCOUNT,this.TABLE_ACCOUNT_COLUMN_EMAIL, userEmail, this.TABLE_ACCOUNT_COLUMN_PASSWORD, userPassword);
+        Cursor cursor = this.AMdbManager.queryTwoSearchString(this.TABLE_NAME_ACCOUNT,this.TABLE_ACCOUNT_COLUMN_EMAIL, userEmail, this.TABLE_ACCOUNT_COLUMN_PASSWORD, userPassword);
         if(cursor!=null){
             int id = cursor.getInt(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_ID));
             String userName = cursor.getString(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_USERNAME));
@@ -182,7 +182,7 @@ public class AccountManager {
     // Get specific User account with ID
     public User getAccountWithID(String userID){
         User currentUser = new User();
-        Cursor cursor = this.dbManager.queryOneSearchString(this.TABLE_NAME_ACCOUNT,this.TABLE_ACCOUNT_COLUMN_ID, userID);
+        Cursor cursor = this.AMdbManager.queryOneSearchString(this.TABLE_NAME_ACCOUNT,this.TABLE_ACCOUNT_COLUMN_ID, userID);
         if(cursor!=null){
             int id = cursor.getInt(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_ID));
             String userName = cursor.getString(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_USERNAME));
@@ -207,7 +207,7 @@ public class AccountManager {
     public List<User> getAllAccount()
     {
         List<User> ret = new ArrayList<User>();
-        Cursor cursor = this.dbManager.queryAllReturnCursor(this.TABLE_NAME_ACCOUNT);
+        Cursor cursor = this.AMdbManager.queryAllReturnCursor(this.TABLE_NAME_ACCOUNT);
         if(cursor!=null)
         {
             do {
@@ -237,13 +237,13 @@ public class AccountManager {
     // Return SQLite database cursor object
     public Cursor getAllAccountCursor()
     {
-        Cursor cursor = this.dbManager.queryAllReturnCursor(this.TABLE_NAME_ACCOUNT);
+        Cursor cursor = this.AMdbManager.queryAllReturnCursor(this.TABLE_NAME_ACCOUNT);
         return cursor;
     }
 
     // Check if email already exist in the database
     public boolean checkExistingEmail(String userEmail){
-        Cursor cursor = this.dbManager.queryOneSearchString(this.TABLE_NAME_ACCOUNT,this.TABLE_ACCOUNT_COLUMN_EMAIL,userEmail);
+        Cursor cursor = this.AMdbManager.queryOneSearchString(this.TABLE_NAME_ACCOUNT,this.TABLE_ACCOUNT_COLUMN_EMAIL,userEmail);
 
         if(cursor.getCount() > 0)
         {
@@ -255,7 +255,7 @@ public class AccountManager {
 
     // Authenticate User's Log In Detail
     public boolean authenticate(String userEmail, String userPassword){
-        Cursor cursor = this.dbManager.queryTwoSearchString(this.TABLE_NAME_ACCOUNT,this.TABLE_ACCOUNT_COLUMN_EMAIL, userEmail, this.TABLE_ACCOUNT_COLUMN_PASSWORD, userPassword);
+        Cursor cursor = this.AMdbManager.queryTwoSearchString(this.TABLE_NAME_ACCOUNT,this.TABLE_ACCOUNT_COLUMN_EMAIL, userEmail, this.TABLE_ACCOUNT_COLUMN_PASSWORD, userPassword);
 
         if(cursor.getCount() > 0)
         {

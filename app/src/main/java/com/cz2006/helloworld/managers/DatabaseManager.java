@@ -20,6 +20,13 @@ import static com.cz2006.helloworld.managers.AccountManager.TABLE_ACCOUNT_COLUMN
 import static com.cz2006.helloworld.managers.AccountManager.TABLE_ACCOUNT_COLUMN_POINTS;
 import static com.cz2006.helloworld.managers.AccountManager.TABLE_ACCOUNT_COLUMN_USERNAME;
 import static com.cz2006.helloworld.managers.AccountManager.TABLE_NAME_ACCOUNT;
+import static com.cz2006.helloworld.managers.FeedbackManager.TABLE_FEEDBACK_COLUMN_DATE;
+import static com.cz2006.helloworld.managers.FeedbackManager.TABLE_FEEDBACK_COLUMN_DESC;
+import static com.cz2006.helloworld.managers.FeedbackManager.TABLE_FEEDBACK_COLUMN_ID;
+import static com.cz2006.helloworld.managers.FeedbackManager.TABLE_FEEDBACK_COLUMN_RATING;
+import static com.cz2006.helloworld.managers.FeedbackManager.TABLE_FEEDBACK_COLUMN_TYPE;
+import static com.cz2006.helloworld.managers.FeedbackManager.TABLE_FEEDBACK_COLUMN_USER_ID;
+import static com.cz2006.helloworld.managers.FeedbackManager.TABLE_NAME_FEEDBACK;
 import static com.cz2006.helloworld.managers.PointManager.TABLE_NAME_POINT;
 import static com.cz2006.helloworld.managers.PointManager.TABLE_POINT_COLUMN_ID;
 import static com.cz2006.helloworld.managers.PointManager.TABLE_POINT_COLUMN_POINTS;
@@ -147,6 +154,32 @@ public class DatabaseManager {
         sqlBuf.append(TABLE_USAGE_COLUMN_USER_ID);
         sqlBuf.append(" INTEGER NOT NULL, FOREIGN KEY (");
         sqlBuf.append(TABLE_USAGE_COLUMN_USER_ID);
+        sqlBuf.append(") REFERENCES ");
+        sqlBuf.append(TABLE_NAME_ACCOUNT);
+        sqlBuf.append("(");
+        sqlBuf.append(TABLE_ACCOUNT_COLUMN_ID);
+        sqlBuf.append("))");
+
+        this.createTableSqlList.add(sqlBuf.toString());
+        sqlBuf = new StringBuffer();
+
+        // Create usage table sql
+        sqlBuf.append("CREATE TABLE ");
+        sqlBuf.append(TABLE_NAME_FEEDBACK);
+        sqlBuf.append("( ");
+        sqlBuf.append(TABLE_FEEDBACK_COLUMN_ID);
+        sqlBuf.append(" INTEGER PRIMARY KEY AUTOINCREMENT,");
+        sqlBuf.append(TABLE_FEEDBACK_COLUMN_TYPE);
+        sqlBuf.append(" TEXT NOT NULL,");
+        sqlBuf.append(TABLE_FEEDBACK_COLUMN_DESC);
+        sqlBuf.append(" TEXT NOT NULL,");
+        sqlBuf.append(TABLE_FEEDBACK_COLUMN_DATE);
+        sqlBuf.append(" DATETIME NOT NULL,");
+        sqlBuf.append(TABLE_FEEDBACK_COLUMN_RATING);
+        sqlBuf.append(" INTEGER NOT NULL,");
+        sqlBuf.append(TABLE_FEEDBACK_COLUMN_USER_ID);
+        sqlBuf.append(" INTEGER NOT NULL, FOREIGN KEY (");
+        sqlBuf.append(TABLE_FEEDBACK_COLUMN_USER_ID);
         sqlBuf.append(") REFERENCES ");
         sqlBuf.append(TABLE_NAME_ACCOUNT);
         sqlBuf.append("(");

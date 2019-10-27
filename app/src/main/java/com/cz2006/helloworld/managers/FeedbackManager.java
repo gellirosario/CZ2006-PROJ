@@ -14,8 +14,8 @@ public class FeedbackManager {
     // Database Fields
     public static final String TABLE_NAME_FEEDBACK = "Feedback";
     public static final String TABLE_FEEDBACK_COLUMN_ID = "feedbackID";
-    public static final String TABLE_FEEDBACK_COLUMN_POINTS = "feedbackType";
-    public static final String TABLE_FEEDBACK_COLUMN_TYPE = "feedbackDescription";
+    public static final String TABLE_FEEDBACK_COLUMN_TYPE = "feedbackType";
+    public static final String TABLE_FEEDBACK_COLUMN_DESC = "feedbackDescription";
     public static final String TABLE_FEEDBACK_COLUMN_DATE = "feedbackDate";
     public static final String TABLE_FEEDBACK_COLUMN_RATING = "feedbackRating";
     public static final String TABLE_FEEDBACK_COLUMN_USER_ID = "userID";

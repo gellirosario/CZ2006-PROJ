@@ -26,59 +26,18 @@ public class AccountManager {
     private static final String DB_NAME = "HelloWorldDB.db";
 
     // Database Fields
-    private static final String TABLE_NAME_ACCOUNT = "Account";
+    public static final String TABLE_NAME_ACCOUNT = "Account";
     public static final String TABLE_ACCOUNT_COLUMN_ID = "userID";
     public static final String TABLE_ACCOUNT_COLUMN_USERNAME = "userName";
     public static final String TABLE_ACCOUNT_COLUMN_PASSWORD = "userPassword";
     public static final String TABLE_ACCOUNT_COLUMN_EMAIL = "userEmail";
-    public static final String TABLE_ACCOUNT_COLUMN_POINTS= "userPoints";
+    public static final String TABLE_ACCOUNT_COLUMN_POINTS= "totalPoints";
 
     private int DB_VERSION = 1;
 
-    List<String> tableNameList = null;
-
-    List<String> createTableSqlList = null;
-
     public AccountManager(Context ctx) {
         this.ctx = ctx;
-        this.init();
-        this.AMdbManager = new DatabaseManager(ctx, this.DB_NAME, this.DB_VERSION, this.tableNameList, this.createTableSqlList);
-    }
-
-    private void init()
-    {
-        if(this.tableNameList==null)
-        {
-            this.tableNameList = new ArrayList<String>();
-        }
-
-        if(this.createTableSqlList==null)
-        {
-            this.createTableSqlList = new ArrayList<String>();
-        }
-
-        this.tableNameList.add(TABLE_NAME_ACCOUNT);
-
-        // Build points table sql
-        StringBuffer sqlBuf = new StringBuffer();
-
-        // Create account table sql
-        sqlBuf.append("CREATE TABLE ");
-        sqlBuf.append(TABLE_NAME_ACCOUNT);
-        sqlBuf.append("( ");
-        sqlBuf.append(TABLE_ACCOUNT_COLUMN_ID);
-        sqlBuf.append(" INTEGER PRIMARY KEY AUTOINCREMENT,");
-        sqlBuf.append(TABLE_ACCOUNT_COLUMN_USERNAME);
-        sqlBuf.append(" TEXT NOT NULL,");
-        sqlBuf.append(TABLE_ACCOUNT_COLUMN_EMAIL);
-        sqlBuf.append(" TEXT NOT NULL,");
-        sqlBuf.append(TABLE_ACCOUNT_COLUMN_PASSWORD);
-        sqlBuf.append(" TEXT NOT NULL,");
-        sqlBuf.append(TABLE_ACCOUNT_COLUMN_POINTS);
-        sqlBuf.append(" INTEGER NOT NULL)");
-
-        this.createTableSqlList.add(sqlBuf.toString());
-
+        this.AMdbManager = new DatabaseManager(ctx, this.DB_NAME, this.DB_VERSION);
     }
 
     // Open Database connection

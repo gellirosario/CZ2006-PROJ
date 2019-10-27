@@ -14,6 +14,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.cz2006.helloworld.managers.AccountManager.TABLE_ACCOUNT_COLUMN_EMAIL;
+import static com.cz2006.helloworld.managers.AccountManager.TABLE_ACCOUNT_COLUMN_ID;
+import static com.cz2006.helloworld.managers.AccountManager.TABLE_ACCOUNT_COLUMN_PASSWORD;
+import static com.cz2006.helloworld.managers.AccountManager.TABLE_ACCOUNT_COLUMN_POINTS;
+import static com.cz2006.helloworld.managers.AccountManager.TABLE_ACCOUNT_COLUMN_USERNAME;
+import static com.cz2006.helloworld.managers.AccountManager.TABLE_NAME_ACCOUNT;
+import static com.cz2006.helloworld.managers.PointManager.TABLE_NAME_POINT;
+import static com.cz2006.helloworld.managers.PointManager.TABLE_POINT_COLUMN_ID;
+import static com.cz2006.helloworld.managers.PointManager.TABLE_POINT_COLUMN_POINTS;
+import static com.cz2006.helloworld.managers.PointManager.TABLE_POINT_COLUMN_TYPE;
+import static com.cz2006.helloworld.managers.PointManager.TABLE_POINT_COLUMN_USER_ID;
+import static com.cz2006.helloworld.managers.UsageManager.TABLE_NAME_USAGE;
+import static com.cz2006.helloworld.managers.UsageManager.TABLE_USAGE_COLUMN_AMOUNT;
+import static com.cz2006.helloworld.managers.UsageManager.TABLE_USAGE_COLUMN_ID;
+import static com.cz2006.helloworld.managers.UsageManager.TABLE_USAGE_COLUMN_MONTH;
+import static com.cz2006.helloworld.managers.UsageManager.TABLE_USAGE_COLUMN_PRICE;
+import static com.cz2006.helloworld.managers.UsageManager.TABLE_USAGE_COLUMN_TYPE;
+import static com.cz2006.helloworld.managers.UsageManager.TABLE_USAGE_COLUMN_YEAR;
+import static com.cz2006.helloworld.managers.UsageManager.TABLE_USAGE_COLUMN_USER_ID;
+
 /**
  *  DatabaseManager includes methods to implement basic SQLite database and table operations,
  *  such as open database, close database, insert data, update data, delete data and query data.
@@ -45,12 +65,97 @@ public class DatabaseManager {
     private List<String> createTableSqlList = null;
 
     // Create database manager instance.
-    public DatabaseManager(Context ctx, String dbName, int dbVersion, List<String> tableNameList, List<String> createTableSqlList) {
+    public DatabaseManager(Context ctx, String dbName, int dbVersion) {
         this.ctx = ctx;
         this.dbName = dbName;
         this.dbVersion = dbVersion;
-        this.tableNameList = tableNameList;
-        this.createTableSqlList = createTableSqlList;
+        this.init();
+    }
+
+    private void init()
+    {
+        if(this.tableNameList==null)
+        {
+            this.tableNameList = new ArrayList<String>();
+        }
+
+        if(this.createTableSqlList==null)
+        {
+            this.createTableSqlList = new ArrayList<String>();
+        }
+
+        this.tableNameList.add(TABLE_NAME_ACCOUNT);
+
+        // Build points table sql
+        StringBuffer sqlBuf = new StringBuffer();
+
+        // Create account table sql
+        sqlBuf.append("CREATE TABLE ");
+        sqlBuf.append(TABLE_NAME_ACCOUNT);
+        sqlBuf.append("( ");
+        sqlBuf.append(TABLE_ACCOUNT_COLUMN_ID);
+        sqlBuf.append(" INTEGER PRIMARY KEY AUTOINCREMENT,");
+        sqlBuf.append(TABLE_ACCOUNT_COLUMN_USERNAME);
+        sqlBuf.append(" TEXT NOT NULL,");
+        sqlBuf.append(TABLE_ACCOUNT_COLUMN_EMAIL);
+        sqlBuf.append(" TEXT NOT NULL,");
+        sqlBuf.append(TABLE_ACCOUNT_COLUMN_PASSWORD);
+        sqlBuf.append(" TEXT NOT NULL,");
+        sqlBuf.append(TABLE_ACCOUNT_COLUMN_POINTS);
+        sqlBuf.append(" INTEGER NOT NULL)");
+
+        this.createTableSqlList.add(sqlBuf.toString());
+        sqlBuf = new StringBuffer();
+
+        // Create point table sql
+        sqlBuf.append("CREATE TABLE ");
+        sqlBuf.append(TABLE_NAME_POINT);
+        sqlBuf.append("( ");
+        sqlBuf.append(TABLE_POINT_COLUMN_ID);
+        sqlBuf.append(" INTEGER PRIMARY KEY AUTOINCREMENT,");
+        sqlBuf.append(TABLE_POINT_COLUMN_POINTS);
+        sqlBuf.append(" INTEGER NOT NULL,");
+        sqlBuf.append(TABLE_POINT_COLUMN_TYPE);
+        sqlBuf.append(" TEXT NOT NULL,"); // EITHER GOTTEN FROM SCAN OR TRACK
+        sqlBuf.append(TABLE_POINT_COLUMN_USER_ID);
+        sqlBuf.append(" INTEGER NOT NULL, FOREIGN KEY (");
+        sqlBuf.append(TABLE_POINT_COLUMN_USER_ID);
+        sqlBuf.append(") REFERENCES ");
+        sqlBuf.append(TABLE_NAME_ACCOUNT);
+        sqlBuf.append("(");
+        sqlBuf.append(TABLE_ACCOUNT_COLUMN_ID);
+        sqlBuf.append("))");
+
+        this.createTableSqlList.add(sqlBuf.toString());
+        sqlBuf = new StringBuffer();
+
+        // Create usage table sql
+        sqlBuf.append("CREATE TABLE ");
+        sqlBuf.append(TABLE_NAME_USAGE);
+        sqlBuf.append("( ");
+        sqlBuf.append(TABLE_USAGE_COLUMN_ID);
+        sqlBuf.append(" INTEGER PRIMARY KEY AUTOINCREMENT,");
+        sqlBuf.append(TABLE_USAGE_COLUMN_YEAR);
+        sqlBuf.append(" INTEGER NOT NULL,");
+        sqlBuf.append(TABLE_USAGE_COLUMN_MONTH);
+        sqlBuf.append(" INTEGER NOT NULL,");
+        sqlBuf.append(TABLE_USAGE_COLUMN_TYPE);
+        sqlBuf.append(" VARCHAR(1) NOT NULL,");
+        sqlBuf.append(TABLE_USAGE_COLUMN_AMOUNT);
+        sqlBuf.append(" REAL NOT NULL,");
+        sqlBuf.append(TABLE_USAGE_COLUMN_PRICE);
+        sqlBuf.append(" REAL NOT NULL,");
+        sqlBuf.append(TABLE_USAGE_COLUMN_USER_ID);
+        sqlBuf.append(" INTEGER NOT NULL, FOREIGN KEY (");
+        sqlBuf.append(TABLE_USAGE_COLUMN_USER_ID);
+        sqlBuf.append(") REFERENCES ");
+        sqlBuf.append(TABLE_NAME_ACCOUNT);
+        sqlBuf.append("(");
+        sqlBuf.append(TABLE_ACCOUNT_COLUMN_ID);
+        sqlBuf.append("))");
+
+        this.createTableSqlList.add(sqlBuf.toString());
+
     }
 
     // Open database connection.

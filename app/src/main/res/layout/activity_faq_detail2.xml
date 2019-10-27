@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="30dp"
     android:orientation="vertical"
-    tools:context=".activities.FaqActivity">
+    tools:context=".activities.FaqDetail2Activity">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="How "
+            android:text="Recycle "
             android:textSize="30dp"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"/>
@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="It Works"
+            android:text="Now"
             android:textSize="30dp"
             android:textStyle="bold"
             android:textColor="@color/colorSecondary"/>
@@ -32,37 +32,53 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
-        android:text="Helping you how to use our application"
+        android:text="What do I recycle?"
         android:textSize="13dp"
         android:textColor="@color/colorBlack"/>
 
-    <!-- Slider Image -->
-    <androidx.cardview.widget.CardView
-        app:cardCornerRadius="6dp"
-        android:layout_marginTop="5dp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:text="What is E-waste?"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorSecondary"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:text="Old computers, laptops, monitors,  vacuum cleaners and evenblenders, are all considered to be e-waste."
+            android:textSize="15dp"
+            android:textColor="@color/colorBlack"/>
+    </LinearLayout>
 
-        <com.smarteist.autoimageslider.SliderView
-            android:id="@+id/imageSlider"
-            android:layout_width="match_parent"
-            android:layout_height="225dp"
-            app:sliderAnimationDuration="600"
-            app:sliderAutoCycleDirection="back_and_forth"
-            app:sliderAutoCycleEnabled="true"
-            app:sliderCircularHandlerEnabled="true"
-            app:sliderIndicatorAnimationDuration="600"
-            app:sliderIndicatorGravity="center_horizontal|bottom"
-            app:sliderIndicatorMargin="15dp"
-            app:sliderIndicatorOrientation="horizontal"
-            app:sliderIndicatorPadding="3dp"
-            app:sliderIndicatorRadius="2dp"
-            app:sliderIndicatorSelectedColor="#5A5A5A"
-            app:sliderIndicatorUnselectedColor="#FFF"
-            app:sliderScrollTimeInSec="1"
-            app:sliderStartAutoCycle="true" />
-
-    </androidx.cardview.widget.CardView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:text="Recycling E-waste"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorSecondary"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:text="The best way to recycle e-waste is to find an E-Steward Certified e-waste recycler. You can use that link to find a certified e-waste recycler near you. "
+            android:textSize="15dp"
+            android:textColor="@color/colorBlack"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

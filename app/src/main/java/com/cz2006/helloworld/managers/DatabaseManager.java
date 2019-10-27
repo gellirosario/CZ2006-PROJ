@@ -86,7 +86,6 @@ public class DatabaseManager {
 
         this.tableNameList.add(TABLE_NAME_ACCOUNT);
 
-        // Build points table sql
         StringBuffer sqlBuf = new StringBuffer();
 
         // Create account table sql

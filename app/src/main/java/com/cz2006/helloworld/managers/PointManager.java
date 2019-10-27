@@ -2,9 +2,6 @@ package com.cz2006.helloworld.managers;
 
 import android.content.Context;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PointManager {
 
     private Context ctx;

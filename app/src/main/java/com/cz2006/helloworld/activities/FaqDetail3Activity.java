@@ -4,7 +4,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -12,23 +11,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cz2006.helloworld.R;
-import com.cz2006.helloworld.adapters.SliderAdapter;
-import com.smarteist.autoimageslider.IndicatorAnimations;
-import com.smarteist.autoimageslider.SliderAnimations;
-import com.smarteist.autoimageslider.SliderView;
 
-public class FaqActivity extends AppCompatActivity {
+public class FaqDetail3Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_faq);
-
-        // Implement slider
-        implementSlider();
+        setContentView(R.layout.activity_faq_detail3);
 
         // Set Activity Title
         setTitle("FAQ");
@@ -38,8 +29,9 @@ public class FaqActivity extends AppCompatActivity {
         rlFaq1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FaqActivity.this
+                startActivity(new Intent(FaqDetail3Activity.this
                         , FaqDetail1Activity.class));
+                finish();
             }
         });
 
@@ -48,8 +40,9 @@ public class FaqActivity extends AppCompatActivity {
         rlFaq2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FaqActivity.this
+                startActivity(new Intent(FaqDetail3Activity.this
                         , FaqDetail2Activity.class));
+                finish();
             }
         });
 
@@ -58,8 +51,9 @@ public class FaqActivity extends AppCompatActivity {
         rlFaq3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FaqActivity.this
+                startActivity(new Intent(FaqDetail3Activity.this
                         , FaqDetail3Activity.class));
+                finish();
             }
         });
 
@@ -68,27 +62,11 @@ public class FaqActivity extends AppCompatActivity {
         tvGoToFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FaqActivity.this
+                startActivity(new Intent(FaqDetail3Activity.this
                         , FeedbackActivity.class));
                 finish();
             }
         });
-    }
-
-    public void implementSlider(){
-        SliderView sliderView = findViewById(R.id.imageSlider);
-
-        SliderAdapter adapter = new SliderAdapter(this);
-
-        sliderView.setSliderAdapter(adapter);
-
-        sliderView.setIndicatorAnimation(IndicatorAnimations.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
-        sliderView.setIndicatorSelectedColor(Color.WHITE);
-        sliderView.setIndicatorUnselectedColor(Color.GRAY);
-        sliderView.setScrollTimeInSec(4); //set scroll delay in seconds :
-        sliderView.startAutoCycle();
     }
 
     public void setTitle(String title) {

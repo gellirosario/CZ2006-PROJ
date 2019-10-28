@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.activities.DetailedMapActivity;
 import com.cz2006.helloworld.adapters.DisplayAdapter;
 import com.cz2006.helloworld.models.MapDetail;
 import com.cz2006.helloworld.util.XMLSaxParser;
@@ -85,10 +86,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private DisplayAdapter displayAdapter;
     private TextView mCardView_Title;
 
-    //Store Longitude and Latitude
+    // Store Longitude and Latitude
     private double lat = 0, lng = 0;
 
-    //Google ApiClient
+    // Google ApiClient
     private GoogleApiClient mGoogleApiClient;
 
     private LocationRequest mLocationRequest;
@@ -566,6 +567,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             //Getting longitude and latitude
             lng = location.getLongitude();
             lat = location.getLatitude();
+
+            Marker currentLocationMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(lat,lng)));
+            currentLocationMarker.setPosition(new LatLng(lat,lng));
+            DetailedMapActivity.place1 = currentLocationMarker;
 
             //moving the map to location
             moveMap(lat,lng);

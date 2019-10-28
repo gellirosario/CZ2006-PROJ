@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.activities.DetailedMapActivity;
+import com.cz2006.helloworld.fragments.MapFragment;
 import com.cz2006.helloworld.models.MapDetail;
 
 import java.util.ArrayList;
@@ -86,10 +88,8 @@ public class DisplayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onClick(View v) {
 
-            //Create Activity to go to
-
-            //DetailActivity.detail = detailListFiltered.get(getAdapterPosition());
-            //activity.startActivity(new Intent(getActivity(), DetailActivity.class));
+            DetailedMapActivity.place2 = detailListFiltered.get(getAdapterPosition()).getMarker();
+            activity.startActivity(new Intent(activity, DetailedMapActivity.class));
         }
 
     }

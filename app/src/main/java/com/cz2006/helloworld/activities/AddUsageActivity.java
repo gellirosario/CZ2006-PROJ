@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.fragments.TrackFragment;
+import com.cz2006.helloworld.managers.SessionManager;
 import com.cz2006.helloworld.managers.UsageManager;
 import com.google.android.gms.common.internal.FallbackServiceBroker;
 
@@ -39,10 +40,21 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     public static List<Pair<Integer, Integer>> calList = new ArrayList<Pair<Integer, Integer>>();
     UsageManager AddUsageManager;
 
+    // Variables
+    private EditText Amountinput;
+    private EditText Priceinput;
+    private RadioButton a;
+    private RadioButton b;
+    private RadioButton c;
+    private Button btnSubmit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_usage);
+
+        AddUsageManager = new UsageManager(getApplicationContext());
+        AddUsageManager.open();
 
         setTitle("Add Usage");
         //AddUsageManager.open();
@@ -84,17 +96,23 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
         //END OF PART I
 
         //PART II Radio Buttons
-        RadioButton a = findViewById(R.id.ElecCheckButton);
+        a=  findViewById(R.id.ElecCheckButton);
         a.setOnClickListener(this);
-        RadioButton b = findViewById(R.id.GasCheckButton);
+        b = findViewById(R.id.GasCheckButton);
         b.setOnClickListener(this);
-        RadioButton c = findViewById(R.id.WaterCheckButton);
+        c = findViewById(R.id.WaterCheckButton);
         c.setOnClickListener(this);
 
         //Part III To Submit!
-        Button GO = findViewById(R.id.SubmitBtn);
-        GO.setOnClickListener(this);
+        btnSubmit = findViewById(R.id.SubmitBtn);
+        btnSubmit.setOnClickListener(this);
 
+        Amountinput = (EditText) findViewById(R.id.UsageAmountInp);
+        Priceinput = (EditText) findViewById(R.id.UsagePriceInp);
+        btnSubmit = (Button) findViewById(R.id.SubmitBtn);
+
+        Amountinput.setText("0");
+        Priceinput.setText("0");
     }
 
     public void setTitle(String title) {
@@ -127,9 +145,6 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     }
 
     public void clearRadioChecked() {
-        RadioButton a = findViewById(R.id.ElecCheckButton);
-        RadioButton b = findViewById(R.id.GasCheckButton);
-        RadioButton c = findViewById(R.id.WaterCheckButton);
         a.setChecked(false);
         b.setChecked(false);
         c.setChecked(false);
@@ -137,10 +152,6 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        RadioButton a = findViewById(R.id.ElecCheckButton);
-        RadioButton b = findViewById(R.id.GasCheckButton);
-        RadioButton c = findViewById(R.id.WaterCheckButton);
-        Button Submit = (Button) findViewById(R.id.SubmitBtn);
         switch (v.getId()) {
             case R.id.ElecCheckButton:
                 clearRadioChecked();
@@ -158,10 +169,7 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
                 Type = 'W';
                 break;
             case R.id.SubmitBtn:
-                EditText Amountinput;
-                EditText Priceinput;
-                Amountinput = (EditText) findViewById(R.id.UsageAmountInp);
-                Priceinput = (EditText) findViewById(R.id.UsagePriceInp);
+
                 Amount = Float.parseFloat(Amountinput.getText().toString());
                 Price = Float.parseFloat(Priceinput.getText().toString());
                 TextView testing = findViewById(R.id.Testing);

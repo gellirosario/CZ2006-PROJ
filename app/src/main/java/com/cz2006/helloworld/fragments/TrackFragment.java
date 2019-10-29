@@ -7,12 +7,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.activities.AddUsageActivity;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.DataSet;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 //import com.github.mikephil.charting.charts.LineChart;
 //import com.github.mikephil.charting.data.LineData;
 
@@ -63,7 +77,6 @@ public class TrackFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -72,9 +85,43 @@ public class TrackFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_track, container, false);
 
+        String[] arraySpinner = new String[] {"Electricity", "Water", "Gas"};
+
+        Spinner s = (Spinner) view.findViewById (R.id.spinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        s.setAdapter(adapter);
+
         //chart - WIP
-        //LineChart chart = (LineChart) view.findViewById(R.id.line_chart);
-        //LineData lineData = new LineData(dataSet);
+        LineChart chart = (LineChart) view.findViewById(R.id.line_chart);
+
+        List<Entry> entries = new ArrayList<Entry>();
+
+        final String[] months = new String[] {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+
+        ValueFormatter formatter = new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                return months[(int) value];
+            }
+        };
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
+        xAxis.setValueFormatter(formatter);
+
+        //sample data to test out chart
+        entries.add(new Entry(1,10));
+        entries.add(new Entry(2,20));
+        entries.add(new Entry(3,15));
+
+        LineDataSet dataSet = new LineDataSet(entries, "Electricity Usage");
+
+        LineData lineData = new LineData(dataSet);
+        chart.setData(lineData);
+        chart.invalidate();
 
         FloatingActionButton AddUsageBtn = (FloatingActionButton) view.findViewById(R.id.AddUsageButton);
         AddUsageBtn.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +135,7 @@ public class TrackFragment extends Fragment {
         return view;
 
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

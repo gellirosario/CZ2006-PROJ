@@ -2,19 +2,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".activities.DetailedMapActivity">
 
-    <fragment
-        android:id="@+id/mapNearBy"
-        android:name="com.google.android.gms.maps.MapFragment"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnGetDirection"
-        android:text="Get Direction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground" />
+        <fragment
+            android:id="@+id/mapNearBy"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/ivGetWalkDirection"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentRight="false"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/circle_btn"
+                android:backgroundTint="@color/colorPrimary"
+                android:tint="@color/colorWhite"
+                android:clickable="true"
+                android:padding="8dp"
+                android:src="@drawable/ic_walk"/>
+
+            <ImageView
+                android:id="@+id/ivGetTrainDirection"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentRight="false"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/circle_btn"
+                android:backgroundTint="@color/colorPrimary"
+                android:tint="@color/colorWhite"
+                android:clickable="true"
+                android:padding="8dp"
+                android:src="@drawable/ic_car"/>
+
+            <ImageView
+                android:id="@+id/ivGetDrivingDirection"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentRight="false"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/circle_btn"
+                android:backgroundTint="@color/colorPrimary"
+                android:tint="@color/colorWhite"
+                android:clickable="true"
+                android:padding="8dp"
+                android:src="@drawable/ic_train"/>
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

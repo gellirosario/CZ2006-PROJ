@@ -2,17 +2,24 @@ package com.cz2006.helloworld.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.icu.util.EthiopicCalendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.activities.AddUsageActivity;
+import com.cz2006.helloworld.managers.SessionManager;
+import com.cz2006.helloworld.managers.UsageManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.w3c.dom.Text;
 //import com.github.mikephil.charting.charts.LineChart;
 //import com.github.mikephil.charting.data.LineData;
 
@@ -63,7 +70,6 @@ public class TrackFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -75,7 +81,14 @@ public class TrackFragment extends Fragment {
         //chart - WIP
         //LineChart chart = (LineChart) view.findViewById(R.id.line_chart);
         //LineData lineData = new LineData(dataSet);
-
+        int Eyearsum, Gyearsum, Wyearsum;
+        SessionManager trackFragSessionM = new SessionManager(getContext());
+        int userid = trackFragSessionM.getUserDetails().get("userID");
+        UsageManager trackFragUsageManager = new UsageManager(getContext());
+        //trackFragUsageManager.open();
+        //Eyearsum = trackFragUsageManager.calyearsum(userid, 2019, 'E');
+        TextView go = view.findViewById(R.id.TFsum);
+        go.setText("Sum : " + userid); //RETURN userID?!
         FloatingActionButton AddUsageBtn = (FloatingActionButton) view.findViewById(R.id.AddUsageButton);
         AddUsageBtn.setOnClickListener(new View.OnClickListener() {
             @Override

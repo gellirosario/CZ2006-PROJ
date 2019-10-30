@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="30dp"
     tools:context=".fragments.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginBottom="10dp"
         android:gravity="center">
 
         <LinearLayout
@@ -23,7 +25,7 @@
             android:gravity="center"
             android:layout_marginTop="10dp">
             <TextView
-                android:id="@+id/welcomebackTV"
+                android:id="@+id/welcomeBackTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -60,129 +62,125 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/PSI_box"
         android:layout_width="match_parent"
-        android:layout_height="252dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/header"
-        android:layout_marginTop="0dp">
-
-        <TextView
-            android:id="@+id/textViewCentral"
-            android:layout_width="113dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="98dp"
-            android:text="Central:"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textViewWest"
-            android:layout_width="96dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="57dp"
-            android:layout_marginBottom="18dp"
-            android:text="West:"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textViewEast"
-            android:layout_width="96dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="56dp"
-            android:layout_marginBottom="54dp"
-            android:text="East:"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textViewSouth"
-            android:layout_width="96dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="55dp"
-            android:layout_marginBottom="142dp"
-            android:text="South:"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="196dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="214dp"
-            android:layout_marginBottom="213dp"
-            android:text="Air Quality"
             android:textColor="@color/colorSecondary"
+            android:text="Air Quality"
             android:textSize="25dp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="198dp"
-            android:layout_height="184dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="204dp"
-            android:layout_marginBottom="24dp"
-            android:src="@drawable/psitable" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:backgroundTint="@color/colorSecondary">
 
-        <TextView
-            android:id="@+id/textViewNorth"
-            android:layout_width="96dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="54dp"
-            android:layout_marginBottom="182dp"
-            android:text="North:"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <LinearLayout
+                android:id="@+id/infoBox"
+                android:layout_toRightOf="@id/pic_PSITable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="25dp"
+                android:paddingLeft="10dp">
+                <TextView
+                    android:id="@+id/textViewNorth"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="North:"
+                    android:textSize="15dp"
+                    android:textStyle="bold"/>
 
-        <Button
-            android:id="@+id/buttonPSI"
-            android:layout_width="74dp"
-            android:layout_height="29dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="328dp"
-            android:layout_marginBottom="1dp"
-            android:text="refresh"
-            android:textSize="8sp" />
+                <TextView
+                    android:id="@+id/textViewCentral"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="Central:"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textViewRefresh"
-            android:layout_width="101dp"
-            android:layout_height="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="227dp"
-            android:layout_marginBottom="5dp"
-            android:text="Accurate as at "
-            android:textSize="8sp" />
+                <TextView
+                    android:id="@+id/textViewWest"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="West:"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/textViewEast"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="East:"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
 
-    <RelativeLayout
+                <TextView
+                    android:id="@+id/textViewSouth"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="South:"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+
+            <ImageView
+                android:id="@+id/pic_PSITable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/psitable"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingRight="15dp"/>
+
+            <Button
+                android:id="@+id/btnRefresh"
+                android:layout_width="75dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:text="refresh"
+                android:textSize="8sp" />
+
+            <TextView
+                android:id="@+id/textViewRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_toRightOf="@+id/btnRefresh"
+                android:layout_alignParentBottom="true"
+                android:text="Accurate as at "
+                android:gravity="center_vertical"
+                android:textSize="8dp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="341dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginRight="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@+id/PSI_box"
+        android:layout_marginTop="10dp">
 
 
         //For nested fragment
@@ -190,62 +188,44 @@
 
         <TextView
             android:id="@+id/newsTV"
-            android:layout_width="110dp"
-            android:layout_height="36dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="291dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="News"
             android:textColor="@color/colorSecondary"
             android:textSize="25dp"
-            android:textStyle="bold"
-            tools:layout_conversion_absoluteHeight="34dp"
-            tools:layout_conversion_absoluteWidth="371dp"
-            tools:layout_editor_absoluteX="20dp"
-            tools:layout_editor_absoluteY="268dp" />
+            android:textStyle="bold"/>
 
-        <TextView
-            android:layout_width="223dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="34dp"
-            android:layout_marginEnd="95dp"
-            android:layout_toStartOf="@+id/viewmoreClickableTV"
-            android:text="See what's happening around you"
-            android:textColor="@color/black"
-            android:textSize="13dp"
-            tools:layout_conversion_absoluteHeight="18dp"
-            tools:layout_conversion_absoluteWidth="191dp"
-            tools:layout_editor_absoluteX="20dp"
-            tools:layout_editor_absoluteY="303dp" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/viewmoreClickableTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="5dp"
-            android:clickable="true"
-            android:gravity="right"
-            android:linksClickable="false"
-            android:text="View More >"
-            android:textSize="14sp"
-            tools:layout_conversion_absoluteHeight="18dp"
-            tools:layout_conversion_absoluteWidth="78dp"
-            tools:layout_editor_absoluteX="313dp"
-            tools:layout_editor_absoluteY="303dp" />
+            <TextView
+                android:id="@+id/newsSubtitleTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="See what's happening around you"
+                android:textColor="@color/black"
+                android:textSize="13dp"
+                tools:layout_conversion_absoluteHeight="18dp"
+                tools:layout_conversion_absoluteWidth="191dp"
+                tools:layout_editor_absoluteX="20dp"
+                tools:layout_editor_absoluteY="303dp" />
 
-    </RelativeLayout>
-    <![CDATA[
+            <TextView
+                android:id="@+id/viewMoreTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:clickable="true"
+                android:gravity="right"
+                android:linksClickable="false"
+                android:text="View More >"
+                android:textSize="13dp"/>
+
+        </RelativeLayout>
 
 
-
-
-
-    -->
-
-
-
-]]>
+    </LinearLayout>
 </RelativeLayout>

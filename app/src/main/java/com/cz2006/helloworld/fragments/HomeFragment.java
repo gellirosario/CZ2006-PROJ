@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment {
         eastPSIText = view.findViewById(R.id.textViewEast);
         westPSIText = view.findViewById(R.id.textViewWest);
 
-        btnPSI = view.findViewById(R.id.buttonPSI);
+        btnPSI = view.findViewById(R.id.btnRefresh);
 
         refreshText = view.findViewById(R.id.textViewRefresh);
 
@@ -113,7 +113,7 @@ public class HomeFragment extends Fragment {
         String name = accountManager.getAccountWithID(String.valueOf(userID)).getUserName();
         userNameText.setText(name); // Set Text View
         
-        TextView clickTextView = (TextView) view.findViewById(R.id.viewmoreClickableTV);
+        TextView clickTextView = (TextView) view.findViewById(R.id.viewMoreTV);
         clickTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,210 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="30dp"
+    android:orientation="vertical"
     tools:context=".activities.AddUsageActivity">
 
-    <EditText
-        android:id="@+id/UsagePriceInp"
-        android:layout_width="102dp"
-        android:layout_height="37dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.721"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.42" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="61dp"
-        android:layout_height="22dp"
-        android:text="Price($)"
-        app:layout_constraintBottom_toTopOf="@+id/UsagePriceInp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.637"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/SubmitBtn"
-        android:layout_width="240dp"
-        android:layout_height="47dp"
-        android:background="@drawable/rounded_button_green"
-        android:padding="15dp"
-        android:text="Submit"
-        android:textColor="@color/colorWhite"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.866" />
-
-
-    <Spinner
-        android:id="@+id/UsageYearInp"
-        android:layout_width="102dp"
-        android:layout_height="42dp"
-        android:background="@android:drawable/btn_dropdown"
-        android:backgroundTint="@color/colorPrimary"
-        android:backgroundTintMode="multiply"
-        android:spinnerMode="dropdown"
-        android:textColor="@color/colorWhite"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.151"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.23" />
-
-    <Spinner
-        android:id="@+id/UsageMonthInp"
-        android:layout_width="102dp"
-        android:layout_height="42dp"
-        android:background="@android:drawable/btn_dropdown"
-        android:backgroundTint="@color/colorPrimary"
-        android:backgroundTintMode="multiply"
-        android:spinnerMode="dropdown"
-        android:textColor="@color/colorWhite"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.617"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.229" />
-
-    <EditText
-        android:id="@+id/UsageAmountInp"
-        android:layout_width="102dp"
-        android:layout_height="37dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.153"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.42" />
-
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="61dp"
-        android:layout_height="22dp"
-        android:text="Amount"
-        app:layout_constraintBottom_toTopOf="@+id/UsageAmountInp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.14"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/textView2"
+    <LinearLayout
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add "
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Usage"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorSecondary"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Utility Type"
-        app:layout_constraintBottom_toTopOf="@+id/ElecCheckButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.133"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Select Year"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorSecondary"/>
+
+        <Spinner
+            android:id="@+id/UsageYearInp"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/spinner_background"
+            android:backgroundTint="@color/colorWhite"
+            android:backgroundTintMode="multiply"
+            android:textSize="15dp"
+            android:spinnerMode="dropdown"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Select Month"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorSecondary"/>
+
+        <Spinner
+            android:id="@+id/UsageMonthInp"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/spinner_background"
+            android:backgroundTintMode="multiply"
+            android:backgroundTint="@color/colorWhite"
+            android:textColor="@color/colorSecondary"
+            android:textSize="15dp"
+            android:spinnerMode="dropdown"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Enter Amount"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorSecondary"/>
+
+        <EditText
+            android:id="@+id/UsageAmountInp"
+            android:layout_width="102dp"
+            android:layout_height="37dp"
+            android:ems="10"
+            android:background="@drawable/edit_text_background"
+            android:inputType="numberDecimal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Enter Price (SGD$)"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorSecondary"/>
+
+        <EditText
+            android:id="@+id/UsagePriceInp"
+            android:layout_width="102dp"
+            android:layout_height="37dp"
+            android:ems="10"
+            android:background="@drawable/edit_text_background"
+            android:inputType="numberDecimal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Select Utility Type"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorSecondary"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <RadioButton
+                android:id="@+id/ElecCheckButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#FFEB3B"
+                android:checked="true"
+                android:text="Electricity"
+                android:textColor="@color/colorSecondary"
+                android:textStyle="bold" />
 
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="60dp"
-        android:layout_height="20dp"
-        android:layout_marginBottom="4dp"
-        android:text="Year"
-        app:layout_constraintBottom_toTopOf="@+id/UsageYearInp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.143"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+            <RadioButton
+                android:id="@+id/GasCheckButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#4CAF50"
+                android:text="Gas"
+                android:textColor="@color/colorSecondary"
+                android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="64dp"
-        android:layout_height="20dp"
-        android:layout_marginBottom="4dp"
-        android:text="Month"
-        app:layout_constraintBottom_toTopOf="@+id/UsageMonthInp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+            <RadioButton
+                android:id="@+id/WaterCheckButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#2F69E6"
+                android:text="Water"
+                android:textColor="@color/colorSecondary"
+                android:textStyle="bold" />
 
-    <RadioButton
-        android:id="@+id/ElecCheckButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:buttonTint="#FFEB3B"
-        android:checked="false"
-        android:text="Electricity"
-        android:textColor="@color/colorSecondary"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.143"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
+        </LinearLayout>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/SubmitBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="10dp"
+            android:padding="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/rounded_button_green"
+            android:text="Add"/>
+    </LinearLayout>
 
-    <RadioButton
-        android:id="@+id/GasCheckButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:buttonTint="#4CAF50"
-        android:text="Gas"
-        android:textColor="@color/colorSecondary"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toEndOf="@+id/ElecCheckButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
-
-    <RadioButton
-        android:id="@+id/WaterCheckButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:buttonTint="#2F69E6"
-        android:text="Water"
-        android:textColor="@color/colorSecondary"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.24"
-        app:layout_constraintStart_toEndOf="@+id/GasCheckButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
-
-    <TextView
-        android:id="@+id/Testing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.061" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -2,6 +2,8 @@ package com.cz2006.helloworld.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -21,9 +23,7 @@ import android.widget.Toast;
 
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.fragments.TrackFragment;
-import com.cz2006.helloworld.managers.SessionManager;
 import com.cz2006.helloworld.managers.UsageManager;
-import com.google.android.gms.common.internal.FallbackServiceBroker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,21 +31,23 @@ import java.util.List;
 
 
 public class AddUsageActivity extends AppCompatActivity
-implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+implements AdapterView.OnItemSelectedListener, View.OnClickListener{
+
     public static int Year = 0;
     public static int Month = 0;
     public static float Amount = 0;
     public static float Price = 0;
     public static char Type = 0;
     public static List<Pair<Integer, Integer>> calList = new ArrayList<Pair<Integer, Integer>>();
-    UsageManager AddUsageManager;
+
+    private UsageManager usageManager;
 
     // Variables
-    private EditText Amountinput;
-    private EditText Priceinput;
-    private RadioButton a;
-    private RadioButton b;
-    private RadioButton c;
+    private EditText inputAmount;
+    private EditText inputPrice;
+    private RadioButton rbElectricity;
+    private RadioButton rbGas;
+    private RadioButton rbWater;
     private Button btnSubmit;
 
     @Override
@@ -53,8 +55,8 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_usage);
 
-        AddUsageManager = new UsageManager(getApplicationContext());
-        AddUsageManager.open();
+        usageManager = new UsageManager(getApplicationContext());
+        usageManager.open();
 
         setTitle("Add Usage");
 
@@ -95,23 +97,23 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
         //END OF PART I
 
         //PART II Radio Buttons
-        a=  findViewById(R.id.ElecCheckButton);
-        a.setOnClickListener(this);
-        b = findViewById(R.id.GasCheckButton);
-        b.setOnClickListener(this);
-        c = findViewById(R.id.WaterCheckButton);
-        c.setOnClickListener(this);
+        rbElectricity =  findViewById(R.id.ElecCheckButton);
+        rbElectricity.setOnClickListener(this);
+        rbGas = findViewById(R.id.GasCheckButton);
+        rbGas.setOnClickListener(this);
+        rbWater = findViewById(R.id.WaterCheckButton);
+        rbWater.setOnClickListener(this);
 
         //Part III To Submit!
         btnSubmit = findViewById(R.id.SubmitBtn);
         btnSubmit.setOnClickListener(this);
 
-        Amountinput = (EditText) findViewById(R.id.UsageAmountInp);
-        Priceinput = (EditText) findViewById(R.id.UsagePriceInp);
+        inputAmount = (EditText) findViewById(R.id.UsageAmountInp);
+        inputPrice = (EditText) findViewById(R.id.UsagePriceInp);
         btnSubmit = (Button) findViewById(R.id.SubmitBtn);
 
-        Amountinput.setText("0");
-        Priceinput.setText("0");
+        inputAmount.setText("0");
+        inputPrice.setText("0");
     }
 
     public void setTitle(String title) {
@@ -144,9 +146,9 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     }
 
     public void clearRadioChecked() {
-        a.setChecked(false);
-        b.setChecked(false);
-        c.setChecked(false);
+        rbElectricity.setChecked(false);
+        rbGas.setChecked(false);
+        rbWater.setChecked(false);
     }
 
     @Override
@@ -154,24 +156,23 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
         switch (v.getId()) {
             case R.id.ElecCheckButton:
                 clearRadioChecked();
-                a.setChecked(true);
+                rbElectricity.setChecked(true);
                 Type = 'E';
                 break;
             case R.id.GasCheckButton:
                 clearRadioChecked();
-                b.setChecked(true);
+                rbGas.setChecked(true);
                 Type = 'G';
                 break;
             case R.id.WaterCheckButton:
                 clearRadioChecked();
-                c.setChecked(true);
+                rbWater.setChecked(true);
                 Type = 'W';
                 break;
             case R.id.SubmitBtn:
 
-                Amount = Float.parseFloat(Amountinput.getText().toString());
-                Price = Float.parseFloat(Priceinput.getText().toString());
-                TextView testing = findViewById(R.id.Testing);
+                Amount = Float.parseFloat(inputAmount.getText().toString());
+                Price = Float.parseFloat(inputPrice.getText().toString());
                 boolean dateVal = false;
                 int i;
                 for (i = 0; i < 3; i++)
@@ -180,11 +181,9 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
                         break;
                     }
                 if (dateVal == true) {
-                    testing.setText(String.valueOf(Year) + String.valueOf(Month) + Type + "\n Amount = " + Amount + "\n Price = " + Price);
-                    AddUsageManager.addUsage(Year, Month, Type, Amount, Price);
+                    usageManager.addUsage(Year, Month, Type, Amount, Price);
                     Toast.makeText(getApplicationContext(), "Added Usage!", Toast.LENGTH_SHORT).show();
-                    Intent go = new Intent(AddUsageActivity.this, TrackFragment.class);
-                    startActivity(go);
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Date must be within 2 months before Current Date!", Toast.LENGTH_SHORT).show();
                 }
@@ -197,9 +196,9 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
         super.onDestroy();
 
         //Close database connection
-        if (AddUsageManager != null) {
-            AddUsageManager.close();
-            AddUsageManager = null;
+        if (usageManager != null) {
+            usageManager.close();
+            usageManager = null;
         }
     }
 

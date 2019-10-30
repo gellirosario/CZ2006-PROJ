@@ -26,16 +26,15 @@ import com.google.android.material.textfield.TextInputEditText;
  */
 public class SignUpActivity extends AppCompatActivity {
 
-    Button btnLogIn;
-    Button btnSignUp;
-    TextInputEditText inputName;
-    TextInputEditText inputEmail;
-    TextInputEditText inputPassword;
+    private Button btnLogIn;
+    private Button btnSignUp;
+    private TextInputEditText inputName;
+    private TextInputEditText inputEmail;
+    private TextInputEditText inputPassword;
 
-    AccountManager accountManager;
-    SessionManager sessionManager;
+    private AccountManager accountManager;
 
-    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +116,6 @@ public class SignUpActivity extends AppCompatActivity {
     public void init(){
         // Initialize variables
         accountManager = new AccountManager(getApplicationContext());
-        sessionManager = new SessionManager(getApplicationContext());
 
         btnSignUp = findViewById(R.id.btnSignUp);
         btnLogIn = findViewById(R.id.btnLogIn);

@@ -2,23 +2,18 @@ package com.cz2006.helloworld.managers;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.se.omapi.Session;
 import android.widget.Toast;
 
-import com.cz2006.helloworld.activities.AddUsageActivity;
-import com.cz2006.helloworld.models.User;
 import com.cz2006.helloworld.util.TableColumn;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.security.AccessController.getContext;
-
 public class UsageManager {
 
     private Context ctx;
 
-    private DatabaseManager UMdbManager;
+    private DatabaseManager databaseManager;
 
     private static final String DB_NAME = "HelloWorldDB.db";
 
@@ -36,19 +31,19 @@ public class UsageManager {
 
     public UsageManager(Context ctx) {
         this.ctx = ctx;
-        this.UMdbManager = new DatabaseManager(ctx, this.DB_NAME, this.DB_VERSION);
+        this.databaseManager = new DatabaseManager(ctx, this.DB_NAME, this.DB_VERSION);
     }
 
     // Open Database connection
     public void open()
     {
-        this.UMdbManager.openDB();
+        this.databaseManager.openDB();
     }
 
     // Close Database connection
     public void close()
     {
-        this.UMdbManager.closeDB();
+        this.databaseManager.closeDB();
     }
 
     // ADD NEW USAGE
@@ -56,15 +51,15 @@ public class UsageManager {
     {
         //Create table column list
         List<TableColumn> tableColumnList = new ArrayList<TableColumn>();
-        SessionManager UMsessionManager = new SessionManager(ctx.getApplicationContext());
 
-        int userid = UMsessionManager.getUserDetails().get("userID");
+        SessionManager sessionManager = new SessionManager(ctx.getApplicationContext());
 
+        int userID = sessionManager.getUserDetails().get("userID");
 
         // Add userID column
         TableColumn userIDColumn = new TableColumn();
         userIDColumn.setColumnName(this.TABLE_USAGE_COLUMN_USER_ID);
-        userIDColumn.setColumnValue(String.valueOf(userid)); //USERID TO BE SOLVED
+        userIDColumn.setColumnValue(String.valueOf(userID)); //USERID TO BE SOLVED
         tableColumnList.add(userIDColumn);
 
         // Add Year column
@@ -96,16 +91,15 @@ public class UsageManager {
         usagePriceColumn.setColumnValue(String.valueOf(price)); //TYPE TO BE REFERENCED FROM FUNCTION
         tableColumnList.add(usagePriceColumn);
 
-        Toast.makeText(ctx.getApplicationContext(), "CREATED ALL COLUMNS!", Toast.LENGTH_SHORT).show();
         //Insert added column in to account table.
-        this.UMdbManager.insert(this.TABLE_NAME_USAGE, tableColumnList);
+        this.databaseManager.insert(this.TABLE_NAME_USAGE, tableColumnList);
     }
 
-    public float calyearsum(int id, int year, char type)
+    public float calYearSum(int id, int year, char type)
     {
         float sum1 = 0;
-        Cursor cursor = this.UMdbManager.queryThreeSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, String.valueOf(id), this.TABLE_USAGE_COLUMN_YEAR, String.valueOf(year), this.TABLE_USAGE_COLUMN_TYPE, String.valueOf(type));
-        //cursor = this.UMdbManager.queryTwoSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, String.valueOf(id), this.TABLE_USAGE_COLUMN_YEAR, String.valueOf(year));
+        Cursor cursor = this.databaseManager.queryThreeSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, String.valueOf(id), this.TABLE_USAGE_COLUMN_YEAR, String.valueOf(year), this.TABLE_USAGE_COLUMN_TYPE, String.valueOf(type));
+        //cursor = this.databaseManager.queryTwoSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, String.valueOf(id), this.TABLE_USAGE_COLUMN_YEAR, String.valueOf(year));
 
         int count = cursor.getCount();
         if (cursor.getCount() != 0) {
@@ -129,7 +123,7 @@ public class UsageManager {
         String whereClause = this.TABLE_USAGE_COLUMN_USER_ID + " = " + id;
 
         // Insert added column in to account table.
-        this.UMdbManager.update(this.TABLE_NAME_USAGE, updateColumnList, whereClause);
+        this.databaseManager.update(this.TABLE_NAME_USAGE, updateColumnList, whereClause);
     }
 
 

@@ -2,8 +2,7 @@ package com.cz2006.helloworld.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.icu.util.EthiopicCalendar;
+
 import java.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import com.cz2006.helloworld.activities.AddUsageActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -141,9 +139,9 @@ public class TrackFragment extends Fragment {
         trackFragUsageManager.open();
         Calendar date = Calendar.getInstance();
         int yearnow = date.get(Calendar.YEAR);
-        Eyearsum = trackFragUsageManager.calyearsum(userid, yearnow, 'E');
-        Gyearsum = trackFragUsageManager.calyearsum(userid, yearnow, 'G');
-        Wyearsum = trackFragUsageManager.calyearsum(userid, yearnow, 'W');
+        Eyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'E');
+        Gyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'G');
+        Wyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'W');
         TextView go = view.findViewById(R.id.TFsum);
         go.setText("Sum : " + Eyearsum + "," + Gyearsum + "," + Wyearsum); //RETURN userID?!
         FloatingActionButton AddUsageBtn = (FloatingActionButton) view.findViewById(R.id.AddUsageButton);

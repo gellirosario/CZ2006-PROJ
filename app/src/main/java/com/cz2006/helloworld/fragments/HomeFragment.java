@@ -1,7 +1,6 @@
 package com.cz2006.helloworld.fragments;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.net.Uri;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -23,7 +21,6 @@ import com.cz2006.helloworld.api.PSIAPI_Interface;
 import com.cz2006.helloworld.managers.AccountManager;
 import com.cz2006.helloworld.managers.SessionManager;
 import com.cz2006.helloworld.models.PSI_info;
-import com.cz2006.helloworld.models.PSI_twentyfourhour;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,26 +36,20 @@ import retrofit2.Retrofit;
 
 public class HomeFragment extends Fragment {
 
+    private AccountManager accountManager;
+    private SessionManager sessionManager;
+
+    private TextView userNameText, northPSIText, southPSIText, centralPSIText, eastPSIText, westPSIText, refreshText;
+    private Button btnPSI;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private AccountManager HomeaccountManager;
-    private SessionManager HomesessionManager;
-
-    TextView userNameTV, northpsiTV,southpsiTV,centralTV,eastpsiTV,westpsiTV, refreshTV;
-    Button psiButton;
-
-
-
-    // LogInActivity logInActivity = new LogInActivity();
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
 
     private OnFragmentInteractionListener mListener;
 
@@ -102,27 +93,27 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        HomeaccountManager = new AccountManager(getActivity());
-        HomesessionManager = new SessionManager(getActivity());
+        accountManager = new AccountManager(getActivity());
+        sessionManager = new SessionManager(getActivity());
 
-        userNameTV = view.findViewById(R.id.userName);
-        northpsiTV= view.findViewById(R.id.textViewNorth);
-        southpsiTV= view.findViewById(R.id.textViewSouth);
-        centralTV= view.findViewById(R.id.textViewCentral);
-        eastpsiTV= view.findViewById(R.id.textViewEast);
-        westpsiTV= view.findViewById(R.id.textViewWest);
+        userNameText = view.findViewById(R.id.userName);
+        northPSIText = view.findViewById(R.id.textViewNorth);
+        southPSIText = view.findViewById(R.id.textViewSouth);
+        centralPSIText = view.findViewById(R.id.textViewCentral);
+        eastPSIText = view.findViewById(R.id.textViewEast);
+        westPSIText = view.findViewById(R.id.textViewWest);
 
-        psiButton = view.findViewById(R.id.buttonPSI);
+        btnPSI = view.findViewById(R.id.btnRefresh);
 
-        refreshTV = view.findViewById(R.id.textViewRefresh);
+        refreshText = view.findViewById(R.id.textViewRefresh);
 
-        int userID = HomesessionManager.getUserDetails().get("userID");
+        int userID = sessionManager.getUserDetails().get("userID");
 
-        HomeaccountManager.open();
-        String name = HomeaccountManager.getAccountWithID(String.valueOf(userID)).getUserName();
-        userNameTV.setText(name); // Set Text View
+        accountManager.open();
+        String name = accountManager.getAccountWithID(String.valueOf(userID)).getUserName();
+        userNameText.setText(name); // Set Text View
         
-        TextView clickTextView = (TextView) view.findViewById(R.id.viewmoreClickableTV);
+        TextView clickTextView = (TextView) view.findViewById(R.id.viewMoreTV);
         clickTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,7 +126,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        psiButton.setOnClickListener(new View.OnClickListener() {
+        btnPSI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fetchPSIdetails();
@@ -167,20 +158,14 @@ public class HomeFragment extends Fragment {
 
                     PSI_info psi_info = (PSI_info) response.body();
 
-                    northpsiTV.setText("North: " +  psi_info.getItems().get(0).getReadings().getPsiTwentyFourHourly().getNorth());
-                    southpsiTV.setText("South: " + psi_info.getItems().get(0).getReadings().getPsiTwentyFourHourly().getSouth());
-                    centralTV.setText("Central: " + psi_info.getItems().get(0).getReadings().getPsiTwentyFourHourly().getCentral());
-                    eastpsiTV.setText("East: "+ psi_info.getItems().get(0).getReadings().getPsiTwentyFourHourly().getEast());
-                    westpsiTV.setText("West: "+ psi_info.getItems().get(0).getReadings().getPsiTwentyFourHourly().getWest());
-
-                    refreshTV.setText("Accurate as at: "+ psi_info.getItems().get(0).getUpdateTimeStamp());
-
-
-
+                    northPSIText.setText("North: " +  psi_info.getItems().get(0).getReadings().getPsiTwentyFourHourly().getNorth());
+                    southPSIText.setText("South: " + psi_info.getItems().get(0).getReadings().getPsiTwentyFourHourly().getSouth());
+                    centralPSIText.setText("Central: " + psi_info.getItems().get(0).getReadings().getPsiTwentyFourHourly().getCentral());
+                    eastPSIText.setText("East: "+ psi_info.getItems().get(0).getReadings().getPsiTwentyFourHourly().getEast());
+                    westPSIText.setText("West: "+ psi_info.getItems().get(0).getReadings().getPsiTwentyFourHourly().getWest());
+                    refreshText.setText("Accurate as at: "+ psi_info.getItems().get(0).getUpdateTimeStamp());
 
                 }
-
-
 
             }
 
@@ -189,15 +174,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -225,10 +201,10 @@ public class HomeFragment extends Fragment {
         mListener = null;
 
         //Close database connection
-        if(HomeaccountManager!=null)
+        if(accountManager !=null)
         {
-            HomeaccountManager.close();
-            HomeaccountManager = null;
+            accountManager.close();
+            accountManager = null;
         }
     }
 

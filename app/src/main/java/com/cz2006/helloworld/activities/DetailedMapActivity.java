@@ -1,11 +1,19 @@
 package com.cz2006.helloworld.activities;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
+import android.graphics.Typeface;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.cz2006.helloworld.util.FetchURL;
 import com.cz2006.helloworld.R;
@@ -21,20 +29,36 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class DetailedMapActivity extends FragmentActivity implements OnMapReadyCallback, TaskLoadedCallback {
+public class DetailedMapActivity extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback {
 
     private GoogleMap mMap;
     public static Marker place1, place2;
     private Polyline currentPolyline;
-    private Button getDirection;
+    private ImageView ivGetWalkDirection, ivGetTrainDirection, ivGetDrivingDirection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_map);
 
-        getDirection = findViewById(R.id.btnGetDirection);
-        getDirection.setOnClickListener(new View.OnClickListener() {
+        ivGetWalkDirection = findViewById(R.id.ivGetWalkDirection);
+        ivGetWalkDirection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FetchURL(DetailedMapActivity.this).execute(getUrl(place1.getPosition(), place2.getPosition(), "walking "), "walking");
+            }
+        });
+
+        ivGetTrainDirection = findViewById(R.id.ivGetTrainDirection);
+        ivGetTrainDirection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FetchURL(DetailedMapActivity.this).execute(getUrl(place1.getPosition(), place2.getPosition(), "transit"), "transit");
+            }
+        });
+
+        ivGetDrivingDirection = findViewById(R.id.ivGetDrivingDirection);
+        ivGetDrivingDirection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new FetchURL(DetailedMapActivity.this).execute(getUrl(place1.getPosition(), place2.getPosition(), "driving"), "driving");
@@ -45,8 +69,25 @@ public class DetailedMapActivity extends FragmentActivity implements OnMapReadyC
                 .findFragmentById(R.id.mapNearBy);
         mapFragment.getMapAsync(this);
 
+        // Set Activity Title
+        setTitle("Route");
     }
 
+
+    public void setTitle(String title) {
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        TextView textView = new TextView(this);
+        textView.setText(title);
+        textView.setTextSize(20);
+        textView.setTypeface(null, Typeface.BOLD);
+        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(getResources().getColor(R.color.colorWhite));
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(textView);
+        getSupportActionBar().setIcon(R.drawable.ic_back_24dp);
+    }
 
     /**
      * Manipulates the map once available.

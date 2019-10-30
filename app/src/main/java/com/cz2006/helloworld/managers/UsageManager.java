@@ -88,7 +88,7 @@ public class UsageManager {
         // Add usageAmount column
         TableColumn usageAmountColumn = new TableColumn();
         usageAmountColumn.setColumnName(this.TABLE_USAGE_COLUMN_AMOUNT);
-        usageMonthColumn.setColumnValue(String.valueOf(amount)); //TYPE TO BE REFERENCED FROM FUNCTION
+        usageAmountColumn.setColumnValue(String.valueOf(amount)); //TYPE TO BE REFERENCED FROM FUNCTION
         tableColumnList.add(usageAmountColumn);
 
         TableColumn usagePriceColumn = new TableColumn();

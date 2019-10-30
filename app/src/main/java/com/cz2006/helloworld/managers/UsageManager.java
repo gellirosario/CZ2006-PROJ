@@ -109,7 +109,7 @@ public class UsageManager {
 
             } while (cursor.moveToNext());
         }
-        Toast.makeText(ctx.getApplicationContext(), "NOTHING IN CURSOR! " + String.valueOf(count), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(ctx.getApplicationContext(), "NOTHING IN CURSOR! " + String.valueOf(count), Toast.LENGTH_SHORT).show();
         return sum1;
     }
 

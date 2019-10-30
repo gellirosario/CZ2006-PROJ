@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.icu.util.EthiopicCalendar;
+import java.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -86,9 +87,13 @@ public class TrackFragment extends Fragment {
         int userid = trackFragSessionM.getUserDetails().get("userID");
         UsageManager trackFragUsageManager = new UsageManager(getContext());
         trackFragUsageManager.open();
-        Eyearsum = trackFragUsageManager.calyearsum(userid, 2019, 'E');
+        Calendar date = Calendar.getInstance();
+        int yearnow = date.get(Calendar.YEAR);
+        Eyearsum = trackFragUsageManager.calyearsum(userid, yearnow, 'E');
+        Gyearsum = trackFragUsageManager.calyearsum(userid, yearnow, 'G');
+        Wyearsum = trackFragUsageManager.calyearsum(userid, yearnow, 'W');
         TextView go = view.findViewById(R.id.TFsum);
-        go.setText("Sum : " + Eyearsum); //RETURN userID?!
+        go.setText("Sum : " + Eyearsum + "," + Gyearsum + "," + Wyearsum); //RETURN userID?!
         FloatingActionButton AddUsageBtn = (FloatingActionButton) view.findViewById(R.id.AddUsageButton);
         AddUsageBtn.setOnClickListener(new View.OnClickListener() {
             @Override

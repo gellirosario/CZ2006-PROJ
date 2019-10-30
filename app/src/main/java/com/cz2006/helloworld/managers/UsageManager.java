@@ -104,13 +104,17 @@ public class UsageManager {
     public float calyearsum(int id, int year, char type)
     {
         float sum1 = 0;
-        Cursor cursor = this.UMdbManager.queryTwoSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, String.valueOf(id), this.TABLE_USAGE_COLUMN_YEAR, String.valueOf(year));
-        /*while (cursor!=null) {
-            float amount = cursor.getFloat(cursor.getColumnIndex(TABLE_USAGE_COLUMN_AMOUNT));
-            sum1 = sum1 + amount;
-            cursor.moveToNext();
-        }*/
+        Cursor cursor = this.UMdbManager.queryThreeSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, String.valueOf(id), this.TABLE_USAGE_COLUMN_YEAR, String.valueOf(year), this.TABLE_USAGE_COLUMN_TYPE, String.valueOf(type));
+        //cursor = this.UMdbManager.queryTwoSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, String.valueOf(id), this.TABLE_USAGE_COLUMN_YEAR, String.valueOf(year));
+
         int count = cursor.getCount();
+        if (cursor.getCount() != 0) {
+            do {
+                float amount = cursor.getFloat(cursor.getColumnIndex(TABLE_USAGE_COLUMN_AMOUNT));
+                sum1 = sum1 + amount;
+
+            } while (cursor.moveToNext());
+        }
         Toast.makeText(ctx.getApplicationContext(), "NOTHING IN CURSOR! " + String.valueOf(count), Toast.LENGTH_SHORT).show();
         return sum1;
     }

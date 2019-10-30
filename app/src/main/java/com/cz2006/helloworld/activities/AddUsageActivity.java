@@ -3,8 +3,10 @@ package com.cz2006.helloworld.activities;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,9 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.fragments.TrackFragment;
+import com.cz2006.helloworld.managers.SessionManager;
 import com.cz2006.helloworld.managers.UsageManager;
+import com.google.android.gms.common.internal.FallbackServiceBroker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,33 +37,46 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     public static float Amount = 0;
     public static float Price = 0;
     public static char Type = 0;
+    public static List<Pair<Integer, Integer>> calList = new ArrayList<Pair<Integer, Integer>>();
     UsageManager AddUsageManager;
+
+    // Variables
+    private EditText Amountinput;
+    private EditText Priceinput;
+    private RadioButton a;
+    private RadioButton b;
+    private RadioButton c;
+    private Button btnSubmit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_usage);
 
+        AddUsageManager = new UsageManager(getApplicationContext());
+        AddUsageManager.open();
+
         setTitle("Add Usage");
 
         //Part I Spinners
-            //ADD AVAILABLE MONTHS AND YEARS TO THE SELECTION SPINNER
+        //ADD AVAILABLE MONTHS AND YEARS TO THE SELECTION SPINNER
         List<String> YearList = new ArrayList<String>();
         List<String> MonthList = new ArrayList<String>();
         Calendar date = Calendar.getInstance();
         int year = date.get(Calendar.YEAR);
-        int month = date.get(Calendar.MONTH)+1;
+        int month = date.get(Calendar.MONTH) + 1 - 9;
         YearList.add(String.valueOf(year));
         MonthList.add(String.valueOf(month));
-        for (int i = 0 ; i < 2 ; i++)
-        {
+        calList.add(new Pair<Integer, Integer>(year, month));
+        for (int i = 0; i < 2; i++) {
             month = month - 1;
-            if (month <= 0){
+            if (month <= 0) {
                 year = year - 1;
                 month = month + 12;
                 YearList.add(String.valueOf(year));
             }
             MonthList.add(String.valueOf(month));
+            calList.add(new Pair<Integer, Integer>(year, month));
         }
 
         //CHANGE LAYOUT REMEMBER WHEN CREATING SPINNER ITEM!!!
@@ -76,17 +95,23 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
         //END OF PART I
 
         //PART II Radio Buttons
-        RadioButton a = findViewById(R.id.ElecCheckButton);
+        a=  findViewById(R.id.ElecCheckButton);
         a.setOnClickListener(this);
-        RadioButton b = findViewById(R.id.GasCheckButton);
+        b = findViewById(R.id.GasCheckButton);
         b.setOnClickListener(this);
-        RadioButton c = findViewById(R.id.WaterCheckButton);
+        c = findViewById(R.id.WaterCheckButton);
         c.setOnClickListener(this);
 
         //Part III To Submit!
-        Button GO = findViewById(R.id.SubmitBtn);
-        GO.setOnClickListener(this);
+        btnSubmit = findViewById(R.id.SubmitBtn);
+        btnSubmit.setOnClickListener(this);
 
+        Amountinput = (EditText) findViewById(R.id.UsageAmountInp);
+        Priceinput = (EditText) findViewById(R.id.UsagePriceInp);
+        btnSubmit = (Button) findViewById(R.id.SubmitBtn);
+
+        Amountinput.setText("0");
+        Priceinput.setText("0");
     }
 
     public void setTitle(String title) {
@@ -119,9 +144,6 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     }
 
     public void clearRadioChecked() {
-        RadioButton a = findViewById(R.id.ElecCheckButton);
-        RadioButton b = findViewById(R.id.GasCheckButton);
-        RadioButton c = findViewById(R.id.WaterCheckButton);
         a.setChecked(false);
         b.setChecked(false);
         c.setChecked(false);
@@ -129,10 +151,6 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        RadioButton a = findViewById(R.id.ElecCheckButton);
-        RadioButton b = findViewById(R.id.GasCheckButton);
-        RadioButton c = findViewById(R.id.WaterCheckButton);
-        Button Submit = (Button) findViewById(R.id.SubmitBtn);
         switch (v.getId()) {
             case R.id.ElecCheckButton:
                 clearRadioChecked();
@@ -150,17 +168,39 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
                 Type = 'W';
                 break;
             case R.id.SubmitBtn:
-                EditText Amountinput;
-                EditText Priceinput;
-                Amountinput = (EditText) findViewById(R.id.UsageAmountInp);
-                Priceinput = (EditText) findViewById(R.id.UsagePriceInp);
+
                 Amount = Float.parseFloat(Amountinput.getText().toString());
                 Price = Float.parseFloat(Priceinput.getText().toString());
                 TextView testing = findViewById(R.id.Testing);
-                testing.setText(String.valueOf(Year) + String.valueOf(Month) + Type + "\n Amount = " + Amount + "\n Price = " + Price);
-            //DO NOT RUN THIS COMMAND UNTIL DATABASE FIXED //AddUsageManager.addUsage(Year,Month,Type,Amount,Price);
+                boolean dateVal = false;
+                int i;
+                for (i = 0; i < 3; i++)
+                    if ((Year == calList.get(i).first) && (Month == calList.get(i).second)) {
+                        dateVal = true;
+                        break;
+                    }
+                if (dateVal == true) {
+                    testing.setText(String.valueOf(Year) + String.valueOf(Month) + Type + "\n Amount = " + Amount + "\n Price = " + Price);
+                    AddUsageManager.addUsage(Year, Month, Type, Amount, Price);
+                    Toast.makeText(getApplicationContext(), "Added Usage!", Toast.LENGTH_SHORT).show();
+                    Intent go = new Intent(AddUsageActivity.this, TrackFragment.class);
+                    startActivity(go);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Date must be within 2 months before Current Date!", Toast.LENGTH_SHORT).show();
+                }
             default:
                 break;
         }
     }
+
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //Close database connection
+        if (AddUsageManager != null) {
+            AddUsageManager.close();
+            AddUsageManager = null;
+        }
+    }
+
 }

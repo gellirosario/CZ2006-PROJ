@@ -64,5 +64,13 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp" />
+    <TextView
+        android:id="@+id/TFsum"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="270dp"
+        android:layout_marginTop="30dp"
+        android:text="Sum :" />
+
 
 </RelativeLayout>

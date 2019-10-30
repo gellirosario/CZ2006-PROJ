@@ -1,4 +1,4 @@
-package com.cz2006.helloworld.models;
+package com.cz2006.helloworld.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -23,6 +23,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.models.Article;
 import com.cz2006.helloworld.util.Newsutils;
 
 import java.util.List;

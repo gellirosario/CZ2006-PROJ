@@ -93,4 +93,8 @@ dependencies {
 
     // QR Code Scanner
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'
+
+    // RetroFit
+    implementation "com.squareup.retrofit2:retrofit:2.4.0"
+
 }

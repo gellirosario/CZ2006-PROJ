@@ -21,7 +21,7 @@ import com.cz2006.helloworld.api.ApiNewsClient;
 import com.cz2006.helloworld.api.ApiNewsInterface;
 import com.cz2006.helloworld.models.Article;
 import com.cz2006.helloworld.models.News;
-import com.cz2006.helloworld.models.newsAdapter;
+import com.cz2006.helloworld.adapters.newsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,36 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigator;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cz2006.helloworld.R;
-import com.cz2006.helloworld.api.ApiNewsClient;
-import com.cz2006.helloworld.api.ApiNewsInterface;
-import com.cz2006.helloworld.managers.SessionManager;
 import com.cz2006.helloworld.fragments.NewsFragment;
-import com.cz2006.helloworld.models.Article;
-import com.cz2006.helloworld.models.News;
-import com.cz2006.helloworld.models.newsAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class NewsActivity extends AppCompatActivity implements NewsFragment.OnFragmentInteractionListener{
 

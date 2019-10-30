@@ -2,8 +2,8 @@
 <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:paddingTop="90dp"
     android:paddingLeft="25dp"
     android:paddingRight="25dp"
@@ -19,9 +19,9 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="55dp"
         android:textAlignment="center"
-        android:textSize="50dp"
+        android:textSize="45dp"
         android:textStyle="bold"
-        android:textColor="@color/colorSecondaryDark"
+        android:textColor="@color/colorSecondary"
         android:text="HELLO WORLD"></androidx.appcompat.widget.AppCompatTextView>
 
     <!-- Email Label -->

@@ -171,7 +171,6 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
                 Amount = Float.parseFloat(inputAmount.getText().toString());
                 Price = Float.parseFloat(inputPrice.getText().toString());
-                TextView testing = findViewById(R.id.Testing);
                 boolean dateVal = false;
                 int i;
                 for (i = 0; i < 3; i++)
@@ -180,7 +179,6 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
                         break;
                     }
                 if (dateVal == true) {
-                    testing.setText(String.valueOf(Year) + String.valueOf(Month) + Type + "\n Amount = " + Amount + "\n Price = " + Price);
                     usageManager.addUsage(Year, Month, Type, Amount, Price);
                     Toast.makeText(getApplicationContext(), "Added Usage!", Toast.LENGTH_SHORT).show();
                     Intent go = new Intent(AddUsageActivity.this, TrackFragment.class);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.cz2006.helloworld.util.SQLiteDatabaseHelper;
 import com.cz2006.helloworld.util.TableColumn;
@@ -405,6 +406,19 @@ public class DatabaseManager {
     {
         // Query all rows in table.
         Cursor cursor = this.database.rawQuery("SELECT * FROM " + tableName + " WHERE " + columnName1 + "=? AND " + columnName2 + " =? ",new String[] {String.valueOf(inputData1),String.valueOf(inputData2)});
+        if(cursor!=null)
+        {
+            // Move to first cursor.
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public Cursor queryThreeSearchString(String tableName, String columnName1, String inputData1, String columnName2, String inputData2, String columnName3, String inputData3)
+    {
+        // Query all rows in table.
+        Cursor cursor = this.database.rawQuery("SELECT * FROM " + tableName + " WHERE " + columnName1 + "=? AND " + columnName2 + "=? AND " + columnName3 + " =? " ,new String[] {String.valueOf(inputData1),String.valueOf(inputData2),String.valueOf(inputData3)});
+
         if(cursor!=null)
         {
             // Move to first cursor.

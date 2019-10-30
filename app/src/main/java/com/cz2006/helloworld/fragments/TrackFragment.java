@@ -2,6 +2,9 @@ package com.cz2006.helloworld.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.icu.util.EthiopicCalendar;
+import java.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -27,6 +31,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.cz2006.helloworld.managers.SessionManager;
+import com.cz2006.helloworld.managers.UsageManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.w3c.dom.Text;
 //import com.github.mikephil.charting.charts.LineChart;
 //import com.github.mikephil.charting.data.LineData;
 
@@ -123,6 +132,20 @@ public class TrackFragment extends Fragment {
         chart.setData(lineData);
         chart.invalidate();
 
+        //LineChart chart = (LineChart) view.findViewById(R.id.line_chart);
+        //LineData lineData = new LineData(dataSet);
+        float Eyearsum, Gyearsum, Wyearsum;
+        SessionManager trackFragSessionM = new SessionManager(getContext());
+        int userid = trackFragSessionM.getUserDetails().get("userID");
+        UsageManager trackFragUsageManager = new UsageManager(getContext());
+        trackFragUsageManager.open();
+        Calendar date = Calendar.getInstance();
+        int yearnow = date.get(Calendar.YEAR);
+        Eyearsum = trackFragUsageManager.calyearsum(userid, yearnow, 'E');
+        Gyearsum = trackFragUsageManager.calyearsum(userid, yearnow, 'G');
+        Wyearsum = trackFragUsageManager.calyearsum(userid, yearnow, 'W');
+        TextView go = view.findViewById(R.id.TFsum);
+        go.setText("Sum : " + Eyearsum + "," + Gyearsum + "," + Wyearsum); //RETURN userID?!
         FloatingActionButton AddUsageBtn = (FloatingActionButton) view.findViewById(R.id.AddUsageButton);
         AddUsageBtn.setOnClickListener(new View.OnClickListener() {
             @Override

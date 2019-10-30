@@ -2,6 +2,8 @@ package com.cz2006.helloworld.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -29,7 +31,7 @@ import java.util.List;
 
 
 public class AddUsageActivity extends AppCompatActivity
-implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+implements AdapterView.OnItemSelectedListener, View.OnClickListener{
 
     public static int Year = 0;
     public static int Month = 0;
@@ -181,8 +183,7 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
                 if (dateVal == true) {
                     usageManager.addUsage(Year, Month, Type, Amount, Price);
                     Toast.makeText(getApplicationContext(), "Added Usage!", Toast.LENGTH_SHORT).show();
-                    Intent go = new Intent(AddUsageActivity.this, TrackFragment.class);
-                    startActivity(go);
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Date must be within 2 months before Current Date!", Toast.LENGTH_SHORT).show();
                 }

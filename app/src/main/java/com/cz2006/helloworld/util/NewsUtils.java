@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
-public class Newsutils {
+public class NewsUtils {
 
     public static ColorDrawable[] vibrantLightColorList =
             {

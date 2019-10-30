@@ -2,11 +2,8 @@ package com.cz2006.helloworld.activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
-
-import android.util.Log;
 
 import android.text.TextUtils;
 
@@ -17,7 +14,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cz2006.helloworld.R;
-import com.cz2006.helloworld.fragments.HomeFragment;
 import com.cz2006.helloworld.managers.AccountManager;
 import com.cz2006.helloworld.managers.SessionManager;
 import com.cz2006.helloworld.models.User;
@@ -32,17 +28,17 @@ import com.google.android.material.textfield.TextInputEditText;
  */
 public class LogInActivity extends AppCompatActivity {
 
-    TextInputEditText inputEmail;
-    TextInputEditText inputPassword;
-    Button btnLogIn;
-    Button btnSignUp;
+    private TextInputEditText inputEmail;
+    private TextInputEditText inputPassword;
+    private Button btnLogIn;
+    private Button btnSignUp;
 
-    AccountManager LogInAccountManager;
-    SessionManager LogInSessionManager;
+    private AccountManager accountManager;
+    private SessionManager sessionManager;
 
-    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-    String email;
-    String password;
+    private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    private String email = "";
+    private String password = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +47,15 @@ public class LogInActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        LogInSessionManager = new SessionManager(getApplicationContext());
-        LogInAccountManager = new AccountManager(getApplicationContext());
+        sessionManager = new SessionManager(getApplicationContext());
+        accountManager = new AccountManager(getApplicationContext());
 
         inputEmail = findViewById(R.id.inputEmail);
         inputPassword = findViewById(R.id.inputPassword);
         btnSignUp = findViewById(R.id.btnSignUp);
         btnLogIn = findViewById(R.id.btnLogIn);
 
-        LogInAccountManager.open(); // Open Database Connection
+        accountManager.open(); // Open Database Connection
 
 
         // Log In Button Click Event
@@ -75,18 +71,18 @@ public class LogInActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please fill in all details", Toast.LENGTH_SHORT).show();
                 } else if (!email.matches(emailPattern)) {
                     Toast.makeText(getApplicationContext(), "Please enter a correct email address", Toast.LENGTH_SHORT).show();
-                } else if (!LogInAccountManager.checkExistingEmail(email)) {
+                } else if (!accountManager.checkExistingEmail(email)) {
                     Toast.makeText(getApplicationContext(), "Email does not exist", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (LogInAccountManager.authenticate(email, password)) {
+                    if (accountManager.authenticate(email, password)) {
                         // Success
                         Toast.makeText(getApplicationContext(), "Logged in successfully!", Toast.LENGTH_SHORT).show();
 
                         // Get user info from Database
-                        User currentUser = LogInAccountManager.getAccount(email, password);
+                        User currentUser = accountManager.getAccount(email, password);
 
                         // Set log in session
-                        LogInSessionManager.createLoginSession(currentUser.getUserID());
+                        sessionManager.createLoginSession(currentUser.getUserID());
 
                         // Check if we're running on Android 5.0 or higher
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -133,9 +129,9 @@ public class LogInActivity extends AppCompatActivity {
         super.onDestroy();
 
         //Close database connection
-        if (LogInAccountManager != null) {
-            LogInAccountManager.close();
-            LogInAccountManager = null;
+        if (accountManager != null) {
+            accountManager.close();
+            accountManager = null;
         }
     }
 }

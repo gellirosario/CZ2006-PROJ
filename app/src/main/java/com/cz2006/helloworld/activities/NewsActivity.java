@@ -35,21 +35,15 @@ public class NewsActivity extends AppCompatActivity implements NewsFragment.OnFr
 
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
         setTitle("News");
-
-
         loadFragment(new NewsFragment());
-
-
-
-
     }
+
     public void loadFragment(Fragment fragment) {
         String backStateName = fragment.getClass().getName();
         FragmentManager fragmentManager = getSupportFragmentManager();

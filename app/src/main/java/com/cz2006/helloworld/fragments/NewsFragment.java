@@ -21,7 +21,7 @@ import com.cz2006.helloworld.api.ApiNewsClient;
 import com.cz2006.helloworld.api.ApiNewsInterface;
 import com.cz2006.helloworld.models.Article;
 import com.cz2006.helloworld.models.News;
-import com.cz2006.helloworld.adapters.newsAdapter;
+import com.cz2006.helloworld.adapters.NewsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,16 +49,11 @@ public class NewsFragment extends Fragment {
     public static final String search = "singapore-environment";
     public static final String sortBy = "relevancy";
 
-
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
     private List<Article> articles = new ArrayList<>();
-    private newsAdapter adapter;
+    private NewsAdapter mNewsAdapter;
     private String TAG = NewsActivity.class.getSimpleName();
-
-
-
-
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -70,19 +65,14 @@ public class NewsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     public void LoadJson(){
 
         ApiNewsInterface apiNewsInterface = ApiNewsClient.getApiNewsClient().create(ApiNewsInterface.class);
 
-        // String country = Newsutils.getCountry();
-
-
+        // String country = NewsUtils.getCountry();
 
         Call<News> call;
         call = apiNewsInterface.getNews(search,domain,sortBy,API_KEY);
-
-
 
         call.enqueue(new Callback<News>() {
             @Override
@@ -92,18 +82,13 @@ public class NewsFragment extends Fragment {
                     if (!articles.isEmpty()) {
                         articles.clear();
                     }
-
                     articles = response.body().getArticle();
-                    adapter = new newsAdapter(articles, getActivity());
+                    mNewsAdapter = new NewsAdapter(articles, getActivity());
 
-
-
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                    mRecyclerView.setAdapter(mNewsAdapter);
+                    mNewsAdapter.notifyDataSetChanged();
 
                     initListener();
-
-
 
                 } else {
                     Toast.makeText(getActivity(), "No Result!", Toast.LENGTH_SHORT).show();
@@ -117,26 +102,16 @@ public class NewsFragment extends Fragment {
     }
     private void initListener(){
 
-        adapter.setOnItemClickListener(new newsAdapter.OnItemClickListener(){
+        mNewsAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener(){
 
             @Override
             public void onItemClick(View view, int position) {
-
-
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-
                 Article article = articles.get(position);
-
-
                 intent.setData(Uri.parse(article.getUrl()));
-
                 startActivity(intent);
-
-
             }
         });
-
-
     }
 
     /**
@@ -166,8 +141,6 @@ public class NewsFragment extends Fragment {
         }
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -175,18 +148,17 @@ public class NewsFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_news, container, false);
 
 
-        recyclerView = view.findViewById(R.id.recycleView);
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+        mRecyclerView = view.findViewById(R.id.recycleView);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setNestedScrollingEnabled(false);
+        mRecyclerView.setHasFixedSize(true);
 
         LoadJson();
 
         return view;
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event

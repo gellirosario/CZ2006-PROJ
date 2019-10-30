@@ -29,11 +29,11 @@ import com.cz2006.helloworld.managers.SessionManager;
  */
 public class MoreFragment extends Fragment implements View.OnClickListener {
 
-    private AppCompatButton profileBtn;
-    private AppCompatButton leaderboardBtn;
-    private AppCompatButton feedbackBtn;
-    private AppCompatButton faqBtn;
-    private AppCompatButton signoutBtn;
+    private AppCompatButton btnProfile;
+    private AppCompatButton btnLeaderBoard;
+    private AppCompatButton btnFeedback;
+    private AppCompatButton btnFAQ;
+    private AppCompatButton btnSignOut;
 
     private SessionManager sessionManager;
 
@@ -89,11 +89,11 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         //Initialize Variables
         init(v);
 
-        profileBtn.setOnClickListener(this);
-        leaderboardBtn.setOnClickListener(this);
-        feedbackBtn.setOnClickListener(this);
-        faqBtn.setOnClickListener(this);
-        signoutBtn.setOnClickListener(this);
+        btnProfile.setOnClickListener(this);
+        btnLeaderBoard.setOnClickListener(this);
+        btnFeedback.setOnClickListener(this);
+        btnFAQ.setOnClickListener(this);
+        btnSignOut.setOnClickListener(this);
 
         return v;
     }
@@ -182,11 +182,11 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         // Initialize variables
         sessionManager = new SessionManager(getContext());
 
-        profileBtn = v.findViewById(R.id.btnProfile);
-        leaderboardBtn = v.findViewById(R.id.btnLeaderboard);
-        feedbackBtn = v.findViewById(R.id.btnFeedback);
-        faqBtn = v.findViewById(R.id.btnFAQ);
-        signoutBtn = v.findViewById(R.id.btnSignOut);
+        btnProfile = v.findViewById(R.id.btnProfile);
+        btnLeaderBoard = v.findViewById(R.id.btnLeaderboard);
+        btnFeedback = v.findViewById(R.id.btnFeedback);
+        btnFAQ = v.findViewById(R.id.btnFAQ);
+        btnSignOut = v.findViewById(R.id.btnSignOut);
 
 
     }

@@ -24,18 +24,18 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.models.Article;
-import com.cz2006.helloworld.util.Newsutils;
+import com.cz2006.helloworld.util.NewsUtils;
 
 import java.util.List;
 
-public class newsAdapter extends RecyclerView.Adapter<newsAdapter.MyViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
 
     private List<Article> articles;
     private Context context;
     private OnItemClickListener onItemClickListener;
 
-    public newsAdapter(List<Article> articles, Context context) {
+    public NewsAdapter(List<Article> articles, Context context) {
         this.articles = articles;
         this.context = context;
     }
@@ -56,8 +56,8 @@ public class newsAdapter extends RecyclerView.Adapter<newsAdapter.MyViewHolder> 
         Article model = articles.get(position);
 
         RequestOptions requestOptions = new RequestOptions();
-        requestOptions.placeholder(Newsutils.getRandomDrawableColor());
-        requestOptions.error(Newsutils.getRandomDrawableColor());
+        requestOptions.placeholder(NewsUtils.getRandomDrawableColor());
+        requestOptions.error(NewsUtils.getRandomDrawableColor());
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
         requestOptions.centerCrop();
 
@@ -83,8 +83,8 @@ public class newsAdapter extends RecyclerView.Adapter<newsAdapter.MyViewHolder> 
         holder.title.setText(model.getTitle());
         holder.desc.setText(model.getDescription());
         holder.source.setText(model.getSource().getName());
-        holder.time.setText(" \u2022 " + Newsutils.DateToTimeFormat(model.getPublishedAt()));
-        holder.published_ad.setText(Newsutils.DateFormat(model.getPublishedAt()));
+        holder.time.setText(" \u2022 " + NewsUtils.DateToTimeFormat(model.getPublishedAt()));
+        holder.published_ad.setText(NewsUtils.DateFormat(model.getPublishedAt()));
         holder.author.setText(model.getAuthor());
 
 

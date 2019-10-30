@@ -1,12 +1,9 @@
 package com.cz2006.helloworld.activities;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,7 +22,6 @@ import com.cz2006.helloworld.fragments.MapFragment;
 import com.cz2006.helloworld.fragments.MoreFragment;
 import com.cz2006.helloworld.fragments.ScanFragment;
 import com.cz2006.helloworld.fragments.TrackFragment;
-import com.cz2006.helloworld.managers.AccountManager;
 import com.cz2006.helloworld.managers.SessionManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -40,7 +36,6 @@ public class BottomNavigationActivity extends AppCompatActivity implements HomeF
         ScanFragment.OnFragmentInteractionListener, TrackFragment.OnFragmentInteractionListener, MoreFragment.OnFragmentInteractionListener {
 
     private ActionBar toolbar;
-    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

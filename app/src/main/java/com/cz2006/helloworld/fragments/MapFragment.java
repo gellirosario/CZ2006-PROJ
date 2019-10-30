@@ -78,20 +78,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     private ArrayList<MapDetail> details = new ArrayList<>();
     private GoogleMap mMap;
-    private FloatingActionButton floatingActionButton;
+    private FloatingActionButton mFloatingActionButton;
     private RecyclerView mRecyclerView;
     private NestedScrollView nestedScrollViewBSheet;
     private BottomSheetBehavior mBottomSheetBehavior;
     private FloatingSearchView mSearchView;
     private DisplayAdapter displayAdapter;
-    private TextView mCardView_Title;
+    private TextView mCardViewText;
 
     // Store Longitude and Latitude
     private double lat = 0, lng = 0;
 
     // Google ApiClient
     private GoogleApiClient mGoogleApiClient;
-
     private LocationRequest mLocationRequest;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -178,7 +177,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
 
         // Floating Action Button Click Method
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getCurrentLocation();
@@ -200,11 +199,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
                 if (displayAdapter.getItemCount() == 0) {
                     mBottomSheetBehavior.setPeekHeight(convertDpToPx(150));
-                    mCardView_Title.setText("No Results Found");
+                    mCardViewText.setText("No Results Found");
                 }
                 else {
                     mBottomSheetBehavior.setPeekHeight(convertDpToPx(250));
-                    mCardView_Title.setText("Recycling Points");
+                    mCardViewText.setText("Recycling Points");
                 }
             }
         });
@@ -378,10 +377,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         // Initialize variables
         this.nestedScrollViewBSheet = v.findViewById(R.id.bottom_sheet);
         this.mBottomSheetBehavior = BottomSheetBehavior.from(nestedScrollViewBSheet);
-        this.floatingActionButton = v.findViewById(R.id.currentLocationBtn);
+        this.mFloatingActionButton = v.findViewById(R.id.currentLocationBtn);
         this.mRecyclerView = v.findViewById(R.id.recycler_view);
         this.mSearchView = v.findViewById(R.id.floating_search_view);
-        this.mCardView_Title = v.findViewById(R.id.cardView_Title);
+        this.mCardViewText = v.findViewById(R.id.cardView_Title);
         this.displayAdapter = new DisplayAdapter(details, getActivity());
     }
     // Retrieve data from KML File

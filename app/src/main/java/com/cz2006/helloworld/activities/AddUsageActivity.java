@@ -57,7 +57,6 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
         AddUsageManager.open();
 
         setTitle("Add Usage");
-        //AddUsageManager.open();
 
         //Part I Spinners
         //ADD AVAILABLE MONTHS AND YEARS TO THE SELECTION SPINNER
@@ -184,6 +183,8 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener {
                     testing.setText(String.valueOf(Year) + String.valueOf(Month) + Type + "\n Amount = " + Amount + "\n Price = " + Price);
                     AddUsageManager.addUsage(Year, Month, Type, Amount, Price);
                     Toast.makeText(getApplicationContext(), "Added Usage!", Toast.LENGTH_SHORT).show();
+                    //Intent go = new Intent(AddUsageActivity.this, TrackFragment.class);
+                    //startActivity(go);
                 } else {
                     Toast.makeText(getApplicationContext(), "Date must be within 2 months before Current Date!", Toast.LENGTH_SHORT).show();
                 }

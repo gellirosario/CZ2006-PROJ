@@ -81,14 +81,14 @@ public class TrackFragment extends Fragment {
         //chart - WIP
         //LineChart chart = (LineChart) view.findViewById(R.id.line_chart);
         //LineData lineData = new LineData(dataSet);
-        int Eyearsum, Gyearsum, Wyearsum;
+        float Eyearsum, Gyearsum, Wyearsum;
         SessionManager trackFragSessionM = new SessionManager(getContext());
         int userid = trackFragSessionM.getUserDetails().get("userID");
         UsageManager trackFragUsageManager = new UsageManager(getContext());
-        //trackFragUsageManager.open();
-        //Eyearsum = trackFragUsageManager.calyearsum(userid, 2019, 'E');
+        trackFragUsageManager.open();
+        Eyearsum = trackFragUsageManager.calyearsum(userid, 2019, 'E');
         TextView go = view.findViewById(R.id.TFsum);
-        go.setText("Sum : " + userid); //RETURN userID?!
+        go.setText("Sum : " + Eyearsum); //RETURN userID?!
         FloatingActionButton AddUsageBtn = (FloatingActionButton) view.findViewById(R.id.AddUsageButton);
         AddUsageBtn.setOnClickListener(new View.OnClickListener() {
             @Override

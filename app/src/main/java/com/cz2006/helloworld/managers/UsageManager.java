@@ -64,7 +64,7 @@ public class UsageManager {
         // Add userID column
         TableColumn userIDColumn = new TableColumn();
         userIDColumn.setColumnName(this.TABLE_USAGE_COLUMN_USER_ID);
-        userIDColumn.setColumnValue(String.valueOf(1)); //USERID TO BE SOLVED
+        userIDColumn.setColumnValue(String.valueOf(userid)); //USERID TO BE SOLVED
         tableColumnList.add(userIDColumn);
 
         // Add Year column
@@ -97,20 +97,22 @@ public class UsageManager {
         tableColumnList.add(usagePriceColumn);
 
         Toast.makeText(ctx.getApplicationContext(), "CREATED ALL COLUMNS!", Toast.LENGTH_SHORT).show();
-        // Insert added column in to account table.
-        //this.UMdbManager.insert(this.TABLE_NAME_USAGE, tableColumnList);
+        //Insert added column in to account table.
+        this.UMdbManager.insert(this.TABLE_NAME_USAGE, tableColumnList);
     }
 
-    public int calyearsum(int id, int year, char type)
+    public float calyearsum(int id, int year, char type)
     {
-        int sum1 = 0;
+        float sum1 = 0;
         Cursor cursor = this.UMdbManager.queryTwoSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, String.valueOf(id), this.TABLE_USAGE_COLUMN_YEAR, String.valueOf(year));
         /*while (cursor!=null) {
-            int amount = cursor.getInt(cursor.getColumnIndex(TABLE_USAGE_COLUMN_AMOUNT));
+            float amount = cursor.getFloat(cursor.getColumnIndex(TABLE_USAGE_COLUMN_AMOUNT));
             sum1 = sum1 + amount;
             cursor.moveToNext();
         }*/
-        return id;
+        int count = cursor.getCount();
+        Toast.makeText(ctx.getApplicationContext(), "NOTHING IN CURSOR! " + String.valueOf(count), Toast.LENGTH_SHORT).show();
+        return sum1;
     }
 
     // Update Usage Data OF THE CURRENT USER

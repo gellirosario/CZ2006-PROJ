@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
+    android:layout_margin="30dp"
     android:orientation="vertical"
     tools:context=".activities.AddUsageActivity">
 
@@ -161,20 +161,18 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/SubmitBtn"
-            android:layout_width="220dp"
-            android:layout_height="38dp"
-            android:layout_marginLeft="75dp"
+            android:id="@+id/btnSubmit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_button_green"
-            android:padding="5dp"
-            android:text="Add"
-            android:textAlignment="center"
+            android:padding="15dp"
+            android:textStyle="bold"
             android:textColor="@color/colorWhite"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:background="@drawable/rounded_button_green"
+            android:text="Add"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -2,10 +2,7 @@ package com.cz2006.helloworld.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Pair;
@@ -22,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cz2006.helloworld.R;
-import com.cz2006.helloworld.fragments.TrackFragment;
 import com.cz2006.helloworld.managers.UsageManager;
 
 import java.util.ArrayList;
@@ -105,12 +101,12 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
         rbWater.setOnClickListener(this);
 
         //Part III To Submit!
-        btnSubmit = findViewById(R.id.SubmitBtn);
+        btnSubmit = findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(this);
 
         inputAmount = (EditText) findViewById(R.id.UsageAmountInp);
         inputPrice = (EditText) findViewById(R.id.UsagePriceInp);
-        btnSubmit = (Button) findViewById(R.id.SubmitBtn);
+        btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
         inputAmount.setText("0");
         inputPrice.setText("0");
@@ -169,7 +165,7 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
                 rbWater.setChecked(true);
                 Type = 'W';
                 break;
-            case R.id.SubmitBtn:
+            case R.id.btnSubmit:
 
                 Amount = Float.parseFloat(inputAmount.getText().toString());
                 Price = Float.parseFloat(inputPrice.getText().toString());

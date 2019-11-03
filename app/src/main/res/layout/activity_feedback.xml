@@ -103,7 +103,8 @@
             android:textStyle="bold"
             android:textColor="@color/colorWhite"
             android:background="@drawable/rounded_button_green"
-            android:text="Send"/>
+            android:text="Send"
+            android:onClick="sendFeedback"/>
     </LinearLayout>
 
 

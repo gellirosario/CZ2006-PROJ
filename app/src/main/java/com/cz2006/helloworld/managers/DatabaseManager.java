@@ -93,6 +93,9 @@ public class DatabaseManager {
         }
 
         this.tableNameList.add(TABLE_NAME_ACCOUNT);
+        this.tableNameList.add(TABLE_NAME_POINT);
+        this.tableNameList.add(TABLE_NAME_USAGE);
+        this.tableNameList.add(TABLE_NAME_FEEDBACK);
 
         StringBuffer sqlBuf = new StringBuffer();
 
@@ -165,7 +168,7 @@ public class DatabaseManager {
         sqlBuf = new StringBuffer();
 
         // Create usage table sql
-        sqlBuf.append("CREATE TABLE ");
+        sqlBuf.append("CREATE TABLE IF NOT EXISTS ");
         sqlBuf.append(TABLE_NAME_FEEDBACK);
         sqlBuf.append("( ");
         sqlBuf.append(TABLE_FEEDBACK_COLUMN_ID);
@@ -175,9 +178,9 @@ public class DatabaseManager {
         sqlBuf.append(TABLE_FEEDBACK_COLUMN_DESC);
         sqlBuf.append(" TEXT NOT NULL,");
         sqlBuf.append(TABLE_FEEDBACK_COLUMN_DATE);
-        sqlBuf.append(" DATETIME NOT NULL,");
+        sqlBuf.append(" TEXT NOT NULL,");
         sqlBuf.append(TABLE_FEEDBACK_COLUMN_RATING);
-        sqlBuf.append(" INTEGER NOT NULL,");
+        sqlBuf.append(" REAL NOT NULL,");
         sqlBuf.append(TABLE_FEEDBACK_COLUMN_USER_ID);
         sqlBuf.append(" INTEGER NOT NULL, FOREIGN KEY (");
         sqlBuf.append(TABLE_FEEDBACK_COLUMN_USER_ID);

@@ -7,38 +7,9 @@
     android:orientation="vertical"
     tools:context=".activities.ProfileActivity">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View "
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Profile"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:textColor="@color/colorSecondary"/>
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp"
-        android:text="View your details, points and recent activity"
-        android:textSize="13dp"
-        android:textColor="@color/colorBlack"
-        android:layout_marginBottom="30dp"/>
-
     <ImageView
-        android:layout_width="125dp"
-        android:layout_height="120dp"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
         android:background="@drawable/ic_user_image"
         android:backgroundTint="@color/colorPrimary"
         android:layout_gravity="center">

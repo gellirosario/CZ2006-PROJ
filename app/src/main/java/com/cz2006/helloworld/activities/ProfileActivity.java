@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.cz2006.helloworld.managers.SessionManager;
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView viewLeaderBoardTV, viewRecentActivityTV;
+    private Button btnEditProfile;
     private AccountManager accountManager;
     private SessionManager sessionManager;
 
@@ -34,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         viewLeaderBoardTV = findViewById(R.id.viewLeaderBoardTV);
         viewRecentActivityTV = findViewById(R.id.viewRecentActivityTV);
+        btnEditProfile = findViewById(R.id.btnEditProfile);
 
         viewLeaderBoardTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +51,14 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this
                         , RecentActivityActivity.class));
+            }
+        });
+
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this
+                        , EditProfileActivity.class));
             }
         });
 

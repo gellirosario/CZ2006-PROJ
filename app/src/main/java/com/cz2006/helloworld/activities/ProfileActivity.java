@@ -19,7 +19,7 @@ import com.cz2006.helloworld.models.User;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView viewLeaderBoardTV, viewRecentActivityTV, nameTV, emailTV;
+    private TextView viewLeaderBoardTV, viewRecentActivityTV, nameTV, emailTV, pointTV;
     private Button btnEditProfile;
     private AccountManager accountManager;
     private SessionManager sessionManager;
@@ -39,6 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
         viewRecentActivityTV = findViewById(R.id.viewRecentActivityTV);
         nameTV = findViewById(R.id.nameTV);
         emailTV = findViewById(R.id.emailTV);
+        pointTV = findViewById(R.id.pointTV);
         btnEditProfile = findViewById(R.id.btnEditProfile);
 
         viewLeaderBoardTV.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
         User currentUser = accountManager.getAccountWithID(String.valueOf(userID));
         nameTV.setText(currentUser.getUserName());
         emailTV.setText(currentUser.getUserEmail());
+        pointTV.setText(String.valueOf(currentUser.getTotalPoints()));
     }
 
     public void setTitle(String title) {

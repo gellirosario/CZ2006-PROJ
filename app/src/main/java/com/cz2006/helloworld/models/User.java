@@ -12,7 +12,7 @@ public class User {
     private String userName;
     private String userEmail;
     private String userPassword;
-    private int points;
+    private int totalPoints;
 
     public User(){
 
@@ -23,7 +23,7 @@ public class User {
         this.userName = userName;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
-        this.points = points;
+        this.totalPoints = points;
     }
 
     public int getUserID() {
@@ -58,11 +58,11 @@ public class User {
         this.userPassword = userPassword;
     }
 
-    public int getPoints() {
-        return points;
+    public int getTotalPoints() {
+        return totalPoints;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    public void setTotalPoints(int totalPoints) {
+        this.totalPoints = totalPoints;
     }
 }

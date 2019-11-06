@@ -3,46 +3,23 @@ package com.cz2006.helloworld.activities;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
 
-public class ProfileActivity extends AppCompatActivity {
-
-    private TextView viewLeaderBoardTV, viewRecentActivityTV;
+public class RecentActivityActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_recent_activity);
 
         // Set Activity Title
-        setTitle("Profile");
-
-        viewLeaderBoardTV = findViewById(R.id.viewLeaderBoardTV);
-        viewRecentActivityTV = findViewById(R.id.viewRecentActivityTV);
-
-        viewLeaderBoardTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this
-                        , LeaderboardActivity.class));
-            }
-        });
-
-        viewRecentActivityTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this
-                        , RecentActivityActivity.class));
-            }
-        });
+        setTitle("Recent Activity");
     }
 
     public void setTitle(String title) {

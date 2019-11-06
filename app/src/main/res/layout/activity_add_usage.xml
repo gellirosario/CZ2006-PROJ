@@ -29,6 +29,14 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp"
+        android:text="Add Utility Usage for the month"
+        android:textSize="13dp"
+        android:textColor="@color/colorBlack"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_margin="30dp"
     android:orientation="vertical"
-    tools:context=".activities.LeaderboardActivity">
+    tools:context=".activities.RecentActivityActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View "
+            android:text="Recent "
             android:textSize="30dp"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"/>
@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Leaderboard"
+            android:text="Activity"
             android:textSize="30dp"
             android:textStyle="bold"
             android:textColor="@color/colorSecondary"/>
@@ -31,8 +31,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
-        android:text="View top points of all the users"
+        android:text="View your recent activity"
         android:textSize="13dp"
-        android:textColor="@color/colorBlack"/>
+        android:textColor="@color/colorBlack"
+        android:layout_marginBottom="30dp"/>
+
+    // List View Here
 
 </LinearLayout>

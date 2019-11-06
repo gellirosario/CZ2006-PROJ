@@ -87,8 +87,7 @@ public class AccountManager {
     }
 
     // Update User's Account
-    // TODO: ADD - UPDATE USER'S NAME
-    public void updateAccount(int id, String password, String email)
+    public void updateAccount(int id, String email, String password, String name)
     {
         // Create table column list
         List<TableColumn> updateColumnList = new ArrayList<TableColumn>();
@@ -102,11 +101,22 @@ public class AccountManager {
             updateColumnList.add(passwordColumn);
         }
 
-        // Add email column
-        TableColumn emailColumn = new TableColumn();
-        emailColumn.setColumnName(this.TABLE_ACCOUNT_COLUMN_EMAIL);
-        emailColumn.setColumnValue(email);
-        updateColumnList.add(emailColumn);
+        if(!TextUtils.isEmpty(password)) {
+            // Add email column
+            TableColumn emailColumn = new TableColumn();
+            emailColumn.setColumnName(this.TABLE_ACCOUNT_COLUMN_EMAIL);
+            emailColumn.setColumnValue(email);
+            updateColumnList.add(emailColumn);
+        }
+
+        if(!TextUtils.isEmpty(name)) {
+            // Add name column
+            TableColumn nameColumn = new TableColumn();
+            nameColumn.setColumnName(this.TABLE_ACCOUNT_COLUMN_USERNAME);
+            nameColumn.setColumnValue(name);
+            updateColumnList.add(nameColumn);
+        }
+
 
         String whereClause = this.TABLE_ACCOUNT_COLUMN_ID + " = " + id;
 

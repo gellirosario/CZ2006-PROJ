@@ -18,6 +18,7 @@
     </ImageView>
 
     <TextView
+        android:id="@+id/nameTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
@@ -28,6 +29,7 @@
         android:textColor="@color/colorSecondary"/>
 
     <TextView
+        android:id="@+id/emailTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
@@ -47,23 +49,8 @@
 
     <EditText
         android:id="@+id/nameET"
-        android:layout_width="match_parent"
-        android:layout_height="37dp"
-        android:layout_marginTop="10dp"
-        android:gravity="top"
-        android:background="@drawable/edit_text_background"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Email"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="@color/colorSecondary"/>
-
-    <EditText
-        android:id="@+id/emailET"
+        android:maxLines="1"
+        android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="37dp"
         android:layout_marginTop="10dp"
@@ -81,6 +68,8 @@
 
     <EditText
         android:id="@+id/currentPasswordET"
+        android:maxLines="1"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="37dp"
         android:layout_marginTop="10dp"
@@ -98,6 +87,8 @@
 
     <EditText
         android:id="@+id/newPasswordET"
+        android:maxLines="1"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="37dp"
         android:layout_marginTop="10dp"

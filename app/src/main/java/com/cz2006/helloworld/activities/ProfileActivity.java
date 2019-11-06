@@ -15,10 +15,11 @@ import android.widget.TextView;
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.managers.AccountManager;
 import com.cz2006.helloworld.managers.SessionManager;
+import com.cz2006.helloworld.models.User;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView viewLeaderBoardTV, viewRecentActivityTV;
+    private TextView viewLeaderBoardTV, viewRecentActivityTV, nameTV, emailTV;
     private Button btnEditProfile;
     private AccountManager accountManager;
     private SessionManager sessionManager;
@@ -36,6 +37,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         viewLeaderBoardTV = findViewById(R.id.viewLeaderBoardTV);
         viewRecentActivityTV = findViewById(R.id.viewRecentActivityTV);
+        nameTV = findViewById(R.id.nameTV);
+        emailTV = findViewById(R.id.emailTV);
         btnEditProfile = findViewById(R.id.btnEditProfile);
 
         viewLeaderBoardTV.setOnClickListener(new View.OnClickListener() {
@@ -59,14 +62,22 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this
                         , EditProfileActivity.class));
+                finish();
             }
         });
 
         accountManager.open(); // Open Database Connection
+        getProfileDetails();
     }
 
     public void getProfileDetails(){
 
+        int userID = sessionManager.getUserDetails().get("userID");
+
+        // Get user info from Database
+        User currentUser = accountManager.getAccountWithID(String.valueOf(userID));
+        nameTV.setText(currentUser.getUserName());
+        emailTV.setText(currentUser.getUserEmail());
     }
 
     public void setTitle(String title) {
@@ -93,5 +104,13 @@ public class ProfileActivity extends AppCompatActivity {
             accountManager.close();
             accountManager = null;
         }
+
+        this.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
     }
 }

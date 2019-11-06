@@ -12,10 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.managers.AccountManager;
+import com.cz2006.helloworld.managers.SessionManager;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView viewLeaderBoardTV, viewRecentActivityTV;
+    private AccountManager accountManager;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Set Activity Title
         setTitle("Profile");
+
+        sessionManager = new SessionManager(getApplicationContext());
+        accountManager = new AccountManager(getApplicationContext());
 
         viewLeaderBoardTV = findViewById(R.id.viewLeaderBoardTV);
         viewRecentActivityTV = findViewById(R.id.viewRecentActivityTV);
@@ -43,6 +50,12 @@ public class ProfileActivity extends AppCompatActivity {
                         , RecentActivityActivity.class));
             }
         });
+
+        accountManager.open(); // Open Database Connection
+    }
+
+    public void getProfileDetails(){
+
     }
 
     public void setTitle(String title) {
@@ -58,5 +71,16 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(textView);
         getSupportActionBar().setIcon(R.drawable.ic_back_24dp);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //Close database connection
+        if (accountManager != null) {
+            accountManager.close();
+            accountManager = null;
+        }
     }
 }

@@ -57,7 +57,6 @@ public class LogInActivity extends AppCompatActivity {
 
         accountManager.open(); // Open Database Connection
 
-
         // Log In Button Click Event
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,41 +65,7 @@ public class LogInActivity extends AppCompatActivity {
                 email = inputEmail.getText().toString();
                 password = inputPassword.getText().toString();
 
-                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-
-                    Toast.makeText(getApplicationContext(), "Please fill in all details", Toast.LENGTH_SHORT).show();
-                } else if (!email.matches(emailPattern)) {
-                    Toast.makeText(getApplicationContext(), "Please enter a correct email address", Toast.LENGTH_SHORT).show();
-                } else if (!accountManager.checkExistingEmail(email)) {
-                    Toast.makeText(getApplicationContext(), "Email does not exist", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (accountManager.authenticate(email, password)) {
-                        // Success
-                        Toast.makeText(getApplicationContext(), "Logged in successfully!", Toast.LENGTH_SHORT).show();
-
-                        // Get user info from Database
-                        User currentUser = accountManager.getAccount(email, password);
-
-                        // Set log in session
-                        sessionManager.createLoginSession(currentUser.getUserID());
-
-                        // Check if we're running on Android 5.0 or higher
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-                            // Apply activity transition
-                            startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class));
-
-                            ActivityOptions.makeSceneTransitionAnimation(LogInActivity.this).toBundle();
-                        } else {
-                            // Swap without transition
-                            startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class));
-                        }
-                    } else {
-                        // Failed
-                        Toast.makeText(getApplicationContext(), "Incorrect email/password", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
+                logIn(email,password);
 
             }
         });
@@ -118,10 +83,46 @@ public class LogInActivity extends AppCompatActivity {
                     // Swap without transition
                     startActivity(new Intent(LogInActivity.this, SignUpActivity.class));
                 }
-
             }
         });
 
+    }
+
+    public void logIn(String email, String password){
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+
+            Toast.makeText(getApplicationContext(), "Please fill in all details", Toast.LENGTH_SHORT).show();
+        } else if (!email.matches(emailPattern)) {
+            Toast.makeText(getApplicationContext(), "Please enter a correct email address", Toast.LENGTH_SHORT).show();
+        } else if (!accountManager.checkExistingEmail(email)) {
+            Toast.makeText(getApplicationContext(), "Email does not exist", Toast.LENGTH_SHORT).show();
+        } else {
+            if (accountManager.authenticate(email, password)) {
+                // Success
+                Toast.makeText(getApplicationContext(), "Logged in successfully!", Toast.LENGTH_SHORT).show();
+
+                // Get user info from Database
+                User currentUser = accountManager.getAccount(email, password);
+
+                // Set log in session
+                sessionManager.createLoginSession(currentUser.getUserID());
+
+                // Check if we're running on Android 5.0 or higher
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                    // Apply activity transition
+                    startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class));
+
+                    ActivityOptions.makeSceneTransitionAnimation(LogInActivity.this).toBundle();
+                } else {
+                    // Swap without transition
+                    startActivity(new Intent(LogInActivity.this, BottomNavigationActivity.class));
+                }
+            } else {
+                // Failed
+                Toast.makeText(getApplicationContext(), "Incorrect email/password", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override

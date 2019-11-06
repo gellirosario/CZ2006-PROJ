@@ -52,35 +52,12 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(TextUtils.isEmpty(inputEmail.getText().toString()) || TextUtils.isEmpty(inputPassword.getText().toString()) || TextUtils.isEmpty(inputName.getText().toString()) )
-                {
-                    Toast.makeText(getApplicationContext(), "Please fill in all details", Toast.LENGTH_SHORT).show();
-                }
-                else if(!inputEmail.getText().toString().matches(emailPattern))
-                {
-                    Toast.makeText(getApplicationContext(), "Please enter a correct email address", Toast.LENGTH_SHORT).show();
-                }
-                else if(accountManager.checkExistingEmail(inputEmail.getText().toString()))
-                {
-                    Toast.makeText(getApplicationContext(), "Email already exist", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    accountManager.createAccount(inputName.getText().toString(),inputEmail.getText().toString(),inputPassword.getText().toString());
-                    Toast.makeText(getApplicationContext(), "Account created successfully!", Toast.LENGTH_SHORT).show();
+                String email, password, name;
+                email = inputEmail.getText().toString();
+                password = inputPassword.getText().toString();
+                name = inputName.getText().toString();
 
-                    // Check if we're running on Android 5.0 or higher
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-                        // Apply activity transition
-                        startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
-
-                        ActivityOptions.makeSceneTransitionAnimation(SignUpActivity.this).toBundle();
-                    } else {
-                        // Swap without transition
-                        startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
-                    }
-                }
+                register(email,password,name);
             }
         });
 
@@ -99,6 +76,38 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void register(String email, String password, String name){
+        if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(name) )
+        {
+            Toast.makeText(getApplicationContext(), "Please fill in all details", Toast.LENGTH_SHORT).show();
+        }
+        else if(!email.matches(emailPattern))
+        {
+            Toast.makeText(getApplicationContext(), "Please enter a correct email address", Toast.LENGTH_SHORT).show();
+        }
+        else if(accountManager.checkExistingEmail(email))
+        {
+            Toast.makeText(getApplicationContext(), "Email already exist", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            accountManager.createAccount(name,email,password);
+            Toast.makeText(getApplicationContext(), "Account created successfully!", Toast.LENGTH_SHORT).show();
+
+            // Check if we're running on Android 5.0 or higher
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                // Apply activity transition
+                startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
+
+                ActivityOptions.makeSceneTransitionAnimation(SignUpActivity.this).toBundle();
+            } else {
+                // Swap without transition
+                startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
+            }
+        }
     }
 
     @Override

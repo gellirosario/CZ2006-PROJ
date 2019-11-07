@@ -6,6 +6,7 @@ import android.content.Intent;
 import java.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.activities.AddUsageActivity;
+import com.cz2006.helloworld.models.Usage;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -25,9 +27,11 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.utils.EntryXComparator;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import com.cz2006.helloworld.managers.SessionManager;
 import com.cz2006.helloworld.managers.UsageManager;
@@ -48,6 +52,8 @@ public class TrackFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private List<Usage> usageToDisplay;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -86,9 +92,30 @@ public class TrackFragment extends Fragment {
         }
     }
 
+    public List<Entry> formatEntries(){
+
+        List<Entry> dataEntries = new ArrayList<Entry>();
+
+        int x; //month
+        int y; //amount
+
+
+        for (int i = 0; i < usageToDisplay.size(); i++){
+            x = usageToDisplay.get(i).getUsageMonth();
+            y = usageToDisplay.get(i).getUsageAmount();
+            dataEntries.add(new Entry(x,y));
+            Log.d("ENTRY " + i, "X = " + dataEntries.get(i).getX() + ", Y = " + dataEntries.get(i).getY());
+        }
+
+        Log.d("DEBUG", String.valueOf(dataEntries.size()));
+        return dataEntries;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Log.d("DEBUG", "HELLO!");
 
         View view = inflater.inflate(R.layout.fragment_track, container, false);
 
@@ -101,10 +128,41 @@ public class TrackFragment extends Fragment {
 
         s.setAdapter(adapter);
 
+
+        float Eyearsum, Gyearsum, Wyearsum;
+        SessionManager trackFragSessionM = new SessionManager(getContext());
+        int userid = trackFragSessionM.getUserDetails().get("userID");
+        UsageManager trackFragUsageManager = new UsageManager(getContext());
+        trackFragUsageManager.open();
+        Calendar date = Calendar.getInstance();
+        int yearnow = date.get(Calendar.YEAR);
+        Eyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'E');
+        Gyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'G');
+        Wyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'W');
+
+
+        TextView go = view.findViewById(R.id.TFsum);
+        go.setText("Sum : " + Eyearsum + "," + Gyearsum + "," + Wyearsum); //RETURN userID?!
+        FloatingActionButton AddUsageBtn = (FloatingActionButton) view.findViewById(R.id.AddUsageButton);
+        AddUsageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent go = new Intent(getActivity(), AddUsageActivity.class);
+                startActivity(go);
+            }
+        });
+
+
+        usageToDisplay = trackFragUsageManager.getUserUsage(String.valueOf(trackFragSessionM.getUserDetails().get("userID")), String.valueOf(date.get(Calendar.YEAR)), "E");
+
+
         //chart - WIP
         LineChart chart = (LineChart) view.findViewById(R.id.line_chart);
 
         List<Entry> entries = new ArrayList<Entry>();
+        entries = formatEntries();
+        Collections.sort(entries, new EntryXComparator()); //sort list by x axis in ascending order
+        Log.d("NUMBER OF ENTRIES", String.valueOf(entries.size()));
 
         final String[] months = new String[] {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 
@@ -119,10 +177,14 @@ public class TrackFragment extends Fragment {
         xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
         xAxis.setValueFormatter(formatter);
 
+
         //sample data to test out chart
-        entries.add(new Entry(1,10));
-        entries.add(new Entry(2,20));
-        entries.add(new Entry(3,15));
+        //entries.add(new Entry(11,50));
+        //entries.add(new Entry(10,40));
+        //entries.add(new Entry(9,30));
+
+
+
 
         LineDataSet dataSet = new LineDataSet(entries, "Electricity Usage");
 
@@ -132,26 +194,7 @@ public class TrackFragment extends Fragment {
 
         //LineChart chart = (LineChart) view.findViewById(R.id.line_chart);
         //LineData lineData = new LineData(dataSet);
-        float Eyearsum, Gyearsum, Wyearsum;
-        SessionManager trackFragSessionM = new SessionManager(getContext());
-        int userid = trackFragSessionM.getUserDetails().get("userID");
-        UsageManager trackFragUsageManager = new UsageManager(getContext());
-        trackFragUsageManager.open();
-        Calendar date = Calendar.getInstance();
-        int yearnow = date.get(Calendar.YEAR);
-        Eyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'E');
-        Gyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'G');
-        Wyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'W');
-        TextView go = view.findViewById(R.id.TFsum);
-        go.setText("Sum : " + Eyearsum + "," + Gyearsum + "," + Wyearsum); //RETURN userID?!
-        FloatingActionButton AddUsageBtn = (FloatingActionButton) view.findViewById(R.id.AddUsageButton);
-        AddUsageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent go = new Intent(getActivity(), AddUsageActivity.class);
-                startActivity(go);
-            }
-        });
+
         // Inflate the layout for this fragment
         return view;
 

@@ -2,8 +2,10 @@ package com.cz2006.helloworld.managers;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.cz2006.helloworld.models.Usage;
 import com.cz2006.helloworld.util.TableColumn;
 
 import java.util.ArrayList;
@@ -124,6 +126,55 @@ public class UsageManager {
 
         // Insert added column in to account table.
         this.databaseManager.update(this.TABLE_NAME_USAGE, updateColumnList, whereClause);
+    }
+
+    //get all usage of a selected type for a specific user for a given year
+    public List<Usage> getUserUsage(String userId, String year, String usageType){
+
+        List<Usage> ret = new ArrayList<Usage>();
+
+        Cursor cursor = this.databaseManager.queryThreeSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, userId, this.TABLE_USAGE_COLUMN_YEAR, year, this.TABLE_USAGE_COLUMN_TYPE, usageType);
+        //Cursor cursor = this.databaseManager.queryOneSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, userId);
+
+        if (cursor != null){
+            do{
+                Log.d("DEBUG: ", "Found entry..");
+
+                int uid = cursor.getInt(cursor.getColumnIndex(this.TABLE_USAGE_COLUMN_USER_ID));
+                int yr = cursor.getInt(cursor.getColumnIndex(this.TABLE_USAGE_COLUMN_YEAR));
+                int mth = cursor.getInt(cursor.getColumnIndex(this.TABLE_USAGE_COLUMN_MONTH));
+                int amount = cursor.getInt(cursor.getColumnIndex(this.TABLE_USAGE_COLUMN_AMOUNT));
+                String type = cursor.getString(cursor.getColumnIndex(this.TABLE_USAGE_COLUMN_TYPE));
+
+                Log.d("UID", String.valueOf(uid));
+                Log.d("YEAR", String.valueOf(yr));
+                Log.d("MONTH", String.valueOf(mth));
+                Log.d("AMOUNT", String.valueOf(amount));
+                Log.d("TYPE", String.valueOf(type));
+
+                Usage usage = new Usage();
+
+                usage.setUserId(uid);
+                usage.setUsageYear(yr);
+                usage.setUsageMonth(mth);
+                usage.setUsageAmount(amount);
+                usage.setUsageType(type);
+
+//                usage.setUserId(1);
+//                usage.setUsageYear(2019);
+//                usage.setUsageMonth(10);
+//                usage.setUsageAmount(50);
+//                usage.setUsageType("E");
+
+                ret.add(usage);
+            }
+            while (cursor.moveToNext());
+
+            if (!cursor.isClosed()){
+                cursor.close();
+            }
+        }
+        return ret;
     }
 
 

@@ -62,7 +62,7 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
         List<String> MonthList = new ArrayList<String>();
         Calendar date = Calendar.getInstance();
         int year = date.get(Calendar.YEAR);
-        int month = date.get(Calendar.MONTH) + 1 - 9;
+        int month = date.get(Calendar.MONTH) + 1;
         YearList.add(String.valueOf(year));
         MonthList.add(String.valueOf(month));
         calList.add(new Pair<Integer, Integer>(year, month));

@@ -101,7 +101,7 @@ public class TrackFragment extends Fragment {
 
 
         for (int i = 0; i < usageToDisplay.size(); i++){
-            x = usageToDisplay.get(i).getUsageMonth();
+            x = usageToDisplay.get(i).getUsageMonth() - 1;
             y = usageToDisplay.get(i).getUsageAmount();
             dataEntries.add(new Entry(x,y));
             Log.d("ENTRY " + i, "X = " + dataEntries.get(i).getX() + ", Y = " + dataEntries.get(i).getY());
@@ -111,17 +111,51 @@ public class TrackFragment extends Fragment {
         return dataEntries;
     }
 
+    public void updateChart(LineChart chart){
+
+
+        List<Entry> entries = new ArrayList<Entry>();
+        entries = formatEntries();
+        Collections.sort(entries, new EntryXComparator()); //sort list by x axis in ascending order
+        Log.d("NUMBER OF ENTRIES", String.valueOf(entries.size()));
+
+        if(entries.size() == 0){
+            chart.setData(null);
+            chart.invalidate();
+            return;
+        }
+
+        final String[] months = new String[] {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+
+        ValueFormatter formatter = new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                return months[(int) value];
+            }
+        };
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
+        xAxis.setValueFormatter(formatter);
+
+        LineDataSet dataSet = new LineDataSet(entries, "Usage");
+
+        LineData lineData = new LineData(dataSet);
+        chart.setData(lineData);
+        chart.invalidate();
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        Log.d("DEBUG", "HELLO!");
 
         View view = inflater.inflate(R.layout.fragment_track, container, false);
 
         String[] arraySpinner = new String[] {"Electricity", "Water", "Gas"};
 
-        Spinner s = (Spinner) view.findViewById (R.id.spinner);
+        final Spinner s = (Spinner) view.findViewById (R.id.spinner);
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, arraySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -130,11 +164,11 @@ public class TrackFragment extends Fragment {
 
 
         float Eyearsum, Gyearsum, Wyearsum;
-        SessionManager trackFragSessionM = new SessionManager(getContext());
+        final SessionManager trackFragSessionM = new SessionManager(getContext());
         int userid = trackFragSessionM.getUserDetails().get("userID");
-        UsageManager trackFragUsageManager = new UsageManager(getContext());
+        final UsageManager trackFragUsageManager = new UsageManager(getContext());
         trackFragUsageManager.open();
-        Calendar date = Calendar.getInstance();
+        final Calendar date = Calendar.getInstance();
         int yearnow = date.get(Calendar.YEAR);
         Eyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'E');
         Gyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'G');
@@ -156,44 +190,38 @@ public class TrackFragment extends Fragment {
         usageToDisplay = trackFragUsageManager.getUserUsage(String.valueOf(trackFragSessionM.getUserDetails().get("userID")), String.valueOf(date.get(Calendar.YEAR)), "E");
 
 
-        //chart - WIP
-        LineChart chart = (LineChart) view.findViewById(R.id.line_chart);
+        //chart
+        final LineChart chart = (LineChart) view.findViewById(R.id.line_chart);
 
-        List<Entry> entries = new ArrayList<Entry>();
-        entries = formatEntries();
-        Collections.sort(entries, new EntryXComparator()); //sort list by x axis in ascending order
-        Log.d("NUMBER OF ENTRIES", String.valueOf(entries.size()));
-
-        final String[] months = new String[] {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
-
-        ValueFormatter formatter = new ValueFormatter() {
+        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public String getAxisLabel(float value, AxisBase axis) {
-                return months[(int) value];
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("DEBUG", "SPINNER CHANGED!");
+
+                Log.d("DEBUG", String.valueOf(s.getSelectedItem()));
+
+                if (String.valueOf(s.getSelectedItem()) == "Electricity"){
+                    Log.d("DEBUG", "ELECTRICITY SELECTED!");
+                    usageToDisplay = trackFragUsageManager.getUserUsage(String.valueOf(trackFragSessionM.getUserDetails().get("userID")), String.valueOf(date.get(Calendar.YEAR)), "E");
+                }
+
+                if (String.valueOf(s.getSelectedItem()) == "Water"){
+                    Log.d("DEBUG", "WATER SELECTED!");
+                    usageToDisplay = trackFragUsageManager.getUserUsage(String.valueOf(trackFragSessionM.getUserDetails().get("userID")), String.valueOf(date.get(Calendar.YEAR)), "W");
+                }
+
+                if (String.valueOf(s.getSelectedItem()) == "Gas"){
+                    Log.d("DEBUG", "GAS SELECTED!");
+                    usageToDisplay = trackFragUsageManager.getUserUsage(String.valueOf(trackFragSessionM.getUserDetails().get("userID")), String.valueOf(date.get(Calendar.YEAR)), "G");
+                }
+                updateChart(chart);
             }
-        };
 
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
-        xAxis.setValueFormatter(formatter);
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-
-        //sample data to test out chart
-        //entries.add(new Entry(11,50));
-        //entries.add(new Entry(10,40));
-        //entries.add(new Entry(9,30));
-
-
-
-
-        LineDataSet dataSet = new LineDataSet(entries, "Electricity Usage");
-
-        LineData lineData = new LineData(dataSet);
-        chart.setData(lineData);
-        chart.invalidate();
-
-        //LineChart chart = (LineChart) view.findViewById(R.id.line_chart);
-        //LineData lineData = new LineData(dataSet);
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;

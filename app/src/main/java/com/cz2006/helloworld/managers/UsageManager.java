@@ -136,7 +136,7 @@ public class UsageManager {
         Cursor cursor = this.databaseManager.queryThreeSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, userId, this.TABLE_USAGE_COLUMN_YEAR, year, this.TABLE_USAGE_COLUMN_TYPE, usageType);
         //Cursor cursor = this.databaseManager.queryOneSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, userId);
 
-        if (cursor != null){
+        if (cursor != null && cursor.getCount() > 0){
             do{
                 Log.d("DEBUG: ", "Found entry..");
 
@@ -159,12 +159,6 @@ public class UsageManager {
                 usage.setUsageMonth(mth);
                 usage.setUsageAmount(amount);
                 usage.setUsageType(type);
-
-//                usage.setUserId(1);
-//                usage.setUsageYear(2019);
-//                usage.setUsageMonth(10);
-//                usage.setUsageAmount(50);
-//                usage.setUsageType("E");
 
                 ret.add(usage);
             }

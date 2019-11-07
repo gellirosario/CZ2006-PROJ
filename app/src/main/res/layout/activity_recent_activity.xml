@@ -36,6 +36,9 @@
         android:textColor="@color/colorBlack"
         android:layout_marginBottom="30dp"/>
 
-    // List View Here
-
+    <ListView
+        android:id="@+id/activityListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:listSelector="@color/colorDarkGrey"/>
 </LinearLayout>

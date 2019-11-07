@@ -6,13 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
 
 public class RecentActivityActivity extends AppCompatActivity {
 
+    private ListView activityList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +23,12 @@ public class RecentActivityActivity extends AppCompatActivity {
 
         // Set Activity Title
         setTitle("Recent Activity");
+
+        String countryList[] = {"India", "China", "australia", "Portugle", "America", "NewZealand"};
+
+        activityList = (ListView)findViewById(R.id.activityListView);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.list_activity, R.id.dateTV, countryList);
+        activityList.setAdapter(arrayAdapter);
     }
 
     public void setTitle(String title) {

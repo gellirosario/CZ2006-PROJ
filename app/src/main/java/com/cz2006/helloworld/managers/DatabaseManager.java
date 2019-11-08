@@ -29,6 +29,7 @@ import static com.cz2006.helloworld.managers.FeedbackManager.TABLE_FEEDBACK_COLU
 import static com.cz2006.helloworld.managers.FeedbackManager.TABLE_FEEDBACK_COLUMN_USER_ID;
 import static com.cz2006.helloworld.managers.FeedbackManager.TABLE_NAME_FEEDBACK;
 import static com.cz2006.helloworld.managers.PointManager.TABLE_NAME_POINT;
+import static com.cz2006.helloworld.managers.PointManager.TABLE_POINT_COLUMN_DATE;
 import static com.cz2006.helloworld.managers.PointManager.TABLE_POINT_COLUMN_ID;
 import static com.cz2006.helloworld.managers.PointManager.TABLE_POINT_COLUMN_POINTS;
 import static com.cz2006.helloworld.managers.PointManager.TABLE_POINT_COLUMN_TYPE;
@@ -127,6 +128,8 @@ public class DatabaseManager {
         sqlBuf.append(" INTEGER NOT NULL,");
         sqlBuf.append(TABLE_POINT_COLUMN_TYPE);
         sqlBuf.append(" TEXT NOT NULL,"); // EITHER GOTTEN FROM SCAN OR TRACK
+        sqlBuf.append(TABLE_POINT_COLUMN_DATE);
+        sqlBuf.append(" TEXT NOT NULL,");
         sqlBuf.append(TABLE_POINT_COLUMN_USER_ID);
         sqlBuf.append(" INTEGER NOT NULL, FOREIGN KEY (");
         sqlBuf.append(TABLE_POINT_COLUMN_USER_ID);

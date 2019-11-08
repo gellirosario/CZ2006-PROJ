@@ -12,10 +12,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.adapters.ActivityAdapter;
+import com.cz2006.helloworld.managers.PointManager;
+import com.cz2006.helloworld.managers.SessionManager;
+import com.cz2006.helloworld.models.Points;
+import com.cz2006.helloworld.models.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecentActivityActivity extends AppCompatActivity {
 
     private ListView activityList;
+    private ArrayList<Points> userPoints = new ArrayList<Points>();
+
+    private SessionManager sessionManager;
+    private PointManager pointManager;
+    private int userID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,11 +38,34 @@ public class RecentActivityActivity extends AppCompatActivity {
         // Set Activity Title
         setTitle("Recent Activity");
 
-        String countryList[] = {"India", "China", "australia", "Portugle", "America", "NewZealand"};
+        sessionManager = new SessionManager(getApplicationContext());
+        userID = sessionManager.getUserDetails().get("userID");
 
+        pointManager = new PointManager(getApplicationContext());
+        pointManager.open();
+
+        getAllUserPoints();
+        setActivityList();
+
+    }
+
+    public void getAllUserPoints(){
+
+        userPoints = pointManager.getAllPointsWithID(String.valueOf(userID));
+
+    }
+
+    public void setActivityList(){
         activityList = (ListView)findViewById(R.id.activityListView);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.list_activity, R.id.dateTV, countryList);
-        activityList.setAdapter(arrayAdapter);
+        ActivityAdapter adapter;
+
+        if(userPoints.size() == 0)
+        {
+            userPoints.add(new Points());
+        }
+        adapter = new ActivityAdapter(this,userPoints);
+
+        activityList.setAdapter(adapter);
     }
 
     public void setTitle(String title) {
@@ -44,5 +81,16 @@ public class RecentActivityActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(textView);
         getSupportActionBar().setIcon(R.drawable.ic_back_24dp);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //Close database connection
+        if (pointManager != null) {
+            pointManager.close();
+            pointManager = null;
+        }
     }
 }

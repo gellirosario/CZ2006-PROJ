@@ -87,7 +87,7 @@ public class AccountManager {
     }
 
     // Update User's Account
-    public void updateAccount(int id, String email, String password, String name)
+    public void updateAccount(int id, String email, String password, String name, String points)
     {
         // Create table column list
         List<TableColumn> updateColumnList = new ArrayList<TableColumn>();
@@ -115,6 +115,14 @@ public class AccountManager {
             nameColumn.setColumnName(this.TABLE_ACCOUNT_COLUMN_USERNAME);
             nameColumn.setColumnValue(name);
             updateColumnList.add(nameColumn);
+        }
+
+        if(!TextUtils.isEmpty(points)) {
+            // Add points column
+            TableColumn pointsColumn = new TableColumn();
+            pointsColumn.setColumnName(this.TABLE_ACCOUNT_COLUMN_POINTS);
+            pointsColumn.setColumnValue(points);
+            updateColumnList.add(pointsColumn);
         }
 
 
@@ -157,7 +165,7 @@ public class AccountManager {
             String userName = cursor.getString(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_USERNAME));
             String password = cursor.getString(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_PASSWORD));
             String email = cursor.getString(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_EMAIL));
-            int points = cursor.getInt(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_EMAIL));
+            int points = cursor.getInt(cursor.getColumnIndex(this.TABLE_ACCOUNT_COLUMN_POINTS));
             currentUser.setUserID(id);
             currentUser.setUserName(userName);
             currentUser.setUserPassword(password);

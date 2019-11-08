@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.fragments.ScanFragment;
+import com.cz2006.helloworld.managers.AccountManager;
 import com.cz2006.helloworld.managers.PointManager;
 import com.cz2006.helloworld.managers.SessionManager;
 
@@ -31,6 +32,7 @@ public class ScanResultActivity extends AppCompatActivity {
 
     private SessionManager sessionManager;
     private PointManager pointManager;
+    private AccountManager accountManager;
 
     private int userID, points, curPoints, prevPoints;
     public String type = "QR Code";
@@ -51,10 +53,13 @@ public class ScanResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan_result);
 
         sessionManager = new SessionManager(getApplicationContext());
+        pointManager = new PointManager(getApplicationContext());
+        accountManager = new AccountManager(getApplicationContext());
+
         userID = sessionManager.getUserDetails().get("userID");
 
-        pointManager = new PointManager(getApplicationContext());
         pointManager.open();
+        accountManager.open();
 
         Log.d("results", results);
 
@@ -110,7 +115,7 @@ public class ScanResultActivity extends AppCompatActivity {
         currentTxt.setText("Current Balance : " + curPoints + " points");
         currentTxt.setVisibility(View.VISIBLE);
 
-        btnPage.setText("Go To Rewards Page");
+        btnPage.setText("View Leaderboard");
     }
 
     public void addPoints()
@@ -120,7 +125,13 @@ public class ScanResultActivity extends AppCompatActivity {
         Log.d("type", type);
 
         prevPoints = pointManager.addPoints(points, type, userID);
+
         curPoints = prevPoints + points;
+
+        int totalPoints = accountManager.getAccountWithID(String.valueOf(userID)).getTotalPoints();
+        totalPoints += points;
+        accountManager.updateAccount(userID,"","","",String.valueOf(totalPoints));
+
         setTitle("Success");
         setSuccessPage();
     }
@@ -143,4 +154,19 @@ public class ScanResultActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //Close database connection
+        if (pointManager != null) {
+            pointManager.close();
+            pointManager = null;
+        }
+
+        if (accountManager != null) {
+            accountManager.close();
+            accountManager = null;
+        }
+    }
 }

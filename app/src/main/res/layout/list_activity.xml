@@ -4,8 +4,21 @@
     android:layout_height="90dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="10dp"
-    android:background="@drawable/outline_rect">
+    android:background="@drawable/outline_rect"
+    android:clickable="false">
 
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/messageTV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No Result Found"
+        android:textSize="20dp"
+        android:padding="25dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorSecondary"
+        android:textAllCaps="true"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,6 +31,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/titleTV"

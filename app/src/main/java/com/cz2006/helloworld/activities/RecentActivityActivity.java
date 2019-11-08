@@ -21,6 +21,12 @@ import com.cz2006.helloworld.models.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents User's Recent Activity for the Profile
+ *
+ * @author Rosario Gelli Ann
+ *
+ */
 public class RecentActivityActivity extends AppCompatActivity {
 
     private ListView activityList;

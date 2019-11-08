@@ -20,6 +20,14 @@ import com.cz2006.helloworld.managers.AccountManager;
 import com.cz2006.helloworld.managers.SessionManager;
 import com.cz2006.helloworld.models.User;
 
+/**
+ * Represents Edit Profile Activity showing User's points, name and email
+ * This class can enable the user to edit their profile.
+ * Current password is necessary when editing their profile.
+ *
+ * @author Rosario Gelli Ann
+ *
+ */
 public class EditProfileActivity extends AppCompatActivity {
 
     private TextView nameTV, emailTV;

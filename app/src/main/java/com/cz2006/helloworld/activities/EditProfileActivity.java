@@ -31,6 +31,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private User currentUser;
     private int userID;
 
+    private String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$"; // Minimum eight characters, at least one uppercase letter, one lowercase letter and one number
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +98,12 @@ public class EditProfileActivity extends AppCompatActivity {
                 if(!currentPassword.equals(currentUser.getUserPassword())) // Update password
                 {
                     Toast.makeText(getApplicationContext(), "Please make sure to enter correct password", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                if(!newPassword.matches(passwordPattern))
+                {
+                    Toast.makeText(getApplicationContext(), "Please enter at least a 8-char password that consist of uppercase and lowercase letter and a number", Toast.LENGTH_SHORT).show();
                     return false;
                 }
 

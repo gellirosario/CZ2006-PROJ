@@ -35,6 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
     private AccountManager accountManager;
 
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    private String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$"; // Minimum eight characters, at least one uppercase letter, one lowercase letter and one number
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +87,10 @@ public class SignUpActivity extends AppCompatActivity {
         else if(!email.matches(emailPattern))
         {
             Toast.makeText(getApplicationContext(), "Please enter a correct email address", Toast.LENGTH_SHORT).show();
+        }
+        else if(!password.matches(passwordPattern))
+        {
+            Toast.makeText(getApplicationContext(), "Please enter at least a 8-char password that consist of uppercase and lowercase letter and a number", Toast.LENGTH_SHORT).show();
         }
         else if(accountManager.checkExistingEmail(email))
         {

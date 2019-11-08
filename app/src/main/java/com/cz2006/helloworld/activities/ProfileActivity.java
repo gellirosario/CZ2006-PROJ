@@ -17,6 +17,12 @@ import com.cz2006.helloworld.managers.AccountManager;
 import com.cz2006.helloworld.managers.SessionManager;
 import com.cz2006.helloworld.models.User;
 
+/**
+ * Represents Profile Activity showing User's points, name and email
+ *
+ * @author Rosario Gelli Ann
+ *
+ */
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView viewLeaderBoardTV, viewRecentActivityTV, nameTV, emailTV, pointTV;

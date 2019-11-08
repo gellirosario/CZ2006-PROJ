@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="310dp"
+    android:layout_height="200dp"
+    android:background="@drawable/outline_rect"
+    android:backgroundTint="@color/colorSecondary"
+    android:padding="5dp"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/popUpTV"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:text="Message Here"
+        android:textSize="23dp"
+        android:padding="20dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite">
+
+    </TextView>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorWhite"/>
+        <Button
+            android:id="@+id/btnClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Close"
+            android:backgroundTint="@color/colorRed"
+            android:textColor="@color/colorWhite"/>
+    </LinearLayout>
+
+</LinearLayout>

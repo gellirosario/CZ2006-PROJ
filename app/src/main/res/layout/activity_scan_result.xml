@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/statusImg"
-        android:layout_width="215dp"
-        android:layout_height="210dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:background="@drawable/ic_crossmark"
         android:layout_gravity="center">
 
@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Please Try Again!"
+        android:layout_gravity="center"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -31,43 +32,54 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
         android:text="Please make sure you scan the correct QR code!"
         android:textColor="@color/colorSecondary"
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/prevTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/pointLL"
+        android:visibility="invisible"
         android:layout_marginTop="10dp"
-        android:text="Previous Balance : "
-        android:textColor="@color/colorSecondary"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:visibility="invisible"/>
-
-    <TextView
-        android:id="@+id/addedTxt"
-        android:layout_width="wrap_content"
+        android:padding="5dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Added : "
-        android:textColor="@color/colorPrimary"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:visibility="invisible"/>
+        android:orientation="vertical"
+        android:background="@drawable/outline_rect">
+        <TextView
+            android:id="@+id/prevTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Previous Balance : "
+            android:textColor="@color/colorSecondary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="invisible"/>
 
-    <TextView
-        android:id="@+id/currentTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Current Balance : "
-        android:textColor="@color/colorSecondary"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:visibility="invisible"/>
+        <TextView
+            android:id="@+id/addedTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Added : "
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/currentTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Current Balance : "
+            android:textColor="@color/colorSecondary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="invisible"/>
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnPage"
@@ -79,7 +91,7 @@
         android:layout_marginBottom="0dp"
         android:background="@drawable/rounded_button_green"
         android:padding="15dp"
-        android:text="Go to More Page"
+        android:text="View Leaderboard"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         android:onClick="onClick"/>

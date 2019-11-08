@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Point;
 import android.util.Log;
 
+import com.cz2006.helloworld.models.Points;
 import com.cz2006.helloworld.models.User;
 import com.cz2006.helloworld.util.TableColumn;
 
@@ -119,5 +120,33 @@ public class PointManager {
 
         return prevPoints;
 
+    }
+
+    // Get all points list according to User ID
+    public ArrayList<Points> getAllPointsWithID(String id)
+    {
+        ArrayList<Points> ret = new ArrayList<Points>();
+
+        Cursor cursor = this.databaseManager.queryOneSearchString(this.TABLE_NAME_POINT, this.TABLE_POINT_COLUMN_USER_ID, id);
+        if(cursor!=null && cursor.moveToFirst())
+        {
+            do {
+                int pointID = cursor.getInt(cursor.getColumnIndex(this.TABLE_POINT_COLUMN_ID));
+                int points = cursor.getInt(cursor.getColumnIndex(this.TABLE_POINT_COLUMN_POINTS));
+                String pointType = cursor.getString(cursor.getColumnIndex(this.TABLE_POINT_COLUMN_TYPE));
+                String pointDate = cursor.getString(cursor.getColumnIndex(this.TABLE_POINT_COLUMN_DATE));
+
+                Points userPoints = new Points(pointID, points, pointType, pointDate);
+                ret.add(userPoints);
+
+            }while(cursor.moveToNext());
+
+            // Close cursor after query.
+            if(!cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+
+        return ret;
     }
 }

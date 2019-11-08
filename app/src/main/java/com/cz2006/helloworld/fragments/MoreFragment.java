@@ -1,12 +1,17 @@
 package com.cz2006.helloworld.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +39,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     private AppCompatButton btnFeedback;
     private AppCompatButton btnFAQ;
     private AppCompatButton btnSignOut;
+    private Dialog myDialog;
 
     private SessionManager sessionManager;
 
@@ -94,6 +100,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         btnFeedback.setOnClickListener(this);
         btnFAQ.setOnClickListener(this);
         btnSignOut.setOnClickListener(this);
+        myDialog = new Dialog(getContext());
 
         return v;
     }
@@ -147,15 +154,44 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 intent = new Intent(getActivity(), FaqActivity.class);
                 break;
             case R.id.btnSignOut:
-                sessionManager.checkLogin(); // Check if user is logged in
-                sessionManager.logoutUser(); // Log out user
-                Toast.makeText(getContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
+                showPopUp();
                 break;
 
         }
 
         if(intent != null)
             startActivity(intent);
+    }
+
+    public void showPopUp(){
+        TextView popUpTV;
+        Button btnConfirm, btnClose;
+        myDialog.setContentView(R.layout.custom_popup);
+
+        popUpTV =(TextView) myDialog.findViewById(R.id.popUpTV);
+        btnConfirm = (Button) myDialog.findViewById(R.id.btnConfirm);
+        btnClose = (Button) myDialog.findViewById(R.id.btnClose);
+
+        popUpTV.setText("Are you sure you want to log out?");
+
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sessionManager.checkLogin(); // Check if user is logged in
+                sessionManager.logoutUser(); // Log out user
+                Toast.makeText(getContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
+                myDialog.dismiss();
+            }
+        });
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
     }
 
     /**

@@ -10,7 +10,8 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorBlack">#000000</color>
     <color name="colorDarkGrey">#A9A9A9</color>
-
+    <color name="colorLightGrey">#d3d3d3</color>
+    <color name="colorRed">#8b0000 </color>
     <!-- News -->
     <color name="colorAccent">#1e344b</color>
     <color name="colorBackground">#f9f9fa</color>

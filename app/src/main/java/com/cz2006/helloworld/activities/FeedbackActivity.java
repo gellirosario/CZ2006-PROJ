@@ -3,7 +3,9 @@ package com.cz2006.helloworld.activities;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -99,8 +101,18 @@ public class FeedbackActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please fill in all the details", Toast.LENGTH_SHORT).show();
         }else{
             feedbackManager.sendFeedback(type, desc, Float.toString(rating));
+            sendEmail();
             Toast.makeText(getApplicationContext(), "Feedback is successfully sent!", Toast.LENGTH_SHORT).show();
-            finish();
+            //finish();
         }
+    }
+
+    public void sendEmail()
+    {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto","HelloWorld@gmail.com", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, type);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, desc + "\n Rating: " + Float.toString(rating) + ".");
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 }

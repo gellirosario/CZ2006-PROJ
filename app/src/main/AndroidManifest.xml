@@ -51,6 +51,7 @@
         <activity
             android:name=".activities.DetailedMapActivity"
             android:label="@string/title_activity_detailed_map" />
+        <activity android:name=".activities.ScanResultActivity"/>
         <activity android:name=".activities.FaqDetail3Activity" />
         <activity android:name=".activities.FaqDetail2Activity" />
         <activity android:name=".activities.FaqDetail1Activity" />

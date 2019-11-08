@@ -3,14 +3,18 @@ package com.cz2006.helloworld.activities;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -34,6 +38,7 @@ import android.widget.Toast;
 public class FeedbackActivity extends AppCompatActivity {
 
     private FeedbackManager feedbackManager;
+    private Dialog myDialog;
 
     public String type;
     public String desc = null;
@@ -53,6 +58,8 @@ public class FeedbackActivity extends AppCompatActivity {
 
         // Set Activity Title
         setTitle("Feedback");
+
+        myDialog = new Dialog(this);
     }
 
     public void setTitle(String title) {
@@ -101,18 +108,53 @@ public class FeedbackActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please fill in all the details", Toast.LENGTH_SHORT).show();
         }else{
             feedbackManager.sendFeedback(type, desc, Float.toString(rating));
-            sendEmail();
+            showPopUp();
             Toast.makeText(getApplicationContext(), "Feedback is successfully sent!", Toast.LENGTH_SHORT).show();
-            //finish();
         }
+    }
+
+    public void showPopUp(){
+        TextView popUpTV;
+        Button btnConfirm, btnClose;
+        myDialog.setContentView(R.layout.custom_popup);
+
+        popUpTV =(TextView) myDialog.findViewById(R.id.popUpTV);
+        btnConfirm = (Button) myDialog.findViewById(R.id.btnConfirm);
+        btnClose = (Button) myDialog.findViewById(R.id.btnClose);
+
+        popUpTV.setText("Do you want to send feedback through email?");
+
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmail();
+                myDialog.dismiss();
+                clearDetails();
+            }
+        });
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+                finish();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
     }
 
     public void sendEmail()
     {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto","HelloWorld@gmail.com", null));
+                "mailto","gellirosario@gmail.com", null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, type);
         emailIntent.putExtra(Intent.EXTRA_TEXT, desc + "\n Rating: " + Float.toString(rating) + ".");
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
+    }
+
+    public void clearDetails(){
+        descTxt.setText("");
+        ratingTxt.setRating(0);
     }
 }

@@ -34,6 +34,8 @@ public class ScanResultActivity extends AppCompatActivity {
 
     private int userID, points, curPoints, prevPoints;
     public String type = "QR Code";
+    public String results = ScanFragment.results;
+
 
     private ImageView statusImg;
     private TextView statusTxt;
@@ -54,18 +56,17 @@ public class ScanResultActivity extends AppCompatActivity {
         pointManager = new PointManager(getApplicationContext());
         pointManager.open();
 
-        Log.d("results", ScanFragment.results);
+        Log.d("results", results);
 
-        if(ScanFragment.results.matches("HelloWorldSUCCESS10") || ScanFragment.results.matches("HelloWorldSUCCESS20"))
+        if(results.matches("HelloWorldSUCCESS10") || results.matches("HelloWorldSUCCESS20"))
         {
-            if(ScanFragment.results == "HelloWorldSUCCESS10") {
+            if(results.matches("HelloWorldSUCCESS10")) {
                 points = 10;
-            }else if(ScanFragment.results == "HelloWorldSUCCESS20") {
+            }else if(results.matches("HelloWorldSUCCESS20")) {
                 points = 20;
             }
             Log.d("points", Integer.toString(points));
-            setTitle("Success");
-            setSuccessPage();
+            addPoints();
 
         }else{
             setTitle("Failed");
@@ -100,36 +101,34 @@ public class ScanResultActivity extends AppCompatActivity {
         statusTxt.setText("Congratulations!");
         msgTxt.setText("You have received " + points + " Green Points!");
 
-
+        prevTxt.setText("Previous Balance : " + prevPoints + " points");
         prevTxt.setVisibility(View.VISIBLE);
 
         addedTxt.setVisibility(View.VISIBLE);
         addedTxt.setText("Added : " + points + " points");
 
+        currentTxt.setText("Current Balance : " + curPoints + " points");
         currentTxt.setVisibility(View.VISIBLE);
 
         btnPage.setText("Go To Rewards Page");
-
-        addPoints();
-
-        prevTxt.setText("Previous Balance : " + prevPoints + " points");
-        currentTxt.setText("Current Balance : " + curPoints + " points");
     }
 
     public void addPoints()
     {
-        Log.d("results", ScanFragment.results);
+        Log.d("results", results);
         Log.d("points", Integer.toString(points));
         Log.d("type", type);
 
-        curPoints = pointManager.addPoints(points, type, userID);
-        prevPoints = curPoints - points;
+        prevPoints = pointManager.addPoints(points, type, userID);
+        curPoints = prevPoints + points;
+        setTitle("Success");
+        setSuccessPage();
     }
 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnPage:
-                if(ScanFragment.results == "HelloWorldSUCCESS10" || ScanFragment.results == "HelloWorldSUCCESS20")
+                if(results.matches("HelloWorldSUCCESS10") || results.matches("HelloWorldSUCCESS20"))
                 {
                     startActivity(new Intent(ScanResultActivity.this, LeaderboardActivity.class));
                 }else {

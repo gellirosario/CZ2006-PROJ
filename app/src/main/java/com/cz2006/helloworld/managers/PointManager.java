@@ -36,6 +36,7 @@ public class PointManager {
     public static final String TABLE_POINT_COLUMN_ID = "pointID";
     public static final String TABLE_POINT_COLUMN_POINTS = "points";
     public static final String TABLE_POINT_COLUMN_TYPE = "pointType";
+    public static final String TABLE_POINT_COLUMN_DATE = "pointDate";
     public static final String TABLE_POINT_COLUMN_USER_ID = "userID";
 
     public PointManager(Context ctx) {
@@ -61,24 +62,22 @@ public class PointManager {
         String user = Integer.toString(userID);
         int prevPoints = 0;
         Cursor cursor = this.databaseManager.queryTwoSearchString(this.TABLE_NAME_POINT ,this.TABLE_POINT_COLUMN_USER_ID, user, this.TABLE_POINT_COLUMN_TYPE, type);
-        if(cursor.moveToFirst()){
-            prevPoints = cursor.getInt(cursor.getColumnIndex(this.TABLE_POINT_COLUMN_POINTS));
-
+        if(cursor.moveToFirst()) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                prevPoints += cursor.getInt(cursor.getColumnIndex(this.TABLE_POINT_COLUMN_POINTS));
+            }
             // Close cursor after query.
-            if(!cursor.isClosed()) {
+            if (!cursor.isClosed()) {
                 cursor.close();
             }
         }
 
+
         return prevPoints;
     }
 
-    public int addPoints(int points, String type, int userID)
-    {
+    public int addPoints(int points, String type, int userID) {
         int prevPoints = checkPointsExists(type, userID);
-        if(prevPoints > 0 ) {
-            points += prevPoints;
-        }
 
         String user = Integer.toString(userID);
 
@@ -97,6 +96,14 @@ public class PointManager {
         typeCol.setColumnValue(type);
         pointsList.add(typeCol);
 
+        // Add date column
+        TableColumn dateCol = new TableColumn();
+        dateCol.setColumnName(this.TABLE_POINT_COLUMN_DATE);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = sdf.format(new Date());
+        dateCol.setColumnValue(currentDate);
+        pointsList.add(dateCol);
+
         // Add userID column
         TableColumn userCol = new TableColumn();
         userCol.setColumnName(this.TABLE_POINT_COLUMN_USER_ID);
@@ -107,51 +114,10 @@ public class PointManager {
         Log.d("type", type);
         Log.d("user", user);
 
-        if(prevPoints > 0 ) {
-            String whereClause = this.TABLE_POINT_COLUMN_ID + " = " + user + " AND " + this.TABLE_POINT_COLUMN_TYPE + " = '" + type + "'";
+        this.databaseManager.insert(this.TABLE_NAME_POINT, pointsList);
+        Log.d("addDb", "success");
 
-            // Insert added column in to point table.
-            this.databaseManager.update(this.TABLE_NAME_POINT, pointsList, whereClause);
-            Log.d("updateDb", "success");
-        }else{
-            //Insert added column in to Feedback table.
-            this.databaseManager.insert(this.TABLE_NAME_POINT, pointsList);
-            Log.d("addDb", "success");
-        }
-        return points;
+        return prevPoints;
 
     }
-
-    /*public int getUserTotalPoints(int userID)
-    {
-        String user = Integer.toString(userID);
-
-        int points = 0;
-        Cursor cursor = this.databaseManager.queryAllReturnCursor(this.TABLE_NAME_POINT);
-        if(cursor!=null) {
-            Log.d("cursor", "cursor not null");
-            do {
-                Log.d("status", cursor.getString(cursor.getColumnIndex(this.TABLE_POINT_COLUMN_USER_ID)));
-                if (cursor.getString(cursor.getColumnIndex(this.TABLE_POINT_COLUMN_USER_ID)) == user) {
-                    Log.d("status", "user match");
-                    if(cursor.getString(cursor.getColumnIndex(this.TABLE_POINT_COLUMN_TYPE)) == "QR Code"){
-                        Log.d("status", "type match");
-                        Log.d("column points", cursor.getString(cursor.getColumnIndex(this.TABLE_POINT_COLUMN_POINTS)));
-                        points += cursor.getColumnIndex(this.TABLE_POINT_COLUMN_POINTS);
-                        Log.d("loop points", Integer.toString(points));
-                    }
-                }
-            } while (cursor.moveToNext());
-
-            // Close cursor after query.
-            if (!cursor.isClosed()) {
-                cursor.close();
-            }
-        }else{
-            Log.d("status", "cursor null");
-        }
-        Log.d("total points", Integer.toString(points));
-        return points;
-    }*/
-
 }

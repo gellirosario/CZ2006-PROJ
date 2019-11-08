@@ -38,7 +38,7 @@ public class ScanResultActivity extends AppCompatActivity {
     public String type = "QR Code";
     public String results = ScanFragment.results;
 
-
+    private LinearLayout pointLL;
     private ImageView statusImg;
     private TextView statusTxt;
     private TextView msgTxt;
@@ -101,7 +101,9 @@ public class ScanResultActivity extends AppCompatActivity {
         addedTxt = findViewById(R.id.addedTxt);
         currentTxt = findViewById(R.id.currentTxt);
         btnPage = findViewById(R.id.btnPage);
+        pointLL = findViewById(R.id.pointLL);
 
+        pointLL.setVisibility(View.VISIBLE);
         statusImg.setBackgroundResource(R.drawable.ic_checkmark);
         statusTxt.setText("Congratulations!");
         msgTxt.setText("You have received " + points + " Green Points!");

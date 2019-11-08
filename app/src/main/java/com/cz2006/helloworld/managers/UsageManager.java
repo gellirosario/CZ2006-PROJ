@@ -115,6 +115,12 @@ public class UsageManager {
         return sum1;
     }
 
+    public Cursor findUsageRecord(int id, int year, int month, char type)
+    {
+        Cursor cursor = this.databaseManager.queryFourSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, String.valueOf(id), this.TABLE_USAGE_COLUMN_YEAR, String.valueOf(year), this.TABLE_USAGE_COLUMN_MONTH, String.valueOf(month), this.TABLE_USAGE_COLUMN_TYPE, String.valueOf(type));
+        return cursor;
+    }
+
     // Update Usage Data OF THE CURRENT USER
     // TODO: UPDATE USAGE DATA
     public void updateUsage(int id, int year, int month, char usageType)

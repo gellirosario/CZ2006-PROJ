@@ -432,4 +432,17 @@ public class DatabaseManager {
         }
         return cursor;
     }
+
+    public Cursor queryFourSearchString(String tableName, String columnName1, String inputData1, String columnName2, String inputData2, String columnName3, String inputData3, String columnName4, String inputData4)
+    {
+        // Query all rows in table.
+        Cursor cursor = this.database.rawQuery("SELECT * FROM " + tableName + " WHERE " + columnName1 + "=? AND " + columnName2 + "=? AND " + columnName3 + " =? AND " + columnName4 + " =? ", new String[] {String.valueOf(inputData1),String.valueOf(inputData2),String.valueOf(inputData3),String.valueOf(inputData4)});
+
+        if(cursor!=null)
+        {
+            // Move to first cursor.
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
 }

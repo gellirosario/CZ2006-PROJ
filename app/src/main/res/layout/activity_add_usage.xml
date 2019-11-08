@@ -142,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="#FFEB3B"
-                android:checked="true"
+                android:checked="false"
                 android:text="Electricity"
                 android:textColor="@color/colorSecondary"
                 android:textStyle="bold" />

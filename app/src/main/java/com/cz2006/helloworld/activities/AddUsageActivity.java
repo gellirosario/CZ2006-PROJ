@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.fragments.TrackFragment;
+import com.cz2006.helloworld.managers.PointManager;
+import com.cz2006.helloworld.managers.SessionManager;
 import com.cz2006.helloworld.managers.UsageManager;
 
 import java.util.ArrayList;
@@ -35,11 +38,15 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
     public static float Amount = 0;
     public static float Price = 0;
     public static char Type = 0;
+    public static int userID = 0;
     public static List<Pair<Integer, Integer>> calList = new ArrayList<Pair<Integer, Integer>>();
 
     private UsageManager usageManager;
+    private SessionManager addUsageSessionManager;
+    private PointManager addUsagePointManager;
+    private Calendar date = Calendar.getInstance();
 
-    // Variables
+    // Layout Variables
     private EditText inputAmount;
     private EditText inputPrice;
     private RadioButton rbElectricity;
@@ -47,13 +54,19 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
     private RadioButton rbWater;
     private Button btnSubmit;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_usage);
+        Type = 0;
 
         usageManager = new UsageManager(getApplicationContext());
         usageManager.open();
+        addUsageSessionManager = new SessionManager(getApplicationContext());
+        userID = addUsageSessionManager.getUserDetails().get("userID");
+        addUsagePointManager = new PointManager(getApplicationContext());
+        addUsagePointManager.open();
 
         setTitle("Add Usage");
 
@@ -61,7 +74,6 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
         //ADD AVAILABLE MONTHS AND YEARS TO THE SELECTION SPINNER
         List<String> YearList = new ArrayList<String>();
         List<String> MonthList = new ArrayList<String>();
-        Calendar date = Calendar.getInstance();
         int year = date.get(Calendar.YEAR);
         int month = date.get(Calendar.MONTH) + 1;
         YearList.add(String.valueOf(year));
@@ -170,6 +182,8 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
 
                 Amount = Float.parseFloat(inputAmount.getText().toString());
                 Price = Float.parseFloat(inputPrice.getText().toString());
+
+                //Verify Requirements
                 boolean dateVal = false;
                 int i;
                 for (i = 0; i < 3; i++)
@@ -177,12 +191,35 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
                         dateVal = true;
                         break;
                     }
-                if (dateVal == true) {
+                if (dateVal != true) {
+                    Toast.makeText(getApplicationContext(), "Date must be within 2 months before Current Date!", Toast.LENGTH_SHORT).show();
+                }
+                else if (Type == 0)
+                {
+                    Toast.makeText(getApplicationContext(), "Please select a usage type!", Toast.LENGTH_SHORT).show();
+                }
+                else if (usageManager.findUsageRecord(userID, Year, Month, Type).getCount() > 0)
+                {
+                    //UPDATE USAGE NOT YET COMPLETE!
+                    Toast.makeText(getApplicationContext(), "Count : " + String.valueOf(usageManager.findUsageRecord(userID, Year, Month, Type).getCount()), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Record already exist for the month!", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     usageManager.addUsage(Year, Month, Type, Amount, Price);
                     Toast.makeText(getApplicationContext(), "Added Usage!", Toast.LENGTH_SHORT).show();
+                    if ((Year == date.get(Calendar.YEAR)) && (Month == date.get(Calendar.MONTH) + 1))
+                    { //ADD TO POINT TABLE ALREADY OK, WAIT FOR ADD TOTAL POINTS
+                        //addUsagePointManager.addPoints(10, String.valueOf(Type) + String.valueOf(Year) + String.valueOf(Month) + " Add Latest Usage", userID);Toast.makeText(getApplicationContext(), "Added Usage!", Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "10 Points Rewarded! New " + String.valueOf(Type) + " Usage in current month!", Toast.LENGTH_LONG).show();
+                            }
+                        }, 2000);
+
+                    }
                     finish();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Date must be within 2 months before Current Date!", Toast.LENGTH_SHORT).show();
                 }
             default:
                 break;
@@ -196,6 +233,10 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
         if (usageManager != null) {
             usageManager.close();
             usageManager = null;
+        }
+        if (addUsagePointManager != null){
+            addUsagePointManager.close();
+            addUsagePointManager = null;
         }
     }
 

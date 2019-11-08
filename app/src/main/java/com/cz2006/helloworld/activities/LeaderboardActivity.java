@@ -1,17 +1,32 @@
 package com.cz2006.helloworld.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.adapters.ViewpagerleaderboardAdapter;
+import com.cz2006.helloworld.fragments.AlltimeLeaderboardFragment;
+import com.cz2006.helloworld.fragments.MonthleaderboardFragment;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 
-public class LeaderboardActivity extends AppCompatActivity {
+public class LeaderboardActivity extends AppCompatActivity  {
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +35,22 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         // Set Activity Title
         setTitle("Leaderboard");
+
+
+        TabLayout leaderboardtablayout = findViewById(R.id.leaderboardtabLayout);
+        TabItem monthTab=findViewById(R.id.tabMonth);
+        TabItem Alltimetab=findViewById(R.id.tabAlltime);
+        ViewPager leaderboardViewPager= findViewById(R.id.leaderboardviewPager);
+
+
+       ViewpagerleaderboardAdapter pageAdapter= new ViewpagerleaderboardAdapter(getSupportFragmentManager(),leaderboardtablayout.getTabCount());
+
+       leaderboardViewPager.setAdapter(pageAdapter);
+
+       leaderboardViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(leaderboardtablayout));
+       leaderboardtablayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(leaderboardViewPager));
+
+
 
     }
 

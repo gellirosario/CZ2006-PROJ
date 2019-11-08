@@ -35,4 +35,32 @@
         android:textSize="13dp"
         android:textColor="@color/colorBlack"/>
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/leaderboardtabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.tabs.TabItem
+
+            android:id="@+id/tabMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Month" />
+
+        <com.google.android.material.tabs.TabItem
+
+            android:id="@+id/tabAlltime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All Time" />
+    </com.google.android.material.tabs.TabLayout>
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/leaderboardviewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
 </LinearLayout>

@@ -409,7 +409,7 @@ public class DatabaseManager {
     {
         // Query all rows in table.
         Cursor cursor = this.database.rawQuery("SELECT * FROM " + tableName + " WHERE " + columnName1 + "=? AND " + columnName2 + " =? ",new String[] {String.valueOf(inputData1),String.valueOf(inputData2)});
-        if(cursor!=null)
+        if(cursor.moveToFirst())
         {
             // Move to first cursor.
             cursor.moveToFirst();

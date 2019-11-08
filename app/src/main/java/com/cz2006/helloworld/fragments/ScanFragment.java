@@ -1,5 +1,6 @@
 package com.cz2006.helloworld.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,12 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.cz2006.helloworld.Manifest;
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.activities.LeaderboardActivity;
+import com.cz2006.helloworld.activities.LogInActivity;
+import com.cz2006.helloworld.activities.ScanResultActivity;
+import com.cz2006.helloworld.activities.SignUpActivity;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -31,6 +37,7 @@ import static android.Manifest.permission_group.CAMERA;
  * Represents Scan Fragment linking from Main Activity
  *
  * @author Rosario Gelli Ann
+ * @author Lexx Audrey
  *
  */
 public class ScanFragment extends Fragment implements ZXingScannerView.ResultHandler{
@@ -47,6 +54,8 @@ public class ScanFragment extends Fragment implements ZXingScannerView.ResultHan
     private OnFragmentInteractionListener mListener;
 
     private ZXingScannerView mScannerView;
+
+    public static String results;
 
     public ScanFragment() {
         // Required empty public constructor
@@ -89,6 +98,7 @@ public class ScanFragment extends Fragment implements ZXingScannerView.ResultHan
 
         mScannerView = new ZXingScannerView(getActivity());
         return mScannerView;
+
     }
 
     @Override
@@ -116,8 +126,15 @@ public class ScanFragment extends Fragment implements ZXingScannerView.ResultHan
 
     @Override
     public void handleResult(Result rawResult){
-        Toast.makeText(getActivity(), "Contents = " + rawResult.getText() +
-                ", Format = " + rawResult.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Contents = " + rawResult.getText() +
+        //        ", Format = " + rawResult.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();
+
+        /*results = rawResult.getText();
+
+        if(results != null) {
+            Intent intent = new Intent(getActivity(), ScanResultActivity.class);
+            startActivity(intent);
+        }*/
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

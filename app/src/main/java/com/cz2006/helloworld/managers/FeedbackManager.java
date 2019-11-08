@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents Feedback Activity
- * where User give feedback
+ *  FeedbackManager includes add feedback of user to
+ *  the database feedback table
  *
  * @author Lexx Audrey
  *
@@ -63,19 +63,20 @@ public class FeedbackManager {
 
         int userID = sessionManager.getUserDetails().get("userID");
         String user = Integer.toString(userID);
-        // Add Year column
+
+        // Add type column
         TableColumn typeCol = new TableColumn();
         typeCol.setColumnName(this.TABLE_FEEDBACK_COLUMN_TYPE);
         typeCol.setColumnValue(type);
         feedbackList.add(typeCol);
 
-        // Add Year column
+        // Add desc column
         TableColumn descCol = new TableColumn();
         descCol.setColumnName(this.TABLE_FEEDBACK_COLUMN_DESC);
         descCol.setColumnValue(desc);
         feedbackList.add(descCol);
 
-        // Add Year column
+        // Add date column
         TableColumn dateCol = new TableColumn();
         dateCol.setColumnName(this.TABLE_FEEDBACK_COLUMN_DATE);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -83,7 +84,7 @@ public class FeedbackManager {
         dateCol.setColumnValue(currentDate);
         feedbackList.add(dateCol);
 
-        // Add Year column
+        // Add rating column
         TableColumn ratingCol = new TableColumn();
         ratingCol.setColumnName(this.TABLE_FEEDBACK_COLUMN_RATING);
         ratingCol.setColumnValue(rating);

@@ -61,14 +61,6 @@ public class ScanFragment extends Fragment implements ZXingScannerView.ResultHan
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ScanFragment.
-     */
 //    // TODO: Rename and change types and number of parameters
 //    public static ScanFragment newInstance(String param1, String param2) {
 //        ScanFragment fragment = new ScanFragment();
@@ -129,12 +121,12 @@ public class ScanFragment extends Fragment implements ZXingScannerView.ResultHan
         //Toast.makeText(getActivity(), "Contents = " + rawResult.getText() +
         //        ", Format = " + rawResult.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();
 
-        /*results = rawResult.getText();
-
+        results = rawResult.getText();
+        //Toast.makeText(getContext(),results,Toast.LENGTH_LONG);
         if(results != null) {
             Intent intent = new Intent(getActivity(), ScanResultActivity.class);
             startActivity(intent);
-        }*/
+        }
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

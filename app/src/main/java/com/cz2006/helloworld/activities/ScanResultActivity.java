@@ -56,7 +56,7 @@ public class ScanResultActivity extends AppCompatActivity {
 
         Log.d("results", ScanFragment.results);
 
-        if(ScanFragment.results == "HelloWorldSUCCESS10" || ScanFragment.results == "HelloWorldSUCCESS20")
+        if(ScanFragment.results.matches("HelloWorldSUCCESS10") || ScanFragment.results.matches("HelloWorldSUCCESS20"))
         {
             if(ScanFragment.results == "HelloWorldSUCCESS10") {
                 points = 10;

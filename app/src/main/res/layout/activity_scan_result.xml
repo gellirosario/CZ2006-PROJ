@@ -9,7 +9,7 @@
 
     <ImageView
         android:id="@+id/statusImg"
-        android:layout_width="215dp"
+        android:layout_width="210dp"
         android:layout_height="210dp"
         android:background="@drawable/ic_crossmark"
         android:layout_gravity="center">
@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Please Try Again!"
+        android:layout_gravity="center"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -31,6 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
         android:text="Please make sure you scan the correct QR code!"
         android:textColor="@color/colorSecondary"
         android:textSize="18sp"
@@ -79,7 +82,7 @@
         android:layout_marginBottom="0dp"
         android:background="@drawable/rounded_button_green"
         android:padding="15dp"
-        android:text="Go to More Page"
+        android:text="View Leaderboard"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         android:onClick="onClick"/>

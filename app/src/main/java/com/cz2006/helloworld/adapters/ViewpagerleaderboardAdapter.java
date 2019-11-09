@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.cz2006.helloworld.fragments.AlltimeLeaderboardFragment;
 import com.cz2006.helloworld.fragments.MonthleaderboardFragment;
+import com.google.android.material.tabs.TabLayout;
 
 public class ViewpagerleaderboardAdapter extends FragmentPagerAdapter {
 
@@ -14,9 +15,11 @@ public class ViewpagerleaderboardAdapter extends FragmentPagerAdapter {
 
     private int numOfTabs;
 
+
     public ViewpagerleaderboardAdapter(FragmentManager fm, int numOfTabs) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.numOfTabs = numOfTabs;
+
 
     }
 

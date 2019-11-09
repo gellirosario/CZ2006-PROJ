@@ -1,17 +1,27 @@
 package com.cz2006.helloworld.fragments;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.adapters.LeaderboardAlltimeAdapter;
+import com.cz2006.helloworld.managers.AccountManager;
+import com.cz2006.helloworld.util.SQLiteDatabaseHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 /**
@@ -28,11 +38,20 @@ public class MonthleaderboardFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private static final String DB_NAME = "HelloWorldDB.db";
+    private int DB_VERSION = 1;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     RecyclerView monthRV;
+
+
+
+    private SQLiteDatabase LBdatabase;
+    private TextView rankTV, nameTV,ptsTV;
+    private LeaderboardAlltimeAdapter mAdapter;
 
     public MonthleaderboardFragment() {
         // Required empty public constructor
@@ -69,11 +88,50 @@ public class MonthleaderboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+
         View view =  inflater.inflate(R.layout.fragment_month_leaderboard, container, false);
+
+
+        SQLiteDatabaseHelper LBdbHelper = new SQLiteDatabaseHelper(getContext(), DB_NAME, null, DB_VERSION);
+        LBdatabase = LBdbHelper.getReadableDatabase();
+
+        RecyclerView recyclerView = view.findViewById(R.id.monthRV);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter = new LeaderboardAlltimeAdapter(getContext(),getAllItems());
+        recyclerView.setAdapter(mAdapter);
+
+        rankTV = view.findViewById(R.id.rankTV);
+        nameTV = view.findViewById(R.id.nameTV);
+        ptsTV = view.findViewById(R.id.ptsTV);
+
+
+
+
+
+
+
+
+
+
+
 
         return view;
     }
 
+    private Cursor getAllItems(){
+        return LBdatabase.query(
+
+                AccountManager.TABLE_NAME_ACCOUNT,
+                null,
+                null,
+                null,
+                null,
+                null,
+                AccountManager.TABLE_ACCOUNT_COLUMN_POINTS + " DESC"
+
+        );
+    }
 
 
 

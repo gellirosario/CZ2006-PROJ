@@ -2,7 +2,6 @@ package com.cz2006.helloworld.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.managers.AccountManager;
-import com.cz2006.helloworld.util.TableColumn;
 
 public class LeaderboardAlltimeAdapter extends RecyclerView.Adapter<LeaderboardAlltimeAdapter.LbAllTimeViewHolder> {
 
@@ -47,7 +45,7 @@ public class LeaderboardAlltimeAdapter extends RecyclerView.Adapter<LeaderboardA
     @Override
     public LbAllTimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflator = LayoutInflater.from(mContext);
-        View view = inflator.inflate(R.layout.alltime_item,parent , false);
+        View view = inflator.inflate(R.layout.leaderboard_item,parent , false);
         return new LbAllTimeViewHolder(view);
     }
 

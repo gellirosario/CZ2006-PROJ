@@ -131,9 +131,6 @@ public class AlltimeLeaderboardFragment extends Fragment {
                 null,
                 null,
                 AccountManager.TABLE_ACCOUNT_COLUMN_POINTS + " DESC"
-                //AccountManager.TABLE_ACCOUNT_COLUMN_POINTS + D
-
-
 
         );
     }

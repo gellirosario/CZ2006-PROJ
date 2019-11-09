@@ -21,6 +21,9 @@ import com.cz2006.helloworld.fragments.MonthleaderboardFragment;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class LeaderboardActivity extends AppCompatActivity  {
 
 
@@ -35,10 +38,13 @@ public class LeaderboardActivity extends AppCompatActivity  {
 
         // Set Activity Title
         setTitle("Leaderboard");
-
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
+        String ma = month_date.format(cal.getTime());
 
         TabLayout leaderboardtablayout = findViewById(R.id.leaderboardtabLayout);
         TabItem monthTab=findViewById(R.id.tabMonth);
+        leaderboardtablayout.getTabAt(0).setText("MONTH (" + ma + ")");
         TabItem Alltimetab=findViewById(R.id.tabAlltime);
         ViewPager leaderboardViewPager= findViewById(R.id.leaderboardviewPager);
 

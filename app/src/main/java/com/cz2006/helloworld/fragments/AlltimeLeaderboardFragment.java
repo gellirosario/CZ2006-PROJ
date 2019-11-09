@@ -6,18 +6,25 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.Constraints;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
+import com.cz2006.helloworld.adapters.LeaderboardAlltimeAdapter;
+import com.cz2006.helloworld.managers.AccountManager;
 import com.cz2006.helloworld.managers.DatabaseManager;
 import com.cz2006.helloworld.models.User;
+import com.cz2006.helloworld.util.SQLiteDatabaseHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +47,11 @@ public class AlltimeLeaderboardFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private SQLiteDatabase LBdatabase;
+    private TextView rankTV, nameTV,ptsTV;
+    private LeaderboardAlltimeAdapter mAdapter;
+
 
 
 
@@ -79,6 +91,7 @@ public class AlltimeLeaderboardFragment extends Fragment {
 
 
 
+
     }
 
     @Override
@@ -87,11 +100,43 @@ public class AlltimeLeaderboardFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_alltime_leaderboard, container, false);
 
+
+        SQLiteDatabaseHelper LBdbHelper = new SQLiteDatabaseHelper(getContext(), DB_NAME, null, DB_VERSION);
+        LBdatabase = LBdbHelper.getReadableDatabase();
+
+        RecyclerView recyclerView = view.findViewById(R.id.alltimeRV);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter = new LeaderboardAlltimeAdapter(getContext(),getAllItems());
+        recyclerView.setAdapter(mAdapter);
+
+        rankTV = view.findViewById(R.id.rankTV);
+        nameTV = view.findViewById(R.id.nameTV);
+        ptsTV = view.findViewById(R.id.ptsTV);
+
+
+
+
+
         return view;
     }
 
 
+    private Cursor getAllItems(){
+        return LBdatabase.query(
 
+                AccountManager.TABLE_NAME_ACCOUNT,
+                null,
+                null,
+                null,
+                null,
+                null,
+                AccountManager.TABLE_ACCOUNT_COLUMN_POINTS + " DESC"
+                //AccountManager.TABLE_ACCOUNT_COLUMN_POINTS + D
+
+
+
+        );
+    }
 
 
     }

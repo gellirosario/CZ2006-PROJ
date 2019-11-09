@@ -1,12 +1,9 @@
 package com.cz2006.helloworld.fragments;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.Constraints;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,14 +14,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
-import com.cz2006.helloworld.adapters.LeaderboardAlltimeAdapter;
+import com.cz2006.helloworld.adapters.LeaderboardAdapter;
 import com.cz2006.helloworld.managers.AccountManager;
-import com.cz2006.helloworld.managers.DatabaseManager;
-import com.cz2006.helloworld.models.User;
 import com.cz2006.helloworld.util.SQLiteDatabaseHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,7 +42,7 @@ public class AlltimeLeaderboardFragment extends Fragment {
 
     private SQLiteDatabase LBdatabase;
     private TextView rankTV, nameTV,ptsTV;
-    private LeaderboardAlltimeAdapter mAdapter;
+    private LeaderboardAdapter mAdapter;
 
 
 
@@ -106,7 +98,7 @@ public class AlltimeLeaderboardFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.alltimeRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new LeaderboardAlltimeAdapter(getContext(),getAllItems());
+        mAdapter = new LeaderboardAdapter(getContext(),getAllItems());
         recyclerView.setAdapter(mAdapter);
 
         rankTV = view.findViewById(R.id.rankTV);

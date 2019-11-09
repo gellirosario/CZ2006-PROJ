@@ -1,9 +1,7 @@
 package com.cz2006.helloworld.fragments;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,12 +14,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
-import com.cz2006.helloworld.adapters.LeaderboardAlltimeAdapter;
+import com.cz2006.helloworld.adapters.LeaderboardAdapter;
 import com.cz2006.helloworld.managers.AccountManager;
 import com.cz2006.helloworld.util.SQLiteDatabaseHelper;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 
 /**
@@ -51,7 +46,7 @@ public class MonthleaderboardFragment extends Fragment {
 
     private SQLiteDatabase LBdatabase;
     private TextView rankTV, nameTV,ptsTV;
-    private LeaderboardAlltimeAdapter mAdapter;
+    private LeaderboardAdapter mAdapter;
 
     public MonthleaderboardFragment() {
         // Required empty public constructor
@@ -98,7 +93,7 @@ public class MonthleaderboardFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.monthRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new LeaderboardAlltimeAdapter(getContext(),getAllItems());
+        mAdapter = new LeaderboardAdapter(getContext(),getAllItems());
         recyclerView.setAdapter(mAdapter);
 
         rankTV = view.findViewById(R.id.rankTV);

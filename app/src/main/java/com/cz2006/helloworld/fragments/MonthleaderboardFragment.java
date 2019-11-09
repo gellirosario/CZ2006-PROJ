@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,8 @@ public class MonthleaderboardFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    RecyclerView monthRV;
 
     public MonthleaderboardFragment() {
         // Required empty public constructor
@@ -66,7 +69,9 @@ public class MonthleaderboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_month_leaderboard, container, false);
+        View view =  inflater.inflate(R.layout.fragment_month_leaderboard, container, false);
+
+        return view;
     }
 
 

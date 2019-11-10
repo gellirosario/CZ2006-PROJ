@@ -27,17 +27,21 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     public class LbAllTimeViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView nameTV;
-        public TextView rankTV;
-        public TextView ptsTV;
+        public TextView namealltimeTV;
+        public TextView rankalltimeTV;
+        public TextView ptsalltimeTV;
+
+
 
 
         public LbAllTimeViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            nameTV = itemView.findViewById(R.id.nameTV);
-            rankTV = itemView.findViewById(R.id.rankTV);
-            ptsTV= itemView.findViewById(R.id.ptsTV);
+            namealltimeTV = itemView.findViewById(R.id.namealltimeTV);
+            rankalltimeTV = itemView.findViewById(R.id.rankalltimeTV);
+            ptsalltimeTV= itemView.findViewById(R.id.ptsalltimeTV);
+
+
         }
     }
 
@@ -45,7 +49,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     @Override
     public LbAllTimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflator = LayoutInflater.from(mContext);
-        View view = inflator.inflate(R.layout.leaderboard_item,parent , false);
+        View view = inflator.inflate(R.layout.leaderboardalltime_item,parent , false);
         return new LbAllTimeViewHolder(view);
     }
 
@@ -58,10 +62,10 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         String name = mCursor.getString(mCursor.getColumnIndex(AccountManager.TABLE_ACCOUNT_COLUMN_USERNAME));
         int pts = mCursor.getInt(mCursor.getColumnIndex(AccountManager.TABLE_ACCOUNT_COLUMN_POINTS));
 
-        holder.nameTV.setText(name);
-        holder.ptsTV.setText(String.valueOf(pts));
+        holder.namealltimeTV.setText(name);
+        holder.ptsalltimeTV.setText(String.valueOf(pts));
 
-       holder.rankTV.setText(String.valueOf(i));
+       holder.rankalltimeTV.setText(String.valueOf(i));
        i++;
 
     }

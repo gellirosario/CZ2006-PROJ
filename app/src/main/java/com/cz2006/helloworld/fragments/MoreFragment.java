@@ -39,7 +39,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     private AppCompatButton btnFeedback;
     private AppCompatButton btnFAQ;
     private AppCompatButton btnSignOut;
-    private Dialog myDialog;
+    private Dialog signOutDialog;
 
     private SessionManager sessionManager;
 
@@ -100,7 +100,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         btnFeedback.setOnClickListener(this);
         btnFAQ.setOnClickListener(this);
         btnSignOut.setOnClickListener(this);
-        myDialog = new Dialog(getContext());
+        signOutDialog = new Dialog(getContext());
 
         return v;
     }
@@ -166,11 +166,11 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     public void showPopUp(){
         TextView popUpTV;
         Button btnConfirm, btnClose;
-        myDialog.setContentView(R.layout.custom_popup);
+        signOutDialog.setContentView(R.layout.custom_popup);
 
-        popUpTV =(TextView) myDialog.findViewById(R.id.popUpTV);
-        btnConfirm = (Button) myDialog.findViewById(R.id.btnConfirm);
-        btnClose = (Button) myDialog.findViewById(R.id.btnClose);
+        popUpTV =(TextView) signOutDialog.findViewById(R.id.popUpTV);
+        btnConfirm = (Button) signOutDialog.findViewById(R.id.btnConfirm);
+        btnClose = (Button) signOutDialog.findViewById(R.id.btnClose);
 
         popUpTV.setText("Are you sure you want to log out?");
 
@@ -180,18 +180,18 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 sessionManager.checkLogin(); // Check if user is logged in
                 sessionManager.logoutUser(); // Log out user
                 Toast.makeText(getContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
-                myDialog.dismiss();
+                signOutDialog.dismiss();
             }
         });
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myDialog.dismiss();
+                signOutDialog.dismiss();
             }
         });
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
+        signOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        signOutDialog.show();
     }
 
     /**

@@ -6,6 +6,9 @@ import android.content.Intent;
 import java.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -152,31 +155,36 @@ public class TrackFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_track, container, false);
 
-        String[] arraySpinner = new String[] {"Electricity", "Water", "Gas"};
+        String[] arraySpinner = new String[] {"Electricity", "Gas", "Water"};
 
         final Spinner s = (Spinner) view.findViewById (R.id.spinner);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, arraySpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item_2, arraySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         s.setAdapter(adapter);
 
 
-        float Eyearsum, Gyearsum, Wyearsum;
+        float yearElecSum, yearGasSum, yearWaterSum, yearElecPSum, yearGasPSum, yearWaterPSum;
         final SessionManager trackFragSessionM = new SessionManager(getContext());
         int userid = trackFragSessionM.getUserDetails().get("userID");
         final UsageManager trackFragUsageManager = new UsageManager(getContext());
         trackFragUsageManager.open();
         final Calendar date = Calendar.getInstance();
         int yearnow = date.get(Calendar.YEAR);
-        Eyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'E');
-        Gyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'G');
-        Wyearsum = trackFragUsageManager.calYearSum(userid, yearnow, 'W');
+        yearElecSum = trackFragUsageManager.calYearSum(userid, yearnow, 'E');
+        yearGasSum = trackFragUsageManager.calYearSum(userid, yearnow, 'G');
+        yearWaterSum = trackFragUsageManager.calYearSum(userid, yearnow, 'W');
+        yearElecPSum = trackFragUsageManager.calYearPSum(userid, yearnow, 'E');
+        yearGasPSum = trackFragUsageManager.calYearPSum(userid, yearnow, 'G');
+        yearWaterPSum = trackFragUsageManager.calYearPSum(userid, yearnow, 'W');
 
 
         TextView go = view.findViewById(R.id.TFsum);
-        go.setText("Sum : " + Eyearsum + "," + Gyearsum + "," + Wyearsum); //RETURN userID?!
+        SpannableString content = new SpannableString(String.valueOf(yearnow) + " Usage Summary");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        go.setText(content + "\nElectricity = " + yearElecSum + " kWh   $" + yearElecPSum + "\nGas = " + yearGasSum + " MJ   $" + yearGasPSum + "\nWater = " + yearWaterSum + " m\u00B2   $" + yearWaterPSum);
         FloatingActionButton AddUsageBtn = (FloatingActionButton) view.findViewById(R.id.AddUsageButton);
         AddUsageBtn.setOnClickListener(new View.OnClickListener() {
             @Override

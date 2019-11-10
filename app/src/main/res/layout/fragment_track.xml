@@ -11,42 +11,40 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Track "
+            android:textColor="@color/colorPrimary"
             android:textSize="30dp"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"/>
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Usage"
+            android:textColor="@color/colorSecondary"
             android:textSize="30dp"
-            android:textStyle="bold"
-            android:textColor="@color/colorSecondary"/>
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="171dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="0dp"
+            android:text="Record your utility usage here!"
+            android:textColor="@color/colorSecondaryDark"
+            android:textSize="12sp" />
+
+
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/TFsum"
-        android:layout_width="170dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="170dp"
-        android:layout_marginTop="0dp"
-        android:text="Sum :" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp"
-        android:text="Track your utilties usage to contribute!"
-        android:textSize="13dp"
-        android:textColor="@color/colorBlack"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="460dp"
+        android:layout_marginTop="0dp"
         android:layout_marginBottom="35dp">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -55,38 +53,46 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:layout_margin="5dp"
             android:clickable="false"
             android:src="@drawable/ic_add_black_24dp"
             app:backgroundTint="@color/colorPrimary"
             app:borderWidth="0dp"
-            app:elevation="3dp"
-            android:layout_margin="5dp"/>
+            app:elevation="3dp" />
+
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line_chart"
-            android:layout_width="371dp"
-            android:layout_height="371dp"
+            android:layout_width="320dp"
+            android:layout_height="320dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="85dp"
-            android:layout_marginEnd="15dp" />
+            android:layout_marginTop="106dp"
+            android:layout_marginEnd="14dp" />
 
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="116dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="79dp"
+            android:layout_marginEnd="20dp" />
 
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="136dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp" />
+        <TextView
+            android:id="@+id/TFsum"
+            android:layout_width="310dp"
+            android:layout_height="78dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="20dp"
+            android:lineSpacingExtra="6sp"
+            android:textSize="13sp" />
 
     </RelativeLayout>
-
-
 
 
 </LinearLayout>

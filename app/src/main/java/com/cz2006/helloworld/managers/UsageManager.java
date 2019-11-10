@@ -2,6 +2,7 @@ package com.cz2006.helloworld.managers;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -97,6 +98,7 @@ public class UsageManager {
         this.databaseManager.insert(this.TABLE_NAME_USAGE, tableColumnList);
     }
 
+    //Calculate Year Usage Sum
     public float calYearSum(int id, int year, char type)
     {
         float sum1 = 0;
@@ -115,6 +117,26 @@ public class UsageManager {
         return sum1;
     }
 
+    //Calculate Year Price Sum
+    public float calYearPSum(int id, int year, char type)
+    {
+        float sum1 = 0;
+        Cursor cursor = this.databaseManager.queryThreeSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, String.valueOf(id), this.TABLE_USAGE_COLUMN_YEAR, String.valueOf(year), this.TABLE_USAGE_COLUMN_TYPE, String.valueOf(type));
+        //cursor = this.databaseManager.queryTwoSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, String.valueOf(id), this.TABLE_USAGE_COLUMN_YEAR, String.valueOf(year));
+
+        int count = cursor.getCount();
+        if (cursor.getCount() != 0) {
+            do {
+                float amount = cursor.getFloat(cursor.getColumnIndex(TABLE_USAGE_COLUMN_PRICE));
+                sum1 = sum1 + amount;
+
+            } while (cursor.moveToNext());
+        }
+        //Toast.makeText(ctx.getApplicationContext(), "NOTHING IN CURSOR! " + String.valueOf(count), Toast.LENGTH_SHORT).show();
+        return sum1;
+    }
+
+
     public Cursor findUsageRecord(int id, int year, int month, char type)
     {
         Cursor cursor = this.databaseManager.queryFourSearchString(this.TABLE_NAME_USAGE, this.TABLE_USAGE_COLUMN_USER_ID, String.valueOf(id), this.TABLE_USAGE_COLUMN_YEAR, String.valueOf(year), this.TABLE_USAGE_COLUMN_MONTH, String.valueOf(month), this.TABLE_USAGE_COLUMN_TYPE, String.valueOf(type));
@@ -123,13 +145,26 @@ public class UsageManager {
 
     // Update Usage Data OF THE CURRENT USER
     // TODO: UPDATE USAGE DATA
-    public void updateUsage(int id, int year, int month, char usageType)
+    public void updateUsage(int id, int year, int month, float amount, float price, char type)
     {
         // Create table column list
         List<TableColumn> updateColumnList = new ArrayList<TableColumn>();
 
-        String whereClause = this.TABLE_USAGE_COLUMN_USER_ID + " = " + id;
+            // Add amount column
+            TableColumn amountColumn = new TableColumn();
+            amountColumn.setColumnName(this.TABLE_USAGE_COLUMN_AMOUNT);
+            amountColumn.setColumnValue(String.valueOf(amount));
+            updateColumnList.add(amountColumn);
 
+            // Add price column
+            TableColumn priceColumn = new TableColumn();
+            priceColumn.setColumnName(this.TABLE_USAGE_COLUMN_PRICE);
+            priceColumn.setColumnValue(String.valueOf(price));
+            updateColumnList.add(priceColumn);
+
+        String whereClause = this.TABLE_USAGE_COLUMN_USER_ID + " = " + id + " AND " + this.TABLE_USAGE_COLUMN_YEAR + " = " + year + " AND " + this.TABLE_USAGE_COLUMN_MONTH + " = " + month + " AND " + this.TABLE_USAGE_COLUMN_TYPE + " = '" + type +"'";
+
+        //Toast.makeText(this.ctx, whereClause + String.valueOf(amount) + String.valueOf(price), Toast.LENGTH_LONG).show();
         // Insert added column in to account table.
         this.databaseManager.update(this.TABLE_NAME_USAGE, updateColumnList, whereClause);
     }

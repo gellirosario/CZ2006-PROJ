@@ -3,7 +3,11 @@ package com.cz2006.helloworld.activities;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Pair;
@@ -24,6 +28,7 @@ import com.cz2006.helloworld.fragments.TrackFragment;
 import com.cz2006.helloworld.managers.PointManager;
 import com.cz2006.helloworld.managers.SessionManager;
 import com.cz2006.helloworld.managers.UsageManager;
+import com.github.mikephil.charting.charts.LineChart;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,6 +44,7 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
     public static float Price = 0;
     public static char Type = 0;
     public static int userID = 0;
+    public static String printType = "";
     public static List<Pair<Integer, Integer>> calList = new ArrayList<Pair<Integer, Integer>>();
 
     private UsageManager usageManager;
@@ -53,6 +59,7 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
     private RadioButton rbGas;
     private RadioButton rbWater;
     private Button btnSubmit;
+    private Dialog editUsageDialog;
 
 
     @Override
@@ -63,10 +70,14 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
 
         usageManager = new UsageManager(getApplicationContext());
         usageManager.open();
+
         addUsageSessionManager = new SessionManager(getApplicationContext());
         userID = addUsageSessionManager.getUserDetails().get("userID");
+
         addUsagePointManager = new PointManager(getApplicationContext());
         addUsagePointManager.open();
+
+        editUsageDialog = new Dialog(AddUsageActivity.this);
 
         setTitle("Add Usage");
 
@@ -198,25 +209,32 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
                 {
                     Toast.makeText(getApplicationContext(), "Please select a usage type!", Toast.LENGTH_SHORT).show();
                 }
+                // CHECK REQUIREMENTS DONE , NOW EDIT USAGE (CHECK EXIST RECORD)
                 else if (usageManager.findUsageRecord(userID, Year, Month, Type).getCount() > 0)
                 {
-                    //UPDATE USAGE NOT YET COMPLETE!
-                    Toast.makeText(getApplicationContext(), "Count : " + String.valueOf(usageManager.findUsageRecord(userID, Year, Month, Type).getCount()), Toast.LENGTH_SHORT).show();
+                    if (Type == 'E') { printType = "Electricity";}
+                    else if (Type == 'W') {printType = "Water";}
+                    else if (Type == 'G') {printType = "Gas";}
+                    //Toast.makeText(getApplicationContext(), "Count : " + String.valueOf(usageManager.findUsageRecord(userID, Year, Month, Type).getCount()), Toast.LENGTH_SHORT).show();
                     //Toast.makeText(getApplicationContext(), "Record already exist for the month!", Toast.LENGTH_SHORT).show();
+                    editUsageShowPopUp();
                 }
                 else {
+                    if (Type == 'E') { printType = "Electricity";}
+                    else if (Type == 'W') {printType = "Water";}
+                    else if (Type == 'G') {printType = "Gas";}
                     usageManager.addUsage(Year, Month, Type, Amount, Price);
                     Toast.makeText(getApplicationContext(), "Added Usage!", Toast.LENGTH_SHORT).show();
                     if ((Year == date.get(Calendar.YEAR)) && (Month == date.get(Calendar.MONTH) + 1))
-                    { //ADD TO POINT TABLE ALREADY OK, WAIT FOR ADD TOTAL POINTS
-                        //addUsagePointManager.addPoints(10, String.valueOf(Type) + String.valueOf(Year) + String.valueOf(Month) + " Add Latest Usage", userID);Toast.makeText(getApplicationContext(), "Added Usage!", Toast.LENGTH_SHORT).show();
+                    {
+                        addUsagePointManager.addPoints(10, String.valueOf(Year) + String.valueOf(Month) + String.valueOf(Type) + " Add Latest Usage", userID);
                         new Handler().postDelayed(new Runnable() {
 
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "10 Points Rewarded! New " + String.valueOf(Type) + " Usage in current month!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "10 Points Rewarded! New " + printType + " Usage in current month!", Toast.LENGTH_LONG).show();
                             }
-                        }, 2000);
+                        }, 3000);
 
                     }
                     finish();
@@ -224,6 +242,39 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
             default:
                 break;
         }
+    }
+
+    public void editUsageShowPopUp(){
+        TextView popUpTV;
+        Button btnConfirm, btnClose;
+        editUsageDialog.setContentView(R.layout.custom_popup);
+
+        popUpTV =(TextView) editUsageDialog.findViewById(R.id.popUpTV);
+        btnConfirm = (Button) editUsageDialog.findViewById(R.id.btnConfirm);
+        btnClose = (Button) editUsageDialog.findViewById(R.id.btnClose);
+        popUpTV.setTextSize(18);
+
+        popUpTV.setText("Record found in the month! Confirm to edit usage record of " + String.valueOf(Year) + "-" + String.valueOf(Month) + " " + printType + "?");
+
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editUsageDialog.dismiss();
+                usageManager.updateUsage(userID, Year, Month, Amount, Price, Type);
+                Toast.makeText(getApplicationContext(), String.valueOf(Year) + "-" + String.valueOf(Month) + " " + printType + " Edited : Amount = " + String.valueOf(Amount) + " , Price = " + String.valueOf(Price), Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editUsageDialog.dismiss();
+            }
+        });
+
+        editUsageDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        editUsageDialog.show();
     }
 
     protected void onDestroy() {

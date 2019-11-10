@@ -43,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         viewLeaderBoardTV = findViewById(R.id.viewLeaderBoardTV);
         viewRecentActivityTV = findViewById(R.id.viewRecentActivityTV);
-        nameTV = findViewById(R.id.nameTV);
+        nameTV = findViewById(R.id.namealltimeTV);
         emailTV = findViewById(R.id.emailTV);
         pointTV = findViewById(R.id.pointTV);
         btnEditProfile = findViewById(R.id.btnEditProfile);

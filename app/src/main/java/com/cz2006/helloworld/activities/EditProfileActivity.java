@@ -52,7 +52,7 @@ public class EditProfileActivity extends AppCompatActivity {
         sessionManager = new SessionManager(getApplicationContext());
         accountManager = new AccountManager(getApplicationContext());
 
-        nameTV = findViewById(R.id.nameTV);
+        nameTV = findViewById(R.id.namealltimeTV);
         emailTV = findViewById(R.id.emailTV);
         nameET = findViewById(R.id.nameET);
         currentPasswordET = findViewById(R.id.currentPasswordET);

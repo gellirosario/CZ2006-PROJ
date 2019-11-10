@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
-import com.cz2006.helloworld.adapters.LeaderboardAdapter;
+import com.cz2006.helloworld.adapters.Leaderboard_AlltimeAdapter;
 import com.cz2006.helloworld.managers.AccountManager;
 import com.cz2006.helloworld.util.SQLiteDatabaseHelper;
 
@@ -41,8 +41,8 @@ public class AlltimeLeaderboardFragment extends Fragment {
     private String mParam2;
 
     private SQLiteDatabase LBdatabase;
-    private TextView rankTV, nameTV,ptsTV;
-    private LeaderboardAdapter mAdapter;
+    private TextView rankalltimeTV, namealltimeTV,ptsalltimeTV;
+    private Leaderboard_AlltimeAdapter mAdapter;
 
 
 
@@ -98,12 +98,12 @@ public class AlltimeLeaderboardFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.alltimeRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new LeaderboardAdapter(getContext(),getAllItems());
+        mAdapter = new Leaderboard_AlltimeAdapter(getContext(),getAllItems());
         recyclerView.setAdapter(mAdapter);
 
-        rankTV = view.findViewById(R.id.rankTV);
-        nameTV = view.findViewById(R.id.nameTV);
-        ptsTV = view.findViewById(R.id.ptsTV);
+       rankalltimeTV = view.findViewById(R.id.rankalltimeTV);
+        namealltimeTV = view.findViewById(R.id.namealltimeTV);
+        ptsalltimeTV = view.findViewById(R.id.ptsalltimeTV);
 
 
 

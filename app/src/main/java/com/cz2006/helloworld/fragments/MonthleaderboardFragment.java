@@ -14,7 +14,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
-import com.cz2006.helloworld.adapters.LeaderboardAdapter;
+import com.cz2006.helloworld.adapters.Leaderboard_AlltimeAdapter;
+import com.cz2006.helloworld.adapters.Leaderboard_MonthAdapter;
 import com.cz2006.helloworld.managers.AccountManager;
 import com.cz2006.helloworld.util.SQLiteDatabaseHelper;
 
@@ -45,8 +46,8 @@ public class MonthleaderboardFragment extends Fragment {
 
 
     private SQLiteDatabase LBdatabase;
-    private TextView rankTV, nameTV,ptsTV;
-    private LeaderboardAdapter mAdapter;
+    private TextView rankmonthTV, namemonthTV,ptsmonthTV;
+    private Leaderboard_MonthAdapter mAdapter;
 
     public MonthleaderboardFragment() {
         // Required empty public constructor
@@ -93,12 +94,12 @@ public class MonthleaderboardFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.monthRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new LeaderboardAdapter(getContext(),getAllItems());
+        mAdapter = new Leaderboard_MonthAdapter(getContext(),getAllItems());
         recyclerView.setAdapter(mAdapter);
 
-        rankTV = view.findViewById(R.id.rankTV);
-        nameTV = view.findViewById(R.id.nameTV);
-        ptsTV = view.findViewById(R.id.ptsTV);
+        rankmonthTV = view.findViewById(R.id.rankmonthTV);
+        namemonthTV = view.findViewById(R.id.namemonthTV);
+        ptsmonthTV = view.findViewById(R.id.ptsmonthTV);
 
 
 
@@ -115,6 +116,7 @@ public class MonthleaderboardFragment extends Fragment {
     }
 
     private Cursor getAllItems(){
+
         return LBdatabase.query(
 
                 AccountManager.TABLE_NAME_ACCOUNT,

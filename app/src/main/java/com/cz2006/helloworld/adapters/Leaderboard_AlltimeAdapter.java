@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.managers.AccountManager;
 
-public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.LbAllTimeViewHolder> {
+public class Leaderboard_AlltimeAdapter extends RecyclerView.Adapter<Leaderboard_AlltimeAdapter.LbAllTimeViewHolder> {
 
 
     private Context mContext;
     private Cursor mCursor;
     public int i =1;
 
-    public LeaderboardAdapter(Context context, Cursor cursor){
+    public Leaderboard_AlltimeAdapter(Context context, Cursor cursor){
         mContext = context;
         mCursor = cursor;
     }

@@ -30,7 +30,7 @@ public class ActivityAdapter extends ArrayAdapter<Points> {
         }
         // Lookup view for data population
         TextView tvTitle = convertView.findViewById(R.id.titleTV);
-        AppCompatTextView tvMessage = convertView.findViewById(R.id.messageTV);
+        AppCompatTextView tvMessage = convertView.findViewById(R.id.msgTV);
         TextView tvDate = convertView.findViewById(R.id.dateTV);
         AppCompatTextView tvPoints = convertView.findViewById(R.id.pointsTV);
 

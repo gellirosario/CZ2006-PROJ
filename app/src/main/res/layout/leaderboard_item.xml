@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/rankmonthTV"
+        android:id="@+id/rankTV"
         android:layout_width="38dp"
         android:layout_height="wrap_content"
 
@@ -17,7 +17,7 @@
         tools:layout_editor_absoluteY="0dp" />
 
     <TextView
-        android:id="@+id/namemonthTV"
+        android:id="@+id/nameTV"
         android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -29,7 +29,7 @@
         tools:layout_editor_absoluteY="0dp" />
 
     <TextView
-        android:id="@+id/ptsmonthTV"
+        android:id="@+id/ptsTV"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"

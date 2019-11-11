@@ -13,23 +13,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.managers.AccountManager;
 
-public class Leaderboard_AlltimeAdapter extends RecyclerView.Adapter<Leaderboard_AlltimeAdapter.LbAllTimeViewHolder> {
+public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.LbAllTimeViewHolder> {
 
 
     private Context mContext;
     private Cursor mCursor;
     public int i =1;
 
-    public Leaderboard_AlltimeAdapter(Context context, Cursor cursor){
+    public LeaderboardAdapter(Context context, Cursor cursor){
         mContext = context;
         mCursor = cursor;
     }
 
     public class LbAllTimeViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView namealltimeTV;
-        public TextView rankalltimeTV;
-        public TextView ptsalltimeTV;
+        public TextView nameTV;
+        public TextView rankTV;
+        public TextView ptsTV;
 
 
 
@@ -37,9 +37,9 @@ public class Leaderboard_AlltimeAdapter extends RecyclerView.Adapter<Leaderboard
         public LbAllTimeViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            namealltimeTV = itemView.findViewById(R.id.namealltimeTV);
-            rankalltimeTV = itemView.findViewById(R.id.rankalltimeTV);
-            ptsalltimeTV= itemView.findViewById(R.id.ptsalltimeTV);
+            nameTV = itemView.findViewById(R.id.nameTV);
+            rankTV = itemView.findViewById(R.id.rankTV);
+            ptsTV= itemView.findViewById(R.id.ptsTV);
 
 
         }
@@ -49,7 +49,7 @@ public class Leaderboard_AlltimeAdapter extends RecyclerView.Adapter<Leaderboard
     @Override
     public LbAllTimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflator = LayoutInflater.from(mContext);
-        View view = inflator.inflate(R.layout.leaderboardalltime_item,parent , false);
+        View view = inflator.inflate(R.layout.leaderboard_item,parent , false);
         return new LbAllTimeViewHolder(view);
     }
 
@@ -62,10 +62,10 @@ public class Leaderboard_AlltimeAdapter extends RecyclerView.Adapter<Leaderboard
         String name = mCursor.getString(mCursor.getColumnIndex(AccountManager.TABLE_ACCOUNT_COLUMN_USERNAME));
         int pts = mCursor.getInt(mCursor.getColumnIndex(AccountManager.TABLE_ACCOUNT_COLUMN_POINTS));
 
-        holder.namealltimeTV.setText(name);
-        holder.ptsalltimeTV.setText(String.valueOf(pts));
+        holder.nameTV.setText(name);
+        holder.ptsTV.setText(String.valueOf(pts) + "PTS");
 
-       holder.rankalltimeTV.setText(String.valueOf(i));
+       holder.rankTV.setText("#"+String.valueOf(i));
        i++;
 
     }

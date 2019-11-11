@@ -1,25 +1,22 @@
 package com.cz2006.helloworld.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
-import com.cz2006.helloworld.adapters.ViewpagerleaderboardAdapter;
-import com.cz2006.helloworld.fragments.AlltimeLeaderboardFragment;
-import com.cz2006.helloworld.fragments.MonthleaderboardFragment;
-import com.google.android.material.tabs.TabItem;
-import com.google.android.material.tabs.TabLayout;
+import com.cz2006.helloworld.adapters.LeaderboardAdapter;
+import com.cz2006.helloworld.managers.AccountManager;
+import com.cz2006.helloworld.util.SQLiteDatabaseHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,6 +24,14 @@ import java.util.Calendar;
 public class LeaderboardActivity extends AppCompatActivity  {
 
 
+    private SQLiteDatabase LBdatabase;
+    private TextView rankTV, nameTV,ptsTV;
+    private LeaderboardAdapter mAdapter;
+
+
+
+    private static final String DB_NAME = "HelloWorldDB.db";
+    private int DB_VERSION = 1;
 
 
 
@@ -38,23 +43,21 @@ public class LeaderboardActivity extends AppCompatActivity  {
 
         // Set Activity Title
         setTitle("Leaderboard");
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
-        String ma = month_date.format(cal.getTime());
-
-        TabLayout leaderboardtablayout = findViewById(R.id.leaderboardtabLayout);
-        TabItem monthTab=findViewById(R.id.tabMonth);
-        leaderboardtablayout.getTabAt(0).setText("MONTH (" + ma + ")");
-        TabItem Alltimetab=findViewById(R.id.tabAlltime);
-        ViewPager leaderboardViewPager= findViewById(R.id.leaderboardviewPager);
 
 
-       ViewpagerleaderboardAdapter pageAdapter= new ViewpagerleaderboardAdapter(getSupportFragmentManager(),leaderboardtablayout.getTabCount());
 
-       leaderboardViewPager.setAdapter(pageAdapter);
+        SQLiteDatabaseHelper LBdbHelper = new SQLiteDatabaseHelper(this, DB_NAME, null, DB_VERSION);
+        LBdatabase = LBdbHelper.getReadableDatabase();
 
-       leaderboardViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(leaderboardtablayout));
-       leaderboardtablayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(leaderboardViewPager));
+        RecyclerView recyclerView = findViewById(R.id.LeaderboardRV);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new LeaderboardAdapter(this,getAllItems());
+        recyclerView.setAdapter(mAdapter);
+
+        rankTV = findViewById(R.id.rankTV);
+        nameTV = findViewById(R.id.nameTV);
+        ptsTV = findViewById(R.id.ptsTV);
+
 
 
 
@@ -74,4 +77,23 @@ public class LeaderboardActivity extends AppCompatActivity  {
         getSupportActionBar().setCustomView(textView);
         getSupportActionBar().setIcon(R.drawable.ic_back_24dp);
     }
+
+
+
+    private Cursor getAllItems(){
+        return LBdatabase.query(
+
+                AccountManager.TABLE_NAME_ACCOUNT,
+                null,
+                null,
+                null,
+                null,
+                null,
+                AccountManager.TABLE_ACCOUNT_COLUMN_POINTS + " DESC"
+
+        );
+    }
+
+
+
 }

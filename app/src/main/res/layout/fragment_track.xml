@@ -9,7 +9,7 @@
     tools:context=".fragments.TrackFragment">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
@@ -26,20 +26,25 @@
             android:text="Usage"
             android:textColor="@color/colorSecondary"
             android:textSize="30dp"
+            android:layout_marginRight="12dp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="171dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="0dp"
-            android:text="Record your utility usage here!"
-            android:textColor="@color/colorSecondaryDark"
-            android:textSize="12sp" />
-
-
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/spinner_background"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:text="Record your utility usage here!"
+        android:textColor="@color/colorSecondaryDark"
+        android:textSize="13dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -60,37 +65,36 @@
             app:borderWidth="0dp"
             app:elevation="3dp" />
 
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical"
+           android:gravity="center_horizontal">
+           <TextView
+               android:id="@+id/TFsum"
+               android:layout_width="300dp"
+               android:layout_height="100dp"
+               android:padding="10dp"
+               android:textStyle="bold"
+               android:textColor="@color/colorSecondary"
+               android:layout_alignParentTop="true"
+               android:layout_marginTop="11dp"
+               android:layout_marginBottom="10dp"
+               android:layout_gravity="center_horizontal"
+               android:lineSpacingExtra="5sp"
+               android:background="@drawable/outline_rect"
+               android:textSize="13sp" />
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/line_chart"
-            android:layout_width="320dp"
-            android:layout_height="320dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="106dp"
-            android:layout_marginEnd="14dp" />
+           <com.github.mikephil.charting.charts.LineChart
+               android:id="@+id/line_chart"
+               android:layout_width="300dp"
+               android:layout_height="320dp"
+               android:layout_alignParentStart="true"
+               android:layout_alignParentTop="true"
+               android:layout_alignParentEnd="true"
+               android:layout_gravity="center_horizontal"/>
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="116dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="79dp"
-            android:layout_marginEnd="20dp" />
-
-        <TextView
-            android:id="@+id/TFsum"
-            android:layout_width="310dp"
-            android:layout_height="78dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="11dp"
-            android:layout_marginBottom="20dp"
-            android:lineSpacingExtra="6sp"
-            android:textSize="13sp" />
+       </LinearLayout>
 
     </RelativeLayout>
 

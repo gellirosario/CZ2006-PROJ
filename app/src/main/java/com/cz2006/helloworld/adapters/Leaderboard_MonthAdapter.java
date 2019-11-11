@@ -65,7 +65,7 @@ public class Leaderboard_MonthAdapter extends RecyclerView.Adapter<Leaderboard_M
         holder.namemonthTV.setText(name);
         holder.ptsmonthTV.setText(String.valueOf(pts));
 
-        holder.rankmonthTV.setText(i);
+        holder.rankmonthTV.setText(String.valueOf(i));
         i++;
 
     }

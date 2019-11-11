@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.fragments.TrackFragment;
+import com.cz2006.helloworld.managers.AccountManager;
 import com.cz2006.helloworld.managers.PointManager;
 import com.cz2006.helloworld.managers.SessionManager;
 import com.cz2006.helloworld.managers.UsageManager;
@@ -50,7 +51,9 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
     private UsageManager usageManager;
     private SessionManager addUsageSessionManager;
     private PointManager addUsagePointManager;
+    private AccountManager accountManager;
     private Calendar date = Calendar.getInstance();
+
 
     // Layout Variables
     private EditText inputAmount;
@@ -76,6 +79,9 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
 
         addUsagePointManager = new PointManager(getApplicationContext());
         addUsagePointManager.open();
+
+        accountManager = new AccountManager(getApplicationContext());
+        accountManager.open();
 
         editUsageDialog = new Dialog(AddUsageActivity.this);
 
@@ -228,6 +234,11 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
                     if ((Year == date.get(Calendar.YEAR)) && (Month == date.get(Calendar.MONTH) + 1))
                     {
                         addUsagePointManager.addPoints(10, String.valueOf(Year) + String.valueOf(Month) + String.valueOf(Type) + " Add Latest Usage", userID);
+
+                        int totalPoints = accountManager.getAccountWithID(String.valueOf(userID)).getTotalPoints();
+                        totalPoints += 10;
+                        accountManager.updateAccount(userID,"","","",String.valueOf(totalPoints));
+
                         new Handler().postDelayed(new Runnable() {
 
                             @Override

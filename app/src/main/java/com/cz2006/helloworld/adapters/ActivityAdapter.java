@@ -29,10 +29,10 @@ public class ActivityAdapter extends ArrayAdapter<Points> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_activity, parent, false);
         }
         // Lookup view for data population
-        TextView tvTitle = (TextView) convertView.findViewById(R.id.titleTV);
+        TextView tvTitle = convertView.findViewById(R.id.titleTV);
         AppCompatTextView tvMessage = convertView.findViewById(R.id.messageTV);
-        TextView tvDate = (TextView) convertView.findViewById(R.id.dateTV);
-        AppCompatTextView tvPoints = (AppCompatTextView) convertView.findViewById(R.id.pointsTV);
+        TextView tvDate = convertView.findViewById(R.id.dateTV);
+        AppCompatTextView tvPoints = convertView.findViewById(R.id.pointsTV);
 
         // Populate the data into the template view using the data object
         String pointTitle = "";
@@ -42,15 +42,16 @@ public class ActivityAdapter extends ArrayAdapter<Points> {
             if(points.getPointType().matches("QR Code"))
             {
                 pointTitle = "Scanned QR Code";
+                tvDate.setText(points.getPointDate());
             }
             else
             {
+                String type = points.getPointType().substring(0,7);
                 pointTitle = "Added Utility Usage";
+                tvDate.setText(points.getPointDate() + " - " + type);
             }
-
             tvMessage.setText("");
             tvTitle.setText(pointTitle);
-            tvDate.setText(points.getPointDate());
             tvPoints.setText("+ " + String.valueOf(points.getPoints()));
         }
         else

@@ -50,7 +50,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                 String createTableSql = createTableSqlList.get(i);
                 sqLiteDatabase.execSQL(createTableSql);
 
-                Toast.makeText(ctx, "Run sql successfully, " + createTableSql, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ctx, "Run sql successfully, " + createTableSql, Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -40,7 +40,6 @@
         android:id="@+id/activityListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:listSelector="@color/colorLightGrey"
         android:divider="@android:color/transparent"
         android:dividerHeight="10dp"/>
 </LinearLayout>

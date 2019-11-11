@@ -200,6 +200,17 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
                 Amount = Float.parseFloat(inputAmount.getText().toString());
                 Price = Float.parseFloat(inputPrice.getText().toString());
 
+                // See if null
+                if(Amount == 0 || inputAmount.getText().toString().isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(), "Please enter an Amount", Toast.LENGTH_LONG).show();
+                    return;
+                } else if(Price == 0 || inputPrice.getText().toString().isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(), "Please enter a Price", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 //Verify Requirements
                 boolean dateVal = false;
                 int i;
@@ -213,7 +224,7 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
                 }
                 else if (Type == 0)
                 {
-                    Toast.makeText(getApplicationContext(), "Please select a usage type!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please select a Usage type", Toast.LENGTH_SHORT).show();
                 }
                 // CHECK REQUIREMENTS DONE , NOW EDIT USAGE (CHECK EXIST RECORD)
                 else if (usageManager.findUsageRecord(userID, Year, Month, Type).getCount() > 0)
@@ -272,7 +283,8 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
             public void onClick(View v) {
                 editUsageDialog.dismiss();
                 usageManager.updateUsage(userID, Year, Month, Amount, Price, Type);
-                Toast.makeText(getApplicationContext(), String.valueOf(Year) + "-" + String.valueOf(Month) + " " + printType + " Edited : Amount = " + String.valueOf(Amount) + " , Price = " + String.valueOf(Price), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Usage has been updated!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), String.valueOf(Year) + "-" + String.valueOf(Month) + " " + printType + " Edited : Amount = " + String.valueOf(Amount) + " , Price = " + String.valueOf(Price), Toast.LENGTH_LONG).show();
                 finish();
             }
         });

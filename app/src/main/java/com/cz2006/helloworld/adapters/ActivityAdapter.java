@@ -11,7 +11,6 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.models.Points;
-import com.cz2006.helloworld.models.User;
 
 import java.util.ArrayList;
 
@@ -28,11 +27,11 @@ public class ActivityAdapter extends ArrayAdapter<Points> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_activity, parent, false);
         }
-        // Lookup view for data population
-        TextView tvTitle = convertView.findViewById(R.id.titleTV);
-        AppCompatTextView tvMessage = convertView.findViewById(R.id.msgTV);
-        TextView tvDate = convertView.findViewById(R.id.dateTV);
-        AppCompatTextView tvPoints = convertView.findViewById(R.id.pointsTV);
+
+        // Data population
+        ActivityViewHolder activityViewHolder = createViewHolderFrom(convertView);
+        convertView.setTag(activityViewHolder);
+
 
         // Populate the data into the template view using the data object
         String pointTitle = "";
@@ -42,26 +41,49 @@ public class ActivityAdapter extends ArrayAdapter<Points> {
             if(points.getPointType().matches("QR Code"))
             {
                 pointTitle = "Scanned QR Code";
-                tvDate.setText(points.getPointDate());
+                activityViewHolder.tvDate.setText(points.getPointDate());
             }
             else
             {
                 String type = points.getPointType().substring(0,7);
                 pointTitle = "Added Utility Usage";
-                tvDate.setText(points.getPointDate() + " - " + type);
+                activityViewHolder.tvDate.setText(points.getPointDate() + " - " + type);
             }
-            tvMessage.setText("");
-            tvTitle.setText(pointTitle);
-            tvPoints.setText("+ " + String.valueOf(points.getPoints()));
+            activityViewHolder.tvMessage.setText("");
+            activityViewHolder.tvTitle.setText(pointTitle);
+            activityViewHolder.tvPoints.setText("+ " + String.valueOf(points.getPoints()));
         }
         else
         {
-            tvMessage.setText("No Recent Activity");
-            tvTitle.setText("");
-            tvDate.setText("");
-            tvPoints.setText("");
+            activityViewHolder.tvMessage.setText("No Recent Activity");
+            activityViewHolder.tvTitle.setText("");
+            activityViewHolder.tvDate.setText("");
+            activityViewHolder.tvPoints.setText("");
         }
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    private ActivityViewHolder createViewHolderFrom(View view) {
+        TextView tvTitle = view.findViewById(R.id.titleTV);
+        TextView tvDate = view.findViewById(R.id.dateTV);
+        AppCompatTextView tvMessage = view.findViewById(R.id.msgTV);
+        AppCompatTextView tvPoints = view.findViewById(R.id.pointsTV);
+
+        return new ActivityViewHolder(tvTitle, tvDate, tvMessage, tvPoints);
+    }
+
+    private class ActivityViewHolder {
+        TextView tvTitle;
+        TextView tvDate;
+        AppCompatTextView tvMessage;
+        AppCompatTextView tvPoints;
+
+        ActivityViewHolder(TextView tvTitle, TextView tvDate, AppCompatTextView tvMessage, AppCompatTextView tvPoints) {
+            this.tvTitle = tvTitle;
+            this.tvDate = tvDate;
+            this.tvMessage = tvMessage;
+            this.tvPoints = tvPoints;
+        }
     }
 }

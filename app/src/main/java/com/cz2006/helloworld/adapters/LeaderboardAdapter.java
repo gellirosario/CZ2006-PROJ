@@ -13,6 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.managers.AccountManager;
 
+/**
+ * Represents Adapter for Leaderboard
+ *
+ * @author Edmund
+ *
+ */
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.LbAllTimeViewHolder> {
 
 

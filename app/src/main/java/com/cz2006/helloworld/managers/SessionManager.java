@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 /**
  * Represents Session Manager
- * which set
+ * which set user's current session
  *
  * @author Rosario Gelli Ann
  *

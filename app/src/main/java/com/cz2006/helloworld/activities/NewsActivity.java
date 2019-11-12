@@ -17,6 +17,13 @@ import android.widget.TextView;
 import com.cz2006.helloworld.R;
 import com.cz2006.helloworld.fragments.NewsFragment;
 
+/**
+ * Represents News
+ * where User can view environmental news
+ *
+ * @author Edmund
+ *
+ */
 public class NewsActivity extends AppCompatActivity implements NewsFragment.OnFragmentInteractionListener{
 
 

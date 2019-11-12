@@ -1,5 +1,11 @@
 package com.cz2006.helloworld.models;
 
+/**
+ * Represents User's Usage
+ *
+ * @author Rosario Gelli Ann
+ *
+ */
 public class Usage {
 
     private int userId;

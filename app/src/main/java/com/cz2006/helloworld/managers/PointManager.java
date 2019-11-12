@@ -21,7 +21,6 @@ import java.util.List;
  * @author Lexx Audrey
  *
  */
-
 public class PointManager {
 
     private Context ctx;

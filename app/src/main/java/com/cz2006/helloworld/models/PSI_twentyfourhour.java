@@ -3,6 +3,12 @@ package com.cz2006.helloworld.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Represents PSI 24HR
+ *
+ * @author Edmund
+ *
+ */
 public class PSI_twentyfourhour {
 
     @SerializedName("west")

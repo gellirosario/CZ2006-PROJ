@@ -26,6 +26,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+/**
+ * Represents Detailed Map
+ * where User can view route by walking, transit or car
+ *
+ * @author Rosario Gelli Ann
+ *
+ */
 public class DetailedMapActivity extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback {
 
     private GoogleMap mMap;

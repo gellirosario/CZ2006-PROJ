@@ -11,6 +11,12 @@ import com.bumptech.glide.Glide;
 import com.cz2006.helloworld.R;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
+/**
+ * Represents Slider Adapter for FAQ
+ *
+ * @author Rosario Gelli Ann
+ *
+ */
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterVH> {
 
     private Context context;

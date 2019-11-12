@@ -1,5 +1,11 @@
 package com.cz2006.helloworld.models;
 
+/**
+ * Represents User's Points
+ *
+ * @author Rosario Gelli Ann
+ *
+ */
 public class Points {
 
     private int pointID;

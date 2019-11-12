@@ -3,6 +3,12 @@ package com.cz2006.helloworld.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Represents Article
+ *
+ * @author Edmund
+ *
+ */
 public class Article {
 
     @SerializedName("source")

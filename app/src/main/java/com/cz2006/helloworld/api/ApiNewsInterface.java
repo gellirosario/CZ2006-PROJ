@@ -6,6 +6,11 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
+/**
+ * Represents ApiNewsInterface
+ *
+ * @author Edmund
+ */
 public interface ApiNewsInterface {
 
     @GET("everything")

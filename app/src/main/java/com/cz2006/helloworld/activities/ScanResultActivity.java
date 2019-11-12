@@ -27,7 +27,6 @@ import com.cz2006.helloworld.managers.SessionManager;
  * @author Lexx Audrey
  *
  */
-
 public class ScanResultActivity extends AppCompatActivity {
 
     private SessionManager sessionManager;

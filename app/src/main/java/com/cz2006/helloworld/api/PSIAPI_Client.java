@@ -3,6 +3,11 @@ package com.cz2006.helloworld.api;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Represents PSIAPI_Client
+ *
+ * @author Edmund
+ */
 public class PSIAPI_Client {
 
     public static final String BASE_URL = "https://api.data.gov.sg";

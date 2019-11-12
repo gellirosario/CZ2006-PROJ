@@ -35,7 +35,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-
+/**
+ * Represents Add/Edit Usage Activity
+ * where User can add or edit usage
+ *
+ * @author Harry
+ *
+ */
 public class AddUsageActivity extends AppCompatActivity
 implements AdapterView.OnItemSelectedListener, View.OnClickListener{
 

@@ -12,6 +12,13 @@ import com.cz2006.helloworld.util.TableColumn;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  UsageManager includes add usage, calculate and get current user's usage
+ *
+ * @author Harry
+ * @author Michael
+ *
+ */
 public class UsageManager {
 
     private Context ctx;

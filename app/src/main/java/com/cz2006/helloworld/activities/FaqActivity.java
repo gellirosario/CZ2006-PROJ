@@ -20,6 +20,13 @@ import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
+/**
+ * Represents FAQ
+ * where User can view FAQ details
+ *
+ * @author Rosario Gelli Ann
+ *
+ */
 public class FaqActivity extends AppCompatActivity {
 
     @Override

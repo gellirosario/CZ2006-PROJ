@@ -14,6 +14,12 @@ import com.cz2006.helloworld.models.Points;
 
 import java.util.ArrayList;
 
+/**
+ * Represents Adapter for Recent Activity
+ *
+ * @author Rosario Gelli Ann
+ *
+ */
 public class ActivityAdapter extends ArrayAdapter<Points> {
     public ActivityAdapter(Context context, ArrayList<Points> users) {
         super(context, 0, users);

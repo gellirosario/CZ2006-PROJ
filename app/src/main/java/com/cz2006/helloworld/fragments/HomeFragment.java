@@ -32,8 +32,6 @@ import retrofit2.Retrofit;
  *
  * @author Rosario Gelli Ann
  */
-
-
 public class HomeFragment extends Fragment {
 
     private AccountManager accountManager;

@@ -5,6 +5,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * Represents News
+ *
+ * @author Edmund
+ *
+ */
 public class News {
 
     @SerializedName("status")

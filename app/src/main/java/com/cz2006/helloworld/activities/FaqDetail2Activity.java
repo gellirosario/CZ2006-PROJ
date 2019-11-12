@@ -14,6 +14,13 @@ import android.widget.TextView;
 
 import com.cz2006.helloworld.R;
 
+/**
+ * Represents FAQ Details 2
+ * where User can view FAQ details
+ *
+ * @author Rosario Gelli Ann
+ *
+ */
 public class FaqDetail2Activity extends AppCompatActivity {
 
     @Override

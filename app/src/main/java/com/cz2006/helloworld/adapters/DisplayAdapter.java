@@ -22,6 +22,12 @@ import com.cz2006.helloworld.models.MapDetail;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents Adapter for Map
+ *
+ * @author Rosario Gelli Ann
+ *
+ */
 public class DisplayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
     private Activity activity;

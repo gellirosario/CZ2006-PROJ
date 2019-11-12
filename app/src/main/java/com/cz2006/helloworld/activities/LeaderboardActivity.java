@@ -21,6 +21,13 @@ import com.cz2006.helloworld.util.SQLiteDatabaseHelper;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * Represents Leaderboard
+ * where User can view top scorers
+ *
+ * @author Edmund
+ *
+ */
 public class LeaderboardActivity extends AppCompatActivity  {
 
 

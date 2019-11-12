@@ -28,6 +28,12 @@ import com.cz2006.helloworld.util.NewsUtils;
 
 import java.util.List;
 
+/**
+ * Represents Adapter for News
+ *
+ * @author Edmund
+ *
+ */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
 

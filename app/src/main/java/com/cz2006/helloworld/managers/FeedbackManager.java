@@ -17,7 +17,6 @@ import java.util.List;
  * @author Lexx Audrey
  *
  */
-
 public class FeedbackManager {
     private Context ctx;
 

@@ -4,6 +4,12 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
+/**
+ * Represents PSI Info
+ *
+ * @author Edmund
+ *
+ */
 public class PSI_info {
 
     @SerializedName("items")

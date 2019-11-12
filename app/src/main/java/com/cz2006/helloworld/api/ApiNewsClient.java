@@ -14,6 +14,11 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Represents ApiNewsClient
+ *
+ * @author Edmund
+ */
 public class ApiNewsClient {
 
     public static  final String BASE_URL= "https://newsapi.org/v2/";

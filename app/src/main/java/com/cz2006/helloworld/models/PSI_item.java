@@ -3,6 +3,12 @@ package com.cz2006.helloworld.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Represents PSI Item
+ *
+ * @author Edmund
+ *
+ */
 public class PSI_item {
 
     @SerializedName("timestamp")

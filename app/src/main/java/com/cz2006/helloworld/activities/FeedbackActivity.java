@@ -106,6 +106,8 @@ public class FeedbackActivity extends AppCompatActivity {
 
         if(TextUtils.isEmpty(type) || TextUtils.isEmpty(desc)) {
             Toast.makeText(getApplicationContext(), "Please fill in all the details", Toast.LENGTH_SHORT).show();
+        }if(rating < 0.5 ){
+            Toast.makeText(getApplicationContext(), "Minimum rating required is 0.5 star.", Toast.LENGTH_SHORT).show();
         }else{
             feedbackManager.sendFeedback(type, desc, Float.toString(rating));
             showPopUp();

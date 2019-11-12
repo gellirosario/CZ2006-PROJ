@@ -247,24 +247,14 @@ implements AdapterView.OnItemSelectedListener, View.OnClickListener{
                     else if (Type == 'W') {printType = "Water";}
                     else if (Type == 'G') {printType = "Gas";}
                     usageManager.addUsage(Year, Month, Type, Amount, Price);
-                    Toast.makeText(getApplicationContext(), "Added Usage!", Toast.LENGTH_SHORT).show();
-                    if ((Year == date.get(Calendar.YEAR)) && (Month == date.get(Calendar.MONTH) + 1))
-                    {
+
                         addUsagePointManager.addPoints(10, String.valueOf(Year) + String.valueOf(Month) + String.valueOf(Type) + " Add Latest Usage", userID);
 
                         int totalPoints = accountManager.getAccountWithID(String.valueOf(userID)).getTotalPoints();
                         totalPoints += 10;
                         accountManager.updateAccount(userID,"","","",String.valueOf(totalPoints));
+                        Toast.makeText(getApplicationContext(), "10 Points Rewarded! Add New Usage!", Toast.LENGTH_LONG).show();
 
-                        new Handler().postDelayed(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "10 Points Rewarded! New " + printType + " Usage in current month!", Toast.LENGTH_LONG).show();
-                            }
-                        }, 3000);
-
-                    }
                     finish();
                 }
             default:

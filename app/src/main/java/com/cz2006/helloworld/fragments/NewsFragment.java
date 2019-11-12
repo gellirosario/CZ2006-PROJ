@@ -41,8 +41,7 @@ import retrofit2.Response;
 public class NewsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
 
     public static final String API_KEY= "81ebf347fbed47dab591f6ee934b1221";
     public static final String domain = "straitstimes.com,channelnewsasia.com";
@@ -68,8 +67,6 @@ public class NewsFragment extends Fragment {
     public void LoadJson(){
 
         ApiNewsInterface apiNewsInterface = ApiNewsClient.getApiNewsClient().create(ApiNewsInterface.class);
-
-        // String country = NewsUtils.getCountry();
 
         Call<News> call;
         call = apiNewsInterface.getNews(search,domain,sortBy,API_KEY);
@@ -123,23 +120,7 @@ public class NewsFragment extends Fragment {
      * @return A new instance of fragment NewsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NewsFragment newInstance(String param1, String param2) {
-        NewsFragment fragment = new NewsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -149,7 +149,7 @@ public class FeedbackActivity extends AppCompatActivity {
     public void sendEmail()
     {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto","gellirosario@gmail.com", null));
+                "mailto","helloworld@gmail.com", null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, type);
         emailIntent.putExtra(Intent.EXTRA_TEXT, desc + "\n Rating: " + Float.toString(rating) + ".");
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
